@@ -1,5 +1,8 @@
 package com.vvmarkets;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import javafx.application.Application;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
@@ -8,16 +11,24 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.print.Printer;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.stage.StageStyle;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 public class Main extends Application {
 
+    private static final Logger log = LogManager.getLogger(Main.class);
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        log.debug("Starting application");
 
         TextArea textArea = new TextArea();
         Button button = new Button("Get all printers");
@@ -35,6 +46,32 @@ public class Main extends Application {
                 }
         );
 
+
+        Observable<String> observable = Observable.fromArray("one", "two", "three");
+        Observer<String> observer = new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+                log.info("subscribed");
+            }
+
+            @Override
+            public void onNext(String s) {
+                log.info("next");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                log.info("error");
+            }
+
+            @Override
+            public void onComplete() {
+                log.info("completed");
+            }
+        };
+
+        observable.subscribe(observer);
+
         // Create the VBox with a 10px spacing
         VBox root = new VBox(10);
         // Add the Children to the VBox
@@ -51,24 +88,27 @@ public class Main extends Application {
 
         // Create the Scene
         Scene scene = new Scene(root);
-        // Add the scene to the Stage
         primaryStage.setScene(scene);
-        // Set the title of the Stage
-        primaryStage.setTitle("Showing all Printers");
-        // Display the Stage
+        setPrimaryStageAttrs(primaryStage);
         primaryStage.show();
 
 //        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 //        primaryStage.setTitle("Hello World");
 //        primaryStage.setScene(new Scene(root, 300, 275));
 //        primaryStage.show();
-
-
-
     }
 
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+
+    private void setPrimaryStageAttrs(Stage primaryStage) {
+        primaryStage.setTitle("Showing all Printers");
+        primaryStage.setResizable(false);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
 }
