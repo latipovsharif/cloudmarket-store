@@ -37,9 +37,11 @@ public class Main extends Application {
                     @Override
                     public void handle(ActionEvent actionEvent) {
                         ObservableSet<Printer> printers = Printer.getAllPrinters();
+                        Printer defaultPrinter = Printer.getDefaultPrinter();
 
                         for (Printer printer :
                                 printers) {
+
                             textArea.appendText(printer.getName() + "\n");
                         }
                     }
