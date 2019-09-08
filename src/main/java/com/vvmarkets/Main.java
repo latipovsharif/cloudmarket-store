@@ -1,5 +1,6 @@
 package com.vvmarkets;
 
+import com.vvmarkets.dao.Product;
 import com.vvmarkets.presenters.KeyboardPresenter;
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -10,6 +11,8 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
 
 public class Main extends Application {
 
@@ -18,7 +21,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-//        log.debug("Starting application");
+        log.debug("Starting application");
 //
 //        TextArea textArea = new TextArea();
 //        Button button = new Button("Get all printers");
@@ -83,6 +86,11 @@ public class Main extends Application {
 //        primaryStage.setScene(scene);
 //        setPrimaryStageAttrs(primaryStage);
 //        primaryStage.show();
+
+        List<Product> products = Product.GetProducts();
+        for (Product p : products) {
+            System.out.println(p.getId());
+        }
 
         Parent root = null;
         KeyboardPresenter keyboard = new KeyboardPresenter();

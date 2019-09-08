@@ -18,6 +18,10 @@ dependencies {
     compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.28.0'
     compile 'io.reactivex.rxjava2:rxjava:2.2.12'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.12.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
+    compile 'com.squareup.retrofit2:converter-gson:2.6.1'
+    implementation("com.squareup.okhttp3:logging-interceptor:4.1.1")
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
 }
 
 javafx {
