@@ -1,7 +1,10 @@
 package com.vvmarkets;
 
+import com.vvmarkets.configs.Config;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.presenters.KeyboardPresenter;
+import com.vvmarkets.services.ProductService;
+import com.vvmarkets.services.RestClient;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,7 +13,11 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -87,10 +94,20 @@ public class Main extends Application {
 //        setPrimaryStageAttrs(primaryStage);
 //        primaryStage.show();
 
-        List<Product> products = Product.GetProducts();
-        for (Product p : products) {
-            System.out.println(p.getId());
-        }
+        ProductService productService = RestClient.getClient().create(ProductService.class);
+        Call<ArrayList<Product>> listProductCall = productService.productList();
+        listProductCall.enqueue(new Callback<ArrayList<Product>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+                log.info(response);
+                log.info(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+                log.error(t.getMessage());
+            }
+        });
 
         Parent root = null;
         KeyboardPresenter keyboard = new KeyboardPresenter();
