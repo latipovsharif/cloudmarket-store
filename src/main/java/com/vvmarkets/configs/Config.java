@@ -9,16 +9,25 @@ import java.sql.Statement;
 
 public class Config {
     private static final String authorizationKey = "AUTHORIZATION";
+    private static final String serverIP = "SERVER_IP";
 
-    public static String getAuthorizationKey() {
+    private static String getConfig(String key) {
         try {
             Connection c = db.getConnection();
             PreparedStatement stmt = c.prepareStatement("select val from configs where key = ? limit 1");
-            stmt.setString(1, authorizationKey);
+            stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
             return rs.getString("val");
         } catch (Exception e) {
             return "";
         }
+    }
+
+    public static String getAuthorizationKey() {
+        return getConfig(authorizationKey);
+    }
+
+    public static String getServerIP() {
+        return getConfig(serverIP);
     }
 }
