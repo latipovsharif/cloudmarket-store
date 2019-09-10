@@ -5,6 +5,7 @@ import com.vvmarkets.dao.Product;
 import com.vvmarkets.presenters.KeyboardPresenter;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
+import com.vvmarkets.utils.ResponseList;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -95,16 +96,18 @@ public class Main extends Application {
 //        primaryStage.show();
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
-        Call<ArrayList<Product>> listProductCall = productService.productList();
-        listProductCall.enqueue(new Callback<ArrayList<Product>>() {
+        Call<ResponseList<Product>> listProductCall = productService.productList();
+        listProductCall.enqueue(new Callback<ResponseList<Product>>() {
             @Override
-            public void onResponse(Call<ArrayList<Product>> call, Response<ArrayList<Product>> response) {
+            public void onResponse(Call<ResponseList<Product>> call, Response<ResponseList<Product>> response) {
                 log.info(response);
                 log.info(response.code());
+                log.info(response.body().getList());
+                log.info(response.body().getItemPerPage());
             }
 
             @Override
-            public void onFailure(Call<ArrayList<Product>> call, Throwable t) {
+            public void onFailure(Call<ResponseList<Product>> call, Throwable t) {
                 log.error(t.getMessage());
             }
         });
