@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.vvmarkets.controllers.KeyboardController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.KeyboardController">
+   <children>
+      <TextField layoutX="314.0" layoutY="215.0" promptText="Логин" />
+      <PasswordField layoutX="314.0" layoutY="279.0" promptText="Пароль" />
+      <Button layoutX="423.0" layoutY="347.0" mnemonicParsing="false" text="Войти" />
+      <Button layoutX="723.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+   </children>
 </AnchorPane>
