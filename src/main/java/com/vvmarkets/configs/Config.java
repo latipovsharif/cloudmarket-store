@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class Config {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -30,14 +29,27 @@ public class Config {
         }
     }
 
-    private static boolean setConfig(String key, String val) {
+    private static boolean checkConfigExists(String key, String val) {
         try{
             Connection c = db.getConnection();
             PreparedStatement stmt = c.prepareStatement("select count(*) from configs where key = ?");
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
-            if (rs.getInt(1) > 0) {
-                stmt.clearParameters();
+            int count = rs.getInt(1);
+            c.close();
+            return count > 0;
+        } catch (Exception e) {
+            log.error(e);
+            return false;
+        }
+    }
+
+    private static boolean setConfig(String key, String val) {
+        try{
+            Connection c = db.getConnection();
+            PreparedStatement stmt = null;
+
+            if (checkConfigExists(key, val)) {
                 stmt = c.prepareStatement("update configs set val = ? where key = ?");
                 stmt.setString(1, val);
                 stmt.setString(2, key);
@@ -46,11 +58,9 @@ public class Config {
                 stmt.setString(1, key);
                 stmt.setString(2, val);
             }
-
             stmt.execute();
             c.close();
             return true;
-
         } catch (Exception e) {
             log.error(e);
             return false;

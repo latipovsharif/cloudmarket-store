@@ -1,8 +1,7 @@
 package com.vvmarkets;
 
-import com.vvmarkets.configs.Config;
 import com.vvmarkets.dao.Product;
-import com.vvmarkets.presenters.KeyboardPresenter;
+import com.vvmarkets.presenters.LogInPresenter;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseList;
@@ -17,9 +16,6 @@ import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Main extends Application {
@@ -114,8 +110,9 @@ public class Main extends Application {
         });
 
         Parent root = null;
-        KeyboardPresenter keyboard = new KeyboardPresenter();
-        root = keyboard.getView();
+        LogInPresenter logIn = new LogInPresenter();
+        root = logIn.getView();
+
         primaryStage.setScene(new Scene(root, 300, 275));
         setPrimaryStageAttrs(primaryStage);
         primaryStage.show();

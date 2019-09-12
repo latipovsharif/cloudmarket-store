@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
-public class KeyboardController {
+public class LogInController {
     @FXML
     public PasswordField txtPassword;
 
@@ -57,14 +57,13 @@ public class KeyboardController {
         Optional<String> result = dialogPane.showAndWait();
 
         result.ifPresent(token -> {
-            Config.setCashToken(token);
-//                Alert alert = new Alert(Alert.AlertType.WARNING);
-//                alert.setTitle("Невозможно установить токен");
-//                alert.setHeaderText("Невозможно установить токен");
-//                alert.setContentText("Невозможно установить токен");
-//                alert.show();
-//            }
+            if (!Config.setCashToken(token)) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Невозможно установить токен");
+                alert.setHeaderText("Невозможно установить токен");
+                alert.setContentText("Просьба обратиться к администратору");
+                alert.show();
+            };
         });
-
     }
 }
