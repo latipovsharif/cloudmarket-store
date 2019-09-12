@@ -29,6 +29,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
+        System.setProperty("java.net.useSystemProxies", "true");
         log.debug("Starting application");
 //
 //        TextArea textArea = new TextArea();

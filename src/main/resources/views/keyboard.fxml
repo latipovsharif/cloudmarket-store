@@ -4,12 +4,17 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.KeyboardController">
    <children>
-      <TextField layoutX="314.0" layoutY="215.0" promptText="Логин" />
-      <PasswordField layoutX="314.0" layoutY="279.0" promptText="Пароль" />
-      <Button layoutX="423.0" layoutY="347.0" mnemonicParsing="false" text="Войти" />
-      <Button layoutX="723.0" layoutY="14.0" mnemonicParsing="false" text="Button" />
+      <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken" prefHeight="34.0" prefWidth="158.0" style="-fx-background-color: #0362fc; -fx-text-fill: #ffffff;" text="Установить токен" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <VBox alignment="CENTER" fillWidth="false" layoutY="82.0" prefHeight="528.0" prefWidth="759.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="82.0">
+         <children>
+            <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Логин" />
+            <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Пароль" />
+            <Button fx:id="btnSingIn" mnemonicParsing="false" onMouseClicked="#signIn" prefHeight="45.0" prefWidth="120.0" style="-fx-background-color: #0362fc; -fx-text-fill: #ffffff;" text="Войти" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
