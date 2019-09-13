@@ -1,0 +1,36 @@
+.roundedButton {
+    -fx-background-radius: 100;
+    -fx-font-size: 34px;
+    -fx-padding: 0px;
+    -fx-border-radius: 100;
+    -fx-text-alignment: center;
+}
+
+.container {
+    -fx-background-color: blue;
+}
+
+.mainTabPane {
+    -fx-background-color: #fff;
+    -fx-padding: 0px;
+}
+
+.mainTab {
+    -fx-pref-width: 90px;
+    -fx-pref-height: 45px;
+    -fx-border-color: red;
+    -fx-border-style: solid none solid none;
+    -fx-border-width: 2;
+    -fx-background-color: #fff;
+    -fx-text-alignment: center;
+}
+
+#mainBtnExit {
+    -fx-rotate: 45;
+    -fx-background-color: #fff;
+}
+
+#mainBtnNewTab {
+    -fx-background-color: #ff620c;
+    -fx-text-fill: #fff;
+}
