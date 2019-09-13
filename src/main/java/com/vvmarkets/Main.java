@@ -2,12 +2,13 @@ package com.vvmarkets;
 
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.presenters.LogInPresenter;
+import com.vvmarkets.presenters.MainPresenter;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseList;
-import io.reactivex.Scheduler;
 import io.reactivex.internal.observers.BlockingBaseObserver;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;
@@ -119,7 +120,17 @@ public class Main extends Application {
             @Override
             public void onNext(Boolean aBoolean) {
                 if (aBoolean) {
-                    System.out.println("Signed in");
+                    Platform.runLater(
+                        () -> {
+                            try {
+                                MainPresenter main = new MainPresenter();
+                                primaryStage.setScene(new Scene(main.getView()));
+                                primaryStage.setFullScreen(true);
+                            } catch (Exception e) {
+                                log.error("cannot set main scene:" + e);
+                            }
+                        }
+                    );
                 }
             }
 
@@ -129,20 +140,16 @@ public class Main extends Application {
             }
         });
 
-
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root));
         setPrimaryStageAttrs(primaryStage);
         primaryStage.show();
     }
-
 
     public static void main(String[] args) {
         launch(args);
     }
 
-
     private void setPrimaryStageAttrs(Stage primaryStage) {
-        primaryStage.setTitle("Showing all Printers");
         primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setFullScreen(true);
