@@ -82,4 +82,8 @@ public class Config {
     public static boolean setCashToken(String token) {
         return setConfig(cashToken, token);
     }
+
+    public static boolean setAuthorizationKey(String token) {
+        return setConfig(authorizationKey, token);
+    }
 }

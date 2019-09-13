@@ -1,13 +1,20 @@
 package com.vvmarkets.presenters;
 
+import com.vvmarkets.controllers.LogInController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 
 public class LogInPresenter {
+
+    public LogInController controller = null;
+
     @FXML
     public Parent getView() throws Exception{
-        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/keyboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/keyboard.fxml"));
+        Parent root = loader.load();
+        LogInController controller = loader.getController();
+        this.controller = controller;
         return root;
     }
 }

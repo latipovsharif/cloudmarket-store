@@ -14,15 +14,18 @@ public class Authorization implements Interceptor {
     @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
-        String key = Config.getAuthorizationKey();
-        if (key.isEmpty()) {
-            throw new NotAuthorized("Authorization key is empty");
-        }
-
         Request request = chain.request();
-        request = request.newBuilder()
-                .addHeader("Authorization", key)
-                .build();
+
+        if (!request.url().encodedPath().contains("/api/v1/authorization/get/token/")) {
+            String key = Config.getAuthorizationKey();
+            if (key.isEmpty()) {
+                throw new NotAuthorized("Authorization key is empty");
+            }
+
+            request = request.newBuilder()
+                    .addHeader("Authorization", key)
+                    .build();
+        }
 
         return chain.proceed(request);
     }

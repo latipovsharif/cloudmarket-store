@@ -5,6 +5,8 @@ import com.vvmarkets.presenters.LogInPresenter;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseList;
+import io.reactivex.Scheduler;
+import io.reactivex.internal.observers.BlockingBaseObserver;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -112,6 +114,21 @@ public class Main extends Application {
         Parent root = null;
         LogInPresenter logIn = new LogInPresenter();
         root = logIn.getView();
+
+        logIn.controller.signedIn.subscribe(new BlockingBaseObserver<Boolean>() {
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean) {
+                    System.out.println("Signed in");
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+        });
+
 
         primaryStage.setScene(new Scene(root, 300, 275));
         setPrimaryStageAttrs(primaryStage);
