@@ -5,16 +5,20 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController">
-   <children>
-      <TabPane layoutX="79.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0" styleClass="mainTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-        <tabs>
-          <Tab styleClass="mainTab" text="asdfasdf" />
-            <Tab styleClass="mainTab" text="asdfasdf" />
-        </tabs>
-      </TabPane>
-      <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="739.0" layoutY="8.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0" />
-      <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="7.0" />
-      <Button fx:id="btnNewTab11" alignment="CENTER" layoutX="62.0" layoutY="7.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="7.0" />
-   </children>
+<AnchorPane prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.vvmarkets.controllers.MainController">
+   <TabPane fx:id="mainTabPane" layoutX="79.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0"
+            styleClass="mainTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
+            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
+   </TabPane>
+   <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="739.0" layoutY="8.0" mnemonicParsing="false"
+           prefHeight="45.0" prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER"
+           textOverrun="CLIP" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0"/>
+   <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="14.0" layoutY="14.0" mnemonicParsing="false"
+           prefHeight="45.0" prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER"
+           textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="7.0"/>
+   <Button fx:id="btnNewTab11" alignment="CENTER" layoutX="62.0" layoutY="7.0" mnemonicParsing="false" prefHeight="45.0"
+           prefWidth="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP"
+           AnchorPane.leftAnchor="60.0" AnchorPane.topAnchor="7.0"/>
 </AnchorPane>

@@ -18,11 +18,14 @@
 .mainTab {
     -fx-pref-width: 90px;
     -fx-pref-height: 45px;
+    -fx-background-color: #fff;
+    -fx-text-alignment: center;
+}
+
+.mainTabActive {
     -fx-border-color: red;
     -fx-border-style: solid none solid none;
     -fx-border-width: 2;
-    -fx-background-color: #fff;
-    -fx-text-alignment: center;
 }
 
 #mainBtnExit {

@@ -3,20 +3,16 @@ package com.vvmarkets.controllers;
 import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
 import com.vvmarkets.dao.Authorization;
-import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.AuthorizationBody;
 import com.vvmarkets.services.AuthorizationService;
 import com.vvmarkets.services.RestClient;
-import com.vvmarkets.utils.ResponseList;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.internal.observers.BlockingBaseObserver;
 import io.reactivex.subjects.PublishSubject;
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -38,13 +34,14 @@ public class LogInController {
 
     @FXML
     public Button btnSingIn;
+    public Button btnExit;
 
     @FXML
     private TextField txtLogin;
 
     public PublishSubject<Boolean> signedIn = PublishSubject.create();
 
-    public void signIn(MouseEvent mouseEvent) {
+    public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
 
         if (cashToken.isEmpty()) {
@@ -111,5 +108,9 @@ public class LogInController {
                 alert.show();
             };
         });
+    }
+
+    public void exit(ActionEvent actionEvent) {
+        Platform.exit();
     }
 }
