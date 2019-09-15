@@ -7,7 +7,7 @@
 
 <AnchorPane prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.vvmarkets.controllers.MainController">
+            fx:controller="com.vvmarkets.controllers.MainController" onKeyPressed="#keyPressed">
    <TabPane fx:id="mainTabPane" layoutX="79.0" layoutY="37.0" prefHeight="200.0" prefWidth="200.0"
             styleClass="mainTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0"
             AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">

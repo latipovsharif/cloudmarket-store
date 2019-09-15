@@ -16,13 +16,11 @@ public class Config {
     private static final String cashToken = "CASH_TOKEN";
 
     private static String getConfig(String key) {
-        try {
-            Connection c = db.getConnection();
+        try (Connection c = db.getConnection()) {
             PreparedStatement stmt = c.prepareStatement("select val from configs where key = ? limit 1");
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
             String val = rs.getString("val");
-            c.close();
             return val;
         } catch (Exception e) {
             return "";
@@ -30,13 +28,11 @@ public class Config {
     }
 
     private static boolean checkConfigExists(String key, String val) {
-        try{
-            Connection c = db.getConnection();
+        try (Connection c = db.getConnection()){
             PreparedStatement stmt = c.prepareStatement("select count(*) from configs where key = ?");
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
             int count = rs.getInt(1);
-            c.close();
             return count > 0;
         } catch (Exception e) {
             log.error(e);
@@ -45,8 +41,7 @@ public class Config {
     }
 
     private static boolean setConfig(String key, String val) {
-        try{
-            Connection c = db.getConnection();
+        try (Connection c = db.getConnection()){
             PreparedStatement stmt = null;
 
             if (checkConfigExists(key, val)) {
@@ -59,7 +54,6 @@ public class Config {
                 stmt.setString(2, val);
             }
             stmt.execute();
-            c.close();
             return true;
         } catch (Exception e) {
             log.error(e);
