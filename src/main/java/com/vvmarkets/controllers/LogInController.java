@@ -96,7 +96,6 @@ public class LogInController {
         ButtonType cancelButton = new ButtonType("Отменить", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         dialogPane.getDialogPane().getButtonTypes().addAll(setTokenButton, cancelButton);
-
         Optional<String> result = dialogPane.showAndWait();
 
         result.ifPresent(token -> {

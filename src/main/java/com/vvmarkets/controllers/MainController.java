@@ -6,8 +6,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -18,11 +20,13 @@ public class MainController implements Initializable {
     @FXML
     public Button mainBtnNewTab;
     public Button mainBtnExit;
-    public Button btnNewTab11;
+    public Button btnCloseTab;
     public TabPane mainTabPane;
+    public ImageView mainProductImage;
+    public Label lblTotal;
+    public Button btnConfirm;
 
     private String tmpBarcode = "";
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,7 +55,6 @@ public class MainController implements Initializable {
     }
 
     public void keyPressed(KeyEvent keyEvent) {
-
         if (keyEvent.getCode() == KeyCode.ENTER) {
             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
 

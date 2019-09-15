@@ -7,21 +7,21 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.HBox?>
-<AnchorPane prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@../css/keyboard.css"
+<AnchorPane prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@../css/base.css"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.LogInController">
-   <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken"
-           prefHeight="34.0" prefWidth="158.0" styleClass="action-buttons, btn-blue"
-           text="Установить токен" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0"/>
-   <VBox alignment="CENTER" fillWidth="false" layoutY="82.0" prefHeight="528.0" prefWidth="759.0" spacing="10.0"
-         AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
-         AnchorPane.topAnchor="82.0">
-      <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Логин"/>
-      <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Пароль"/>
-      <HBox spacing="10.0">
-         <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" prefHeight="45.0" prefWidth="120.0"
-                 styleClass="action-buttons, btn-red" text="Выйти"/>
-         <Button fx:id="btnSingIn" mnemonicParsing="false" onAction="#signIn" prefHeight="45.0" prefWidth="120.0"
-                 styleClass="action-buttons, btn-blue" text="Войти"/>
-      </HBox>
-   </VBox>
+    <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken"
+            prefHeight="34.0" prefWidth="158.0" styleClass="action-buttons, btn-blue"
+            text="Установить токен" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0"/>
+    <VBox alignment="CENTER" fillWidth="false" layoutY="82.0" prefHeight="528.0" prefWidth="759.0" spacing="10.0"
+          AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
+          AnchorPane.topAnchor="82.0">
+        <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Логин"/>
+        <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="45.0" prefWidth="360.0" promptText="Пароль"/>
+        <HBox spacing="10.0">
+            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" prefHeight="45.0" prefWidth="120.0"
+                    styleClass="action-buttons, btn-red" text="Выйти"/>
+            <Button fx:id="btnSingIn" mnemonicParsing="false" onAction="#signIn" prefHeight="45.0" prefWidth="120.0"
+                    styleClass="action-buttons, btn-blue" text="Войти"/>
+        </HBox>
+    </VBox>
 </AnchorPane>

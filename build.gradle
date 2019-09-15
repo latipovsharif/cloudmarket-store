@@ -8,6 +8,7 @@ group 'com.vvmarkets'
 version '0.0.1'
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
@@ -20,6 +21,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation("com.squareup.okhttp3:logging-interceptor:4.1.1")
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
+    compile 'de.jensd:fontawesomefx-commons:11.0'
+    compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
 }
 
 javafx {

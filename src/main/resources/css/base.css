@@ -1,0 +1,11 @@
+.action-buttons {
+    -fx-text-fill: #ffffff;
+}
+
+.btn-blue {
+    -fx-background-color: #0362fc;
+}
+
+.btn-red {
+    -fx-background-color: #fc210f;
+}
