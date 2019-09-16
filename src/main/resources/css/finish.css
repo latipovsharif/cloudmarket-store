@@ -1,0 +1,11 @@
+.btn-num {
+    -fx-pref-width: 70;
+    -fx-pref-height: 70;
+    -fx-text-fill: #fff;
+    -fx-background-color: #03ff45;
+    -fx-font-size: 26;
+}
+
+.btn-choose-client {
+    -fx-background-color: #03ff45;
+}

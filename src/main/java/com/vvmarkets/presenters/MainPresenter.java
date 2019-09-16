@@ -12,8 +12,7 @@ public class MainPresenter {
     public Parent getView() throws Exception{
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
         Parent root = loader.load();
-        MainController controller = loader.getController();
-        this.controller = controller;
+        this.controller = loader.getController();;
         return root;
     }
 }

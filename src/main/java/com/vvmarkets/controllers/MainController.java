@@ -2,6 +2,7 @@ package com.vvmarkets.controllers;
 
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.errors.NotFound;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -10,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -54,7 +56,7 @@ public class MainController implements Initializable {
         mainTabPane.getTabs().add(0, newTab);
     }
 
-    public void keyPressed(KeyEvent keyEvent) {
+    public void keyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
 
@@ -72,5 +74,9 @@ public class MainController implements Initializable {
         } else if(keyEvent.getCode().isDigitKey()) {
             tmpBarcode += keyEvent.getText();
         }
+    }
+
+    public void confirm(ActionEvent actionEvent) {
+        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
     }
 }
