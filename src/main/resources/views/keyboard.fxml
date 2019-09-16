@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.HBox?>
-<AnchorPane prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@../css/base.css"
+<AnchorPane fx:id="mainContainer" prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@../css/base.css"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.LogInController">
     <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken"
             prefHeight="34.0" prefWidth="158.0" styleClass="action-buttons, btn-blue"

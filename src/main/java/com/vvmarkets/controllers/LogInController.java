@@ -1,12 +1,12 @@
 package com.vvmarkets.controllers;
 
-import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Authorization;
+import com.vvmarkets.presenters.MainPresenter;
 import com.vvmarkets.requests.AuthorizationBody;
 import com.vvmarkets.services.AuthorizationService;
 import com.vvmarkets.services.RestClient;
-import io.reactivex.subjects.PublishSubject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,7 +23,7 @@ import retrofit2.Response;
 import java.util.Optional;
 
 public class LogInController {
-    private static final Logger log = LogManager.getLogger(Main.class);
+    private static final Logger log = LogManager.getLogger(LogInController.class);
 
 
     @FXML
@@ -39,8 +39,6 @@ public class LogInController {
     @FXML
     private TextField txtLogin;
 
-    public PublishSubject<Boolean> signedIn = PublishSubject.create();
-
     public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
 
@@ -51,37 +49,36 @@ public class LogInController {
             alert.setContentText("Пожалуйста установите токен для кассы.");
             alert.show();
             System.out.println("cash token is empty");
-            signedIn.onNext(false);
         }
 
         AuthorizationService authService = RestClient.getClient().create(AuthorizationService.class);
         Call<Authorization> listProductCall = authService.auth(new AuthorizationBody(txtLogin.getText(), txtPassword.getText()));
-        listProductCall.enqueue(new Callback<Authorization>() {
+        listProductCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Authorization> call, Response<Authorization> response) {
                 if (response.isSuccessful()) {
-                    if(response.body() != null) {
+                    if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
                             Config.setAuthorizationKey(response.body().getToken());
-                            signedIn.onNext(true);
-                            return;
+                            try {
+                                Utils.showScreen(new MainPresenter().getView());
+                            } catch (Exception ex) {
+                                log.error(ex.getMessage());
+                            }
                         }
                     }
                 }
-
-                signedIn.onNext(false);
             }
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
                 log.error(t.getMessage());
-                signedIn.onNext(false);
             }
         });
     }
 
     public void setToken(MouseEvent mouseEvent) {
-        Dialog<String> dialogPane = new Dialog<String>();
+        Dialog<String> dialogPane = new Dialog<>();
         VBox box = new VBox();
         box.setSpacing(10);
         TextField textField = new TextField();
@@ -105,7 +102,8 @@ public class LogInController {
                 alert.setHeaderText("Невозможно установить токен");
                 alert.setContentText("Просьба обратиться к администратору");
                 alert.show();
-            };
+            }
+            ;
         });
     }
 
