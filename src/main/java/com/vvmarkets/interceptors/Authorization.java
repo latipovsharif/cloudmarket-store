@@ -16,17 +16,27 @@ public class Authorization implements Interceptor {
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
 
-        if (!request.url().encodedPath().contains("/api/v1/authorization/get/token/")) {
-            String key = Config.getAuthorizationKey();
-            if (key.isEmpty()) {
-                throw new NotAuthorized("Authorization key is empty");
-            }
-
-            request = request.newBuilder()
-                    .addHeader("Authorization", key)
-                    .build();
+        if (request.url().encodedPath().contains("/api/v1/authorization/get/token/")) {
+            return chain.proceed(request);
         }
 
-        return chain.proceed(request);
+
+        String key = Config.getAuthorizationKey();
+        if (key.isEmpty()) {
+            throw new NotAuthorized("Authorization key is empty");
+        }
+
+        Request.Builder builder = request.newBuilder().addHeader("Authorization", key);
+
+        if (request.url().encodedPath().contains("/api/v1/cashes/")) {
+            String cashToken = Config.getCashToken();
+            if (cashToken.isEmpty()) {
+                throw new NotAuthorized("Cash token is empty");
+            }
+
+            builder = builder.addHeader("Cash-Authorization", cashToken);
+        }
+
+        return chain.proceed(builder.build());
     }
 }

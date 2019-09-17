@@ -11,7 +11,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -22,7 +21,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import javax.swing.*;
 import java.util.Optional;
 
 public class LogInController {
@@ -104,7 +102,6 @@ public class LogInController {
                 alert.setContentText("Просьба обратиться к администратору");
                 alert.show();
             }
-            ;
         });
     }
 

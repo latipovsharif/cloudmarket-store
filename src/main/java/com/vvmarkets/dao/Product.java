@@ -1,12 +1,23 @@
 package com.vvmarkets.dao;
 
 import com.vvmarkets.Main;
+import com.vvmarkets.configs.Config;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.NotFound;
+import com.vvmarkets.presenters.MainPresenter;
+import com.vvmarkets.requests.AuthorizationBody;
+import com.vvmarkets.services.AuthorizationService;
+import com.vvmarkets.services.ProductService;
+import com.vvmarkets.services.RestClient;
+import com.vvmarkets.utils.ResponseBody;
 import com.vvmarkets.utils.db;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +28,26 @@ public class Product {
     private String id;
     private String article;
     private String barcode;
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    private double quantity;
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    private double price;
 
     public String getArticle() {
         return article;
@@ -47,12 +78,13 @@ public class Product {
 
         try (Connection connection = db.getConnection()){
             stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select id, article, barcode from products");
+            ResultSet rs = stmt.executeQuery("select id, article, barcode, price from products");
             while (rs.next()) {
                 Product product = new Product();
                 product.id = rs.getString("id");
                 product.article = rs.getString("article");
                 product.barcode = rs.getString("barcode");
+                product.price = rs.getDouble("price");
                 products.add(product);
             }
         } catch (Exception e) {
@@ -63,11 +95,13 @@ public class Product {
     }
 
     public static Product getProduct(String barcode) throws Exception {
-        PreparedStatement stmt = null;
+
+        getProductFromNetByBarcode(barcode);
         Product product;
+        PreparedStatement stmt = null;
 
         try (Connection c = db.getConnection()) {
-            stmt = c.prepareStatement("select id, article, barcode from products where barcode = ?");
+            stmt = c.prepareStatement("select id, article, barcode, price from products where barcode = ?");
             stmt.setString(1, barcode);
             ResultSet rs = stmt.executeQuery();
             if (!rs.isBeforeFirst()) {
@@ -77,6 +111,7 @@ public class Product {
             product.id = rs.getString("id");
             product.article = rs.getString("article");
             product.barcode = rs.getString("barcode");
+            product.price = rs.getDouble("price");
 
         } catch (Exception e) {
             log.debug(e.getClass().getName() + ": " + e.getMessage());
@@ -84,5 +119,29 @@ public class Product {
         }
 
         return product;
+    }
+
+    private static Product getProductFromNetByBarcode(String barcode) {
+        ProductService productService = RestClient.getClient().create(ProductService.class);
+        Call<ResponseBody<Product>> productCall = productService.productFromBarcode(barcode);
+        productCall.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ResponseBody<Product>> call, Response<ResponseBody<Product>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatus() == 0) {
+                            log.info(response.body());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody<Product>> call, Throwable t) {
+                log.error(t.getMessage());
+            }
+        });
+
+        return null;
     }
 }

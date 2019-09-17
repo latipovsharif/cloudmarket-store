@@ -61,11 +61,16 @@ public class MainController implements Initializable, IController {
         TableColumn<Product, String> barcode = new TableColumn<>("Barcode");
         barcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
 
+        TableColumn<Product, Double> price = new TableColumn<>("Price");
+        price.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        TableColumn<Product, Double> quantity = new TableColumn<>("Quantity");
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableView<Product> productTableView = new TableView<>();
 
         productTableView.setItems(Product.GetProducts());
-        productTableView.getColumns().addAll(Arrays.asList(id, article, barcode));
+        productTableView.getColumns().addAll(Arrays.asList(id, article, barcode, quantity, price));
         newTab.setContent(productTableView);
 
         mainTabPane.getTabs().add(0, newTab);
