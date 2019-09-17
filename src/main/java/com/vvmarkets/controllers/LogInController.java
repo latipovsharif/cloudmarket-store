@@ -11,8 +11,10 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,22 +22,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import javax.swing.*;
 import java.util.Optional;
 
 public class LogInController {
     private static final Logger log = LogManager.getLogger(LogInController.class);
-
-
     @FXML
     public PasswordField txtPassword;
-
     @FXML
     public Button btnSetToken;
-
     @FXML
     public Button btnSingIn;
+    @FXML
     public Button btnExit;
-
+    @FXML
+    public AnchorPane loginContainer;
     @FXML
     private TextField txtLogin;
 
@@ -61,7 +62,7 @@ public class LogInController {
                         if (response.body().getStatus() == 0) {
                             Config.setAuthorizationKey(response.body().getToken());
                             try {
-                                Utils.showScreen(new MainPresenter().getView());
+                                Utils.showScreen(new MainPresenter(loginContainer).getView());
                             } catch (Exception ex) {
                                 log.error(ex.getMessage());
                             }

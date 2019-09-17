@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container"
+<AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container"
             stylesheets="@../css/main.css, @../css/base.css" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

@@ -1,10 +1,13 @@
 package com.vvmarkets.controllers;
 
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.errors.NotFound;
+import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
@@ -17,9 +20,22 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.ResourceBundle;
 
-public class MainController implements Initializable {
+public class MainController implements Initializable, IController {
+    public AnchorPane mainContainer;
+    private String tmpBarcode = "";
 
-    @FXML
+    @Override
+    public Node getPreviousView() {
+        return previousView;
+    }
+
+    @Override
+    public void setPreviousView(Node previousView) {
+        this.previousView = previousView;
+    }
+
+    private Node previousView;
+
     public Button mainBtnNewTab;
     public Button mainBtnExit;
     public Button btnCloseTab;
@@ -28,7 +44,6 @@ public class MainController implements Initializable {
     public Label lblTotal;
     public Button btnConfirm;
 
-    private String tmpBarcode = "";
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -76,8 +91,9 @@ public class MainController implements Initializable {
         }
     }
 
-    public void confirm(ActionEvent actionEvent) {
-        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-
+    public void confirm(ActionEvent actionEvent) throws Exception {
+        ConfirmPresenter cp = new ConfirmPresenter();
+        Utils.showScreen(cp.getView(mainContainer));
+//        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
     }
 }

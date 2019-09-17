@@ -14,11 +14,7 @@ public class Utils {
     public static void showScreen(Node node) {
         Platform.runLater(() -> {
             Main.getMainContainer().getChildren().clear();
-            try {
-                Main.getMainContainer().getChildren().add(node);
-            } catch (Exception ex) {
-                log.error(ex.getMessage());
-            }
+            Main.getMainContainer().getChildren().add(node);
         });
     }
 }
