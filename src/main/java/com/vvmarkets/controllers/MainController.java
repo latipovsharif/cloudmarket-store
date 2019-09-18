@@ -1,9 +1,12 @@
 package com.vvmarkets.controllers;
 
+import com.vvmarkets.Main;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +17,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Callback;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -21,6 +27,8 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable, IController {
+    private static final Logger log = LogManager.getLogger(Main.class);
+
     public AnchorPane mainContainer;
     private String tmpBarcode = "";
 
@@ -36,12 +44,19 @@ public class MainController implements Initializable, IController {
 
     private Node previousView;
 
+    @FXML
     public Button mainBtnNewTab;
+    @FXML
     public Button mainBtnExit;
+    @FXML
     public Button btnCloseTab;
+    @FXML
     public TabPane mainTabPane;
+    @FXML
     public ImageView mainProductImage;
+    @FXML
     public Label lblTotal;
+    @FXML
     public Button btnConfirm;
 
 
@@ -56,10 +71,14 @@ public class MainController implements Initializable, IController {
         id.setVisible(false);
 
         TableColumn<Product, String> article = new TableColumn<>("Article");
-        article.setCellValueFactory(new PropertyValueFactory<>("article"));
+        article.setCellValueFactory(param ->
+             new SimpleStringProperty(param.getValue().getProductProperties().getArticle())
+        );
 
         TableColumn<Product, String> barcode = new TableColumn<>("Barcode");
-        barcode.setCellValueFactory(new PropertyValueFactory<>("barcode"));
+        barcode.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getProductProperties().getBarcode())
+        );
 
         TableColumn<Product, Double> price = new TableColumn<>("Price");
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -69,8 +88,8 @@ public class MainController implements Initializable, IController {
 
         TableView<Product> productTableView = new TableView<>();
 
-        productTableView.setItems(Product.GetProducts());
-        productTableView.getColumns().addAll(Arrays.asList(id, article, barcode, quantity, price));
+//        productTableView.setItems(Product.GetProducts());
+        productTableView.getColumns().addAll(Arrays.asList(id, article, quantity, price));
         newTab.setContent(productTableView);
 
         mainTabPane.getTabs().add(0, newTab);
@@ -91,7 +110,7 @@ public class MainController implements Initializable, IController {
                 alert.show();
             }
             tmpBarcode = "";
-        } else if(keyEvent.getCode().isDigitKey()) {
+        } else if (keyEvent.getCode().isDigitKey()) {
             tmpBarcode += keyEvent.getText();
         }
     }

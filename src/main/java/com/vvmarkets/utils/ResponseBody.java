@@ -20,6 +20,8 @@ public class ResponseBody<T> {
         this.body = body;
     }
 
+    @SerializedName("body")
+    @Expose
     private T body;
 
     public String getMessage() {
