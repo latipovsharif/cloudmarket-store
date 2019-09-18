@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
+import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
@@ -97,8 +98,16 @@ public class Product {
     }
 
     public static Product getProduct(String barcode) throws Exception {
+        Product product = null;
 
-        return getProductFromNetByBarcode(barcode);
+        try{
+            product = getProductFromNetByBarcode(barcode);
+        } catch (IOException io) {
+
+        } catch (NotFound notFound) {
+
+        }
+        return product;
 //        Product product;
 //        PreparedStatement stmt = null;
 //
@@ -121,7 +130,7 @@ public class Product {
 //        return product;
     }
 
-    private static Product getProductFromNetByBarcode(String barcode) throws IOException {
+    private static Product getProductFromNetByBarcode(String barcode) throws Exception {
         Product product = null;
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
@@ -132,9 +141,10 @@ public class Product {
             if (response.body() != null) {
                 if (response.body().getStatus() == 0) {
                     product = response.body().getBody();
-                    log.info(response.body());
                 }
             }
+        } else {
+            throw new NotFound("Product with barcode: " + barcode + "was not found in the server");
         }
 
         return product;
