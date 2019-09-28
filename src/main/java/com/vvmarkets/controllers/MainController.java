@@ -1,6 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.vvmarkets.Main;
+import com.vvmarkets.core.AlertUtil;
 import com.vvmarkets.core.TabUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
@@ -71,13 +72,11 @@ public class MainController implements Initializable, IController {
                 Product product = Product.getProduct(tmpBarcode);
                 TableUtil.addProduct(tableView, product);
             } catch (NotFound nf) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.show();
+                AlertUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
             } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(e.getMessage());
-                alert.show();
+                AlertUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
             }
+
             tmpBarcode = "";
         } else if (keyEvent.getCode().isDigitKey()) {
             tmpBarcode += keyEvent.getText();

@@ -59,7 +59,6 @@ public class Product {
         this.quantity = quantity;
     }
 
-
     public double getPrice() {
         return price;
     }
@@ -107,27 +106,11 @@ public class Product {
         } catch (NotFound notFound) {
 
         }
+
+        if (product == null) {
+            throw new NotFound("product with barcode:" + barcode + " not found");
+        }
         return product;
-//        Product product;
-//        PreparedStatement stmt = null;
-//
-//        try (Connection c = db.getConnection()) {
-//            stmt = c.prepareStatement("select id, price from products where barcode = ?");
-//            stmt.setString(1, barcode);
-//            ResultSet rs = stmt.executeQuery();
-//            if (!rs.isBeforeFirst()) {
-//                throw new NotFound("Продукт не найден: " + barcode);
-//            }
-//            product = new Product();
-//            product.id = rs.getString("id");
-//            product.price = rs.getDouble("price");
-//
-//        } catch (Exception e) {
-//            log.debug(e.getClass().getName() + ": " + e.getMessage());
-//            throw e;
-//        }
-//
-//        return product;
     }
 
     private static Product getProductFromNetByBarcode(String barcode) throws Exception {
