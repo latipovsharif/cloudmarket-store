@@ -69,7 +69,7 @@ public class MainController implements Initializable, IController {
 
             try {
                 Product product = Product.getProduct(tmpBarcode);
-                TableUtil.AddProduct(tableView, product);
+                TableUtil.addProduct(tableView, product);
             } catch (NotFound nf) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.show();
