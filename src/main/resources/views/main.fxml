@@ -16,7 +16,7 @@
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController"
             AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
             AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-    <HBox style="-fx-background-color: red" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+    <HBox fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
           AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0"/>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" styleClass="mainTabPane"
              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0"
@@ -30,7 +30,7 @@
             </image>
         </ImageView>
         <Label fx:id="lblTotal" maxHeight="150" maxWidth="240" minHeight="78.0" minWidth="240" prefHeight="78.0"
-               prefWidth="240.0" style="-fx-background-color: #000"/>
+               prefWidth="240.0"/>
         <HBox alignment="CENTER" maxWidth="240" minWidth="240" spacing="10">
             <Button styleClass="action-buttons, btn-blue"/>
             <Button styleClass="action-buttons, btn-blue"/>
@@ -41,18 +41,16 @@
             <Button styleClass="action-buttons, btn-blue"/>
         </HBox>
         <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0">
-            <children>
-                <Button fx:id="btnConfirm" alignment="CENTER" onAction="#confirm" prefHeight="49.0" prefWidth="224.0"
-                        text="ОФОРМИТЬ">
-                    <styleClass>
-                        <String fx:value="action-buttons"/>
-                        <String fx:value="btn-green"/>
-                    </styleClass>
-                    <font>
-                        <Font size="23.0"/>
-                    </font>
-                </Button>
-            </children>
+            <Button fx:id="btnConfirm" alignment="CENTER" onAction="#confirm" prefHeight="49.0" prefWidth="224.0"
+                    text="ОФОРМИТЬ">
+                <styleClass>
+                    <String fx:value="action-buttons"/>
+                    <String fx:value="btn-green"/>
+                </styleClass>
+                <font>
+                    <Font size="23.0"/>
+                </font>
+            </Button>
         </HBox>
     </VBox>
     <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="739.0" layoutY="8.0" mnemonicParsing="false"

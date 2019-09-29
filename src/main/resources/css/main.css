@@ -37,3 +37,14 @@
     -fx-background-color: #ff620c;
     -fx-text-fill: #fff;
 }
+
+#lblTotal {
+    -fx-background-color: #fff;
+    -fx-text-fill: #000;
+    -fx-font-size: 28px;
+    -fx-alignment: center;
+}
+
+#hotAccessPane {
+    -fx-background-color: green;
+}

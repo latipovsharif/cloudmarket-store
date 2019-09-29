@@ -1,21 +1,19 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.dao.Product;
-import javafx.beans.property.SimpleDoubleProperty;
+import io.reactivex.subjects.PublishSubject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import kotlin.Pair;
-import kotlin.internal.ProgressionUtilKt;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class TableUtil {
+
+    public static PublishSubject<Double> changed = PublishSubject.create();
 
     public static TableView<Product> getTable() {
         TableColumn<Product, String> id = new TableColumn<>("Id");
@@ -60,6 +58,8 @@ public class TableUtil {
                         double entered = Double.parseDouble(result.get());
                         clickedRow.setQuantity(entered);
                         tr.getTableView().getItems().set(tr.getIndex(), clickedRow);
+
+                        changed.onNext(calculateTotal(tr.getTableView()));
                     }
                 }
             });

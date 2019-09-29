@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +29,7 @@ public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public AnchorPane mainContainer;
+    public HBox hotAccessPane;
     private String tmpBarcode = "";
 
     @Override
@@ -57,11 +59,14 @@ public class MainController implements Initializable, IController {
     @FXML
     public Button btnConfirm;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
         mainTabPane.getTabs().add(0, newTab);
+
+        TableUtil.changed.subscribe(aDouble -> {
+            lblTotal.setText(String.valueOf(aDouble));
+        });
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
