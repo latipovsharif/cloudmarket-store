@@ -33,6 +33,14 @@ public class Product {
     @SerializedName("quantity")
     private double quantity;
 
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     @Expose
     @SerializedName("discount")
     private double discount;
@@ -42,6 +50,8 @@ public class Product {
     @SerializedName("sell_price")
     private double price;
 
+    private double total;
+
     public ProductProperties getProductProperties() {
         return productProperties;
     }
@@ -50,6 +60,13 @@ public class Product {
         this.productProperties = productProperties;
     }
 
+    public double getTotal() {
+        return quantity * price - (quantity * price * discount / 100);
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public double getQuantity() {
         return quantity;

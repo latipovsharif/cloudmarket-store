@@ -70,7 +70,11 @@ public class MainController implements Initializable, IController {
 
             try {
                 Product product = Product.getProduct(tmpBarcode);
+                product.setQuantity(1);
+
                 TableUtil.addProduct(tableView, product);
+
+                lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
             } catch (NotFound nf) {
                 AlertUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
             } catch (Exception e) {
