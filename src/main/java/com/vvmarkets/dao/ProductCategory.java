@@ -15,4 +15,9 @@ public class ProductCategory {
     @Expose
     @SerializedName("parent")
     private ProductCategory parent;
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

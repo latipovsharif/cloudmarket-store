@@ -1,10 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.vvmarkets.Main;
-import com.vvmarkets.core.AlertUtil;
-import com.vvmarkets.core.TabUtil;
-import com.vvmarkets.core.TableUtil;
-import com.vvmarkets.core.Utils;
+import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
@@ -29,6 +26,7 @@ public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public AnchorPane mainContainer;
+    @FXML
     public HBox hotAccessPane;
     private String tmpBarcode = "";
 
@@ -63,6 +61,8 @@ public class MainController implements Initializable, IController {
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
         mainTabPane.getTabs().add(0, newTab);
+
+        hotAccessPane.getChildren().add(ListUtil.getCategoryList());
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
