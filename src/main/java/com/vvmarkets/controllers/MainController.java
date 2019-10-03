@@ -26,8 +26,9 @@ public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public AnchorPane mainContainer;
+    
     @FXML
-    public HBox hotAccessPane;
+    public AnchorPane hotAccessPane;
     private String tmpBarcode = "";
 
     @Override
