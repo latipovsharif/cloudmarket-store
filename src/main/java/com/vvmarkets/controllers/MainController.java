@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.input.MouseEvent;
 
 public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -102,5 +103,9 @@ public class MainController implements Initializable, IController {
         ConfirmPresenter cp = new ConfirmPresenter();
         Utils.showScreen(cp.getView(mainContainer));
 //        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+    }
+    
+    public void hotAccessClicked(MouseEvent event) {
+        System.out.println("clicked on " + hotAccessListView.getSelectionModel().getSelectedItem().getName());
     }
 }

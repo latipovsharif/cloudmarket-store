@@ -15,7 +15,7 @@
 <AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css, @../css/base.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController">
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
       <children>
-         <ListView fx:id="hotAccessListView" fixedCellSize="100.0" orientation="HORIZONTAL" prefHeight="122.0" prefWidth="797.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0" />
+         <ListView fx:id="hotAccessListView" fixedCellSize="100.0" onMouseClicked="#hotAccessClicked" orientation="HORIZONTAL" prefHeight="122.0" prefWidth="797.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0" />
       </children>
     </AnchorPane>
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" styleClass="mainTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="180.0">

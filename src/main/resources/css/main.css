@@ -48,3 +48,9 @@
 #hotAccessPane {
     -fx-background-color: green;
 }
+
+.list-cell {
+    -fx-max-width: 100;
+    -fx-min-width: 100;
+    -fx-pref-width: 100;
+}

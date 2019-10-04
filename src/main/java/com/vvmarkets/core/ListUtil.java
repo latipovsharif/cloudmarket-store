@@ -26,6 +26,7 @@ public class ListUtil {
 
         CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
         Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
+        
         listCategoryCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody<List<ProductCategory>>> call, Response<ResponseBody<List<ProductCategory>>> response) {
