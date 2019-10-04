@@ -22,12 +22,12 @@ public class ListUtil {
 
 
     public static void fillCategoryLisView(ListView<IListContent> productCategoryListView) {
-        
+
         productCategoryListView.setOrientation(Orientation.HORIZONTAL);
 
         CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
         Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
-        
+
         listCategoryCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody<List<ProductCategory>>> call, Response<ResponseBody<List<ProductCategory>>> response) {
@@ -50,7 +50,7 @@ public class ListUtil {
             }
         });
     }
-    
+
     public static void fillProductList(ListView<IListContent> productPropertiesListView, String categoryID) {
         productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
 

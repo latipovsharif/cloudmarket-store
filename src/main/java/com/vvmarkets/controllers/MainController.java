@@ -21,19 +21,20 @@ import org.jetbrains.annotations.NotNull;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import javafx.scene.input.MouseEvent;
 
 public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public AnchorPane mainContainer;
-    
+
     @FXML
     public AnchorPane hotAccessPane;
-    
+
     @FXML
     public ListView<IListContent> hotAccessListView;
-    
+
     private String tmpBarcode = "";
 
     @Override
@@ -62,12 +63,12 @@ public class MainController implements Initializable, IController {
     public Label lblTotal;
     @FXML
     public Button btnConfirm;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
         mainTabPane.getTabs().add(0, newTab);
-                
+
         ListUtil.fillCategoryLisView(hotAccessListView);
 
         TableUtil.changed.subscribe(aDouble -> {
@@ -98,11 +99,9 @@ public class MainController implements Initializable, IController {
     public void confirm(ActionEvent actionEvent) throws Exception {
         ConfirmPresenter cp = new ConfirmPresenter();
         Utils.showScreen(cp.getView(mainContainer));
-//        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
     }
-    
-    public void hotAccessClicked(MouseEvent event) {
 
+    public void hotAccessClicked(MouseEvent event) {
         IListContent content = hotAccessListView.getSelectionModel().getSelectedItem();
         if (content == null || content.getQueryId().isEmpty()) {
             return;
@@ -131,9 +130,8 @@ public class MainController implements Initializable, IController {
                     DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
                 }
                 break;
-        default:
+            default:
                 break;
         }
-
     }
 }
