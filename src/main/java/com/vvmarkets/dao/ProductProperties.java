@@ -2,8 +2,9 @@ package com.vvmarkets.dao;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vvmarkets.core.IListContent;
 
-public class ProductProperties {
+public class ProductProperties implements IListContent{
     @Expose
     @SerializedName("id")
     private String id;

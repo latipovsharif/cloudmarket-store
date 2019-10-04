@@ -49,8 +49,7 @@ public class ListUtil {
         });
     }
     
-    public static ListView<ProductProperties> getProductList(String categoryID) {
-        ListView<ProductProperties> productPropertiesListView = new ListView<>();
+    public static void fillProductList(ListView<IListContent> productPropertiesListView, String categoryID) {
         productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
@@ -75,7 +74,5 @@ public class ListUtil {
                 log.error(t.getMessage());
             }
         });
-
-        return productPropertiesListView;
     }
 }

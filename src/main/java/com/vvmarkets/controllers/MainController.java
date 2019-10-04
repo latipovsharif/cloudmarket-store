@@ -106,6 +106,7 @@ public class MainController implements Initializable, IController {
     }
     
     public void hotAccessClicked(MouseEvent event) {
-        System.out.println("clicked on " + hotAccessListView.getSelectionModel().getSelectedItem().getName());
+        hotAccessListView.getItems().clear();
+        ListUtil.fillProductList(hotAccessListView, hotAccessListView.getSelectionModel().getSelectedItem().getId());
     }
 }
