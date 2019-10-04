@@ -3,8 +3,6 @@ package com.vvmarkets.controllers;
 import com.vvmarkets.Main;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
-import com.vvmarkets.dao.ProductCategory;
-import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
@@ -21,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.input.MouseEvent;
 
@@ -83,14 +82,11 @@ public class MainController implements Initializable, IController {
             try {
                 Product product = Product.getProduct(tmpBarcode);
                 product.setQuantity(1);
-
                 TableUtil.addProduct(tableView, product);
-
-                lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
             } catch (NotFound nf) {
-                AlertUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
+                DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
             } catch (Exception e) {
-                AlertUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
+                DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
             }
 
             tmpBarcode = "";
@@ -106,7 +102,38 @@ public class MainController implements Initializable, IController {
     }
     
     public void hotAccessClicked(MouseEvent event) {
-        hotAccessListView.getItems().clear();
-        ListUtil.fillProductList(hotAccessListView, hotAccessListView.getSelectionModel().getSelectedItem().getId());
+
+        IListContent content = hotAccessListView.getSelectionModel().getSelectedItem();
+        if (content == null || content.getQueryId().isEmpty()) {
+            return;
+        }
+
+        switch (content.getType()) {
+            case Category:
+                hotAccessListView.getItems().clear();
+                ListUtil.fillProductList(hotAccessListView, content.getQueryId());
+                break;
+            case Product:
+                try {
+                    Product clickedRow = Product.getProduct(content.getQueryId());
+                    Dialog dialog = DialogUtil.getQuantityDialog(1);
+                    Optional<String> result = dialog.showAndWait();
+
+                    if (result.isPresent()) {
+                        double entered = Double.parseDouble(result.get());
+                        clickedRow.setQuantity(entered);
+                        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+                        TableUtil.addProduct(tableView, clickedRow);
+                    }
+                } catch (NotFound nf) {
+                    DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
+                } catch (Exception e) {
+                    DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
+                }
+                break;
+        default:
+                break;
+        }
+
     }
 }

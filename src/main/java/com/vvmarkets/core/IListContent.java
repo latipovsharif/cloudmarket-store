@@ -10,6 +10,7 @@ package com.vvmarkets.core;
  * @author sharif
  */
 public interface IListContent {
-    public String getName();
-    public String getId();
+    String getName();
+    String getQueryId();
+    ListContentType getType();
 }

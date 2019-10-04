@@ -6,6 +6,7 @@ import com.vvmarkets.services.CategoryService;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
+import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ListView;
 import org.apache.logging.log4j.LogManager;
@@ -33,9 +34,10 @@ public class ListUtil {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            for (ProductCategory pp :
-                                    response.body().getBody()) {
-                                productCategoryListView.getItems().add(pp);
+                            for (ProductCategory pp : response.body().getBody()) {
+                                Platform.runLater(() -> {
+                                    productCategoryListView.getItems().add(pp);
+                                });
                             }
                         }
                     }
@@ -60,9 +62,10 @@ public class ListUtil {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            for (ProductProperties pp :
-                                    response.body().getBody()) {
-                                productPropertiesListView.getItems().add(pp);
+                            for (ProductProperties pp : response.body().getBody()) {
+                                Platform.runLater(() -> {
+                                    productPropertiesListView.getItems().add(pp);
+                                });
                             }
                         }
                     }

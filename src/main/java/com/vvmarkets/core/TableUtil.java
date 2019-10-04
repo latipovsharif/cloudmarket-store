@@ -45,12 +45,8 @@ public class TableUtil {
             TableRow<Product> tr = new TableRow<>();
             tr.setOnMouseClicked(event -> {
                 if (! tr.isEmpty() && event.getButton()== MouseButton.PRIMARY) {
-
                     Product clickedRow = tr.getItem();
-
-                    Dialog dialog = new TextInputDialog(String.valueOf(clickedRow.getQuantity()));
-                    dialog.setTitle("Количество");
-                    dialog.setHeaderText("Введите новое количество");
+                    Dialog dialog = DialogUtil.getQuantityDialog(clickedRow.getQuantity());
 
                     Optional<String> result = dialog.showAndWait();
 
@@ -75,13 +71,12 @@ public class TableUtil {
 
         if(pair != null) {
             pair.getSecond().setQuantity(pair.getSecond().getQuantity() + product.getQuantity());
-
-//            pair.getSecond().setQuantity(pair.getSecond().getQuantity() + product.getQuantity());
-
             setProduct(productTableView, pair);
         } else {
             productTableView.getItems().add(product);
         }
+
+        changed.onNext(calculateTotal(productTableView));
     }
 
     private static Pair<Integer, Product> getProductIndex(TableView<Product> tableView, Product product) {

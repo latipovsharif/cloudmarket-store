@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
+import com.vvmarkets.core.ListContentType;
 
 public class ProductProperties implements IListContent{
     @Expose
@@ -111,4 +112,16 @@ public class ProductProperties implements IListContent{
         this.images = images;
     }
 
+    @Override
+    public String toString() {
+        return this.getArticle();
+    }
+
+    public ListContentType getType(){
+        return ListContentType.Product;
+    }
+
+    public String getQueryId(){
+        return getBarcode();
+    }
 }

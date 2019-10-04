@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
+import com.vvmarkets.core.ListContentType;
 
 public class ProductCategory implements IListContent{
     @Expose
@@ -43,6 +44,14 @@ public class ProductCategory implements IListContent{
 
     @Override
     public String toString() {
-        return this.name;
+        return this.getName();
+    }
+
+    public ListContentType getType() {
+        return ListContentType.Category;
+    }
+
+    public String getQueryId() {
+        return getId();
     }
 }
