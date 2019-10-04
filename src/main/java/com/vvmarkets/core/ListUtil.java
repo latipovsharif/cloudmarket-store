@@ -1,12 +1,9 @@
 package com.vvmarkets.core;
 
-import com.vvmarkets.configs.Config;
-import com.vvmarkets.controllers.LogInController;
-import com.vvmarkets.dao.Authorization;
 import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.dao.ProductProperties;
-import com.vvmarkets.presenters.MainPresenter;
 import com.vvmarkets.services.CategoryService;
+import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import javafx.geometry.Orientation;
@@ -23,9 +20,9 @@ public class ListUtil {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
 
 
-    public static ListView<ProductCategory> getCategoryList() {
-        ListView<ProductCategory> productPropertiesListView = new ListView<>();
-        productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
+    public static void fillCategoryLisView(ListView<IListContent> productCategoryListView) {
+        
+        productCategoryListView.setOrientation(Orientation.HORIZONTAL);
 
         CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
         Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
@@ -37,7 +34,7 @@ public class ListUtil {
                         if (response.body().getStatus() == 0) {
                             for (ProductCategory pp :
                                     response.body().getBody()) {
-                                productPropertiesListView.getItems().add(pp);
+                                productCategoryListView.getItems().add(pp);
                             }
                         }
                     }
@@ -46,6 +43,34 @@ public class ListUtil {
 
             @Override
             public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
+                log.error(t.getMessage());
+            }
+        });
+    }
+    
+    public static ListView<ProductProperties> getProductList(String categoryID) {
+        ListView<ProductProperties> productPropertiesListView = new ListView<>();
+        productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
+
+        ProductService productService = RestClient.getClient().create(ProductService.class);
+        Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(categoryID);
+        listProductForCategoryCall.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ResponseBody<List<ProductProperties>>> call, Response<ResponseBody<List<ProductProperties>>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatus() == 0) {
+                            for (ProductProperties pp :
+                                    response.body().getBody()) {
+                                productPropertiesListView.getItems().add(pp);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody<List<ProductProperties>>> call, Throwable t) {
                 log.error(t.getMessage());
             }
         });

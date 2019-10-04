@@ -3,6 +3,8 @@ package com.vvmarkets.controllers;
 import com.vvmarkets.Main;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.dao.ProductCategory;
+import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
@@ -14,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -29,6 +30,10 @@ public class MainController implements Initializable, IController {
     
     @FXML
     public AnchorPane hotAccessPane;
+    
+    @FXML
+    public ListView<IListContent> hotAccessListView;
+    
     private String tmpBarcode = "";
 
     @Override
@@ -57,13 +62,13 @@ public class MainController implements Initializable, IController {
     public Label lblTotal;
     @FXML
     public Button btnConfirm;
-
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
         mainTabPane.getTabs().add(0, newTab);
-
-        hotAccessPane.getChildren().add(ListUtil.getCategoryList());
+                
+        ListUtil.fillCategoryLisView(hotAccessListView);
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
