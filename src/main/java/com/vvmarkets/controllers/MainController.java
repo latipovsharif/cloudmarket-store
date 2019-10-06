@@ -150,7 +150,7 @@ public class MainController implements Initializable, IController {
         mainTabPane.getTabs().add(newTab);
     }
 
-    public void selectedTabChanged(Event event) {
+    private void selectedTabChanged(Event event) {
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
         lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
     }
