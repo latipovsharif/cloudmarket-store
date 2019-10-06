@@ -1,5 +1,6 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.services.CategoryService;
@@ -53,6 +54,9 @@ public class ListUtil {
 
     public static void fillProductList(ListView<IListContent> productPropertiesListView, String categoryID) {
         productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
+        ProductProperties back = new ProductProperties();
+        back.setName("НАЗАД");
+        productPropertiesListView.getItems().add(back);
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
         Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(categoryID);

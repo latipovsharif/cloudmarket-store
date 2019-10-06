@@ -6,6 +6,7 @@ import com.vvmarkets.dao.Product;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -67,6 +68,7 @@ public class MainController implements Initializable, IController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
+        newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(0, newTab);
 
         ListUtil.fillCategoryLisView(hotAccessListView);
@@ -74,6 +76,7 @@ public class MainController implements Initializable, IController {
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
         });
+
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -103,9 +106,15 @@ public class MainController implements Initializable, IController {
 
     public void hotAccessClicked(MouseEvent event) {
         IListContent content = hotAccessListView.getSelectionModel().getSelectedItem();
+        if (hotAccessListView.getSelectionModel().getSelectedIndex() == 0 && content.getType() == ListContentType.Product) {
+            hotAccessListView.getItems().clear();
+            ListUtil.fillCategoryLisView(hotAccessListView);
+        }
+
         if (content == null || content.getQueryId().isEmpty()) {
             return;
         }
+
 
         switch (content.getType()) {
             case Category:
@@ -133,5 +142,16 @@ public class MainController implements Initializable, IController {
             default:
                 break;
         }
+    }
+
+    public void newTabClicked(MouseEvent mouseEvent) {
+        Tab newTab = TabUtil.NewTab();
+        newTab.setOnSelectionChanged(this::selectedTabChanged);
+        mainTabPane.getTabs().add(newTab);
+    }
+
+    public void selectedTabChanged(Event event) {
+        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+        lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
     }
 }

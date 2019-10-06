@@ -114,15 +114,7 @@ public class Product {
     }
 
     public static Product getProduct(String barcode) throws Exception {
-        Product product = null;
-
-        try{
-            product = getProductFromNetByBarcode(barcode);
-        } catch (IOException io) {
-
-        } catch (NotFound notFound) {
-
-        }
+        Product product = getProductFromNetByBarcode(barcode);
 
         if (product == null) {
             throw new NotFound("product with barcode:" + barcode + " not found");

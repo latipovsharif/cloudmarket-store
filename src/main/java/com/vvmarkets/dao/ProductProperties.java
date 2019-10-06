@@ -114,7 +114,7 @@ public class ProductProperties implements IListContent{
 
     @Override
     public String toString() {
-        return this.getArticle();
+        return this.getName();
     }
 
     public ListContentType getType(){

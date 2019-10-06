@@ -21,25 +21,37 @@ public class TableUtil {
         id.setVisible(false);
 
         TableColumn<Product, String> article = new TableColumn<>("Article");
+        article.setPrefWidth(280);
         article.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getArticle())
         );
+        article.setVisible(false);
+
+        TableColumn<Product, String> name = new TableColumn<>("Article");
+        name.setPrefWidth(280);
+        name.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getProductProperties().getName())
+        );
 
         TableColumn<Product, Double> total = new TableColumn<>("Total");
+        total.setPrefWidth(180);
         total.setCellValueFactory(new PropertyValueFactory<>("total"));
 
         TableColumn<Product, Double> price = new TableColumn<>("Price");
+        price.setPrefWidth(100);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         TableColumn<Product, Double> discount = new TableColumn<>("Discount");
+        discount.setPrefWidth(100);
         discount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
         TableColumn<Product, Double> quantity = new TableColumn<>("Quantity");
+        quantity.setPrefWidth(100);
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableView<Product> table = new TableView<>();
 
-        table.getColumns().addAll(Arrays.asList(id, article, price, quantity, discount, total));
+        table.getColumns().addAll(Arrays.asList(id, article, name, price, quantity, discount, total));
 
         table.setRowFactory(rf -> {
             TableRow<Product> tr = new TableRow<>();
