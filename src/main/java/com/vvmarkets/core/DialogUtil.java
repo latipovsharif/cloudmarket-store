@@ -25,7 +25,7 @@ public class DialogUtil {
     public static Dialog getQuantityDialog(double quantity) {
         Dialog dialog = new TextInputDialog(String.valueOf(quantity));
         dialog.setTitle("Количество");
-        dialog.setHeaderText("Введите новое количество");
+        dialog.setHeaderText("Введите количество");
         return dialog;
     }
 }

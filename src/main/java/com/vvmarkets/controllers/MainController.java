@@ -129,9 +129,11 @@ public class MainController implements Initializable, IController {
 
                     if (result.isPresent()) {
                         double entered = Double.parseDouble(result.get());
-                        clickedRow.setQuantity(entered);
-                        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-                        TableUtil.addProduct(tableView, clickedRow);
+                        if (entered > 0) {
+                            clickedRow.setQuantity(entered);
+                            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+                            TableUtil.addProduct(tableView, clickedRow);
+                        }
                     }
                 } catch (NotFound nf) {
                     DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
