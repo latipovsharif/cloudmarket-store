@@ -20,4 +20,8 @@ public class ConfirmController {
     public void closeCheck(ActionEvent actionEvent) {
         Utils.showScreen(previousScene);
     }
+
+    public void chooseClient(ActionEvent actionEvent) {
+
+    }
 }

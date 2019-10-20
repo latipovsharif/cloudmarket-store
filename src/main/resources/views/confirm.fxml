@@ -10,44 +10,40 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="630.0" prefWidth="911.0" style="-fx-background-color: #fff;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.vvmarkets.controllers.ConfirmController" AnchorPane.bottomAnchor="0.0"
-            AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane prefHeight="630.0" prefWidth="911.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ConfirmController">
     <children>
-        <HBox alignment="CENTER" layoutX="7.0" prefHeight="400.0" prefWidth="396.0" AnchorPane.bottomAnchor="100.0"
-              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" layoutX="7.0" prefHeight="400.0" prefWidth="396.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="1000.0">
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label"/>
-                                <Label text="Label"/>
+                                <Label text="Label" />
+                                <Label text="Label" />
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label"/>
-                                <Label text="Label"/>
+                                <Label text="Label" />
+                                <Label text="Label" />
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label"/>
-                                <Label text="Label"/>
+                                <Label text="Label" />
+                                <Label text="Label" />
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label"/>
-                                <Label text="Label"/>
+                                <Label text="Label" />
+                                <Label text="Label" />
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label"/>
-                                <Label text="Label"/>
+                                <Label text="Label" />
+                                <Label text="Label" />
                             </children>
                         </HBox>
                     </children>
@@ -58,17 +54,17 @@
                             <children>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="1">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="2">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="3">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                             </children>
@@ -77,17 +73,17 @@
                             <children>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="4">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="5">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="6">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                             </children>
@@ -96,17 +92,17 @@
                             <children>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="7">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="8">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="9">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                             </children>
@@ -115,56 +111,51 @@
                             <children>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="С">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                                 <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="0">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num"
-                                        text="&lt;">
+                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="&lt;">
                                     <rotationAxis>
-                                        <Point3D/>
+                                        <Point3D />
                                     </rotationAxis>
                                 </Button>
                             </children>
                         </HBox>
-                        <AnchorPane prefHeight="258.0" prefWidth="304.0"/>
+                        <AnchorPane prefHeight="258.0" prefWidth="304.0" />
                     </children>
                 </VBox>
             </children>
         </HBox>
-        <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                    AnchorPane.rightAnchor="0.0">
+        <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
             <children>
-                <Button layoutX="605.0" layoutY="100.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0"
-                        prefWidth="284.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0"
-                        AnchorPane.rightAnchor="15.0">
+                <Button layoutX="605.0" layoutY="100.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0" prefWidth="284.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
                     <font>
-                        <Font size="23.0"/>
+                        <Font size="23.0" />
                     </font>
                     <styleClass>
-                        <String fx:value="action-buttons"/>
-                        <String fx:value="btn-green"/>
+                        <String fx:value="action-buttons" />
+                        <String fx:value="btn-green" />
                     </styleClass>
                 </Button>
-                <Button layoutX="21.0" layoutY="151.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="284.0"
-                        text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+                <Button layoutX="21.0" layoutY="151.0" mnemonicParsing="false" onAction="#chooseClient" prefHeight="68.0" prefWidth="284.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
                     <font>
-                        <Font size="23.0"/>
+                        <Font size="23.0" />
                     </font>
                     <styleClass>
-                        <String fx:value="action-buttons"/>
-                        <String fx:value="btn-choose-client"/>
+                        <String fx:value="action-buttons" />
+                        <String fx:value="btn-choose-client" />
                     </styleClass>
                 </Button>
             </children>
         </AnchorPane>
     </children>
     <stylesheets>
-        <URL value="@../css/base.css"/>
-        <URL value="@../css/finish.css"/>
+        <URL value="@../css/base.css" />
+        <URL value="@../css/finish.css" />
     </stylesheets>
 </AnchorPane>
