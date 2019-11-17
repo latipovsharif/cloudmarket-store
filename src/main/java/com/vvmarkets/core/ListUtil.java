@@ -63,16 +63,20 @@ public class ListUtil {
         listProductForCategoryCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody<List<ProductProperties>>> call, Response<ResponseBody<List<ProductProperties>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getStatus() == 0) {
-                            for (ProductProperties pp : response.body().getBody()) {
-                                Platform.runLater(() -> {
-                                    productPropertiesListView.getItems().add(pp);
-                                });
+                try {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            if (response.body().getStatus() == 0) {
+                                for (ProductProperties pp : response.body().getBody()) {
+                                    Platform.runLater(() -> {
+                                        productPropertiesListView.getItems().add(pp);
+                                    });
+                                }
                             }
                         }
                     }
+                } catch (Exception e) {
+                    log.error(e.getMessage());
                 }
             }
 

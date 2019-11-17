@@ -2,9 +2,11 @@
 
 <?import java.lang.String?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Point3D?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -18,115 +20,114 @@
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label" />
-                                <Label text="Label" />
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="К оплате">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="10.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="10.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label" />
-                                <Label text="Label" />
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Скидка">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label" />
-                                <Label text="Label" />
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Наличными">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label" />
-                                <Label text="Label" />
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Безналичными">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
                             </children>
                         </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label text="Label" />
-                                <Label text="Label" />
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Сдача">
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding></Label>
+                        <TextField disable="true" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="10.0" top="5.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
                             </children>
                         </HBox>
-                    </children>
-                </VBox>
-                <VBox prefHeight="200.0" prefWidth="700.0">
-                    <children>
-                        <HBox alignment="CENTER" prefHeight="93.0" prefWidth="290.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="1">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="2">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="3">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="93.0" prefWidth="290.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="4">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="5">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="6">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="93.0" prefWidth="304.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="7">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="8">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="9">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER" prefHeight="93.0" prefWidth="304.0" spacing="10.0">
-                            <children>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="С">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="0">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                                <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="&lt;">
-                                    <rotationAxis>
-                                        <Point3D />
-                                    </rotationAxis>
-                                </Button>
-                            </children>
-                        </HBox>
-                        <AnchorPane prefHeight="258.0" prefWidth="304.0" />
                     </children>
                 </VBox>
             </children>
@@ -153,6 +154,128 @@
                 </Button>
             </children>
         </AnchorPane>
+          <VBox maxWidth="300.0" prefHeight="500.0" prefWidth="300.0" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <children>
+                  <HBox alignment="CENTER" maxHeight="120.0" prefHeight="90.0" prefWidth="290.0" spacing="10.0">
+                      <children>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="1">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="2">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="3">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                      </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="290.0" spacing="10.0">
+                      <children>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="4">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="5">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="6">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                      </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="300.0" spacing="10.0">
+                      <children>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="7">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="8">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="9">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                      </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="300.0" spacing="10.0">
+                      <children>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="С">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="0">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                          <Button mnemonicParsing="false" onAction="#btnNumClick" styleClass="btn-num" text="&lt;">
+                              <rotationAxis>
+                                  <Point3D />
+                              </rotationAxis>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                          </Button>
+                      </children>
+                  </HBox>
+              </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+          </VBox>
     </children>
     <stylesheets>
         <URL value="@../css/base.css" />

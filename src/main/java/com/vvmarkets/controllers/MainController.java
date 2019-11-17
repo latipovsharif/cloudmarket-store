@@ -76,7 +76,6 @@ public class MainController implements Initializable, IController {
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
         });
-
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -111,10 +110,9 @@ public class MainController implements Initializable, IController {
             ListUtil.fillCategoryLisView(hotAccessListView);
         }
 
-        if (content == null || content.getQueryId().isEmpty()) {
+        if (content == null || content.getQueryId() == null || content.getQueryId().isEmpty()) {
             return;
         }
-
 
         switch (content.getType()) {
             case Category:

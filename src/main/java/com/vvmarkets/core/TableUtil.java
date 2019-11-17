@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 import kotlin.Pair;
 
 import java.util.Arrays;
@@ -56,7 +57,7 @@ public class TableUtil {
         table.setRowFactory(rf -> {
             TableRow<Product> tr = new TableRow<>();
             tr.setOnMouseClicked(event -> {
-                if (! tr.isEmpty() && event.getButton()== MouseButton.PRIMARY) {
+                if (!tr.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
                     Product clickedRow = tr.getItem();
                     Dialog dialog = DialogUtil.getQuantityDialog(clickedRow.getQuantity());
 
@@ -74,6 +75,41 @@ public class TableUtil {
 
             return tr;
         });
+
+        TableColumn actionColumn = new TableColumn("Удалить");
+        actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+
+
+        Callback<TableColumn<Product, String>, TableCell<Product, String>> cellFactory =  new Callback<>() {
+
+            @Override
+            public TableCell call(final TableColumn<Product, String> param) {
+                final TableCell<Product, String> cell = new TableCell<>() {
+
+                    final Button btn = new Button("");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            btn.setOnAction(event -> {
+                                getTableView().getItems().remove(getIndex());
+                                changed.onNext(calculateTotal(getTableView()));
+                            });
+                            setGraphic(btn);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        actionColumn.setCellFactory(cellFactory);
+        table.getColumns().add(actionColumn);
 
         return table;
     }

@@ -47,7 +47,6 @@ public class LogInController {
             alert.setHeaderText("Токен не установлен");
             alert.setContentText("Пожалуйста установите токен для кассы.");
             alert.show();
-            System.out.println("cash token is empty");
         }
 
         AuthorizationService authService = RestClient.getClient().create(AuthorizationService.class);
