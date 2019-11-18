@@ -5,9 +5,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.TableView;
+
 
 public class ConfirmPresenter {
     public ConfirmController controller = null;
+    private TableView tableView = null;
+
+    public ConfirmPresenter(TableView table) {
+        this.tableView = table;
+    }
 
     @FXML
     public Parent getView(Node node) throws Exception{
@@ -16,6 +23,7 @@ public class ConfirmPresenter {
         ConfirmController controller = loader.getController();
         controller.setPreviousScene(node);
         this.controller = controller;
+        this.controller.setProducts(tableView);
         return root;
     }
 }

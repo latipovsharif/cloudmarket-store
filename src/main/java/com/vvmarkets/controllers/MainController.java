@@ -99,7 +99,8 @@ public class MainController implements Initializable, IController {
     }
 
     public void confirm(ActionEvent actionEvent) throws Exception {
-        ConfirmPresenter cp = new ConfirmPresenter();
+        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+        ConfirmPresenter cp = new ConfirmPresenter(tableView);
         Utils.showScreen(cp.getView(mainContainer));
     }
 

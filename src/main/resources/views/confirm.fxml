@@ -14,13 +14,13 @@
 
 <AnchorPane prefHeight="630.0" prefWidth="911.0" style="-fx-background-color: #fff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ConfirmController">
     <children>
-        <HBox alignment="CENTER" layoutX="7.0" prefHeight="400.0" prefWidth="396.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" layoutX="7.0" prefHeight="400.0" prefWidth="620.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="1000.0">
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="К оплате">
+                                <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Итог">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -30,7 +30,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="total" disable="true" onKeyTyped="#totalChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -52,7 +52,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="discount" onKeyTyped="#discountChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -62,6 +62,29 @@
                         </TextField>
                             </children>
                         </HBox>
+                  <HBox layoutX="10.0" layoutY="20.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="К оплате">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="10.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField fx:id="toPay" onKeyTyped="#toPayChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                           <HBox.margin>
+                              <Insets bottom="5.0" top="10.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </TextField>
+                     </children>
+                  </HBox>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
                                 <Label prefHeight="100.0" prefWidth="150.0" style="-fx-font-size: 20;" text="Наличными">
@@ -74,7 +97,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="cash" onKeyTyped="#cashChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -96,7 +119,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="card" onKeyTyped="#cardChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -118,7 +141,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField disable="true" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="change" disable="true" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </HBox.margin>
@@ -129,31 +152,15 @@
                             </children>
                         </HBox>
                     </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
                 </VBox>
             </children>
         </HBox>
-        <AnchorPane prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <children>
-                <Button layoutX="605.0" layoutY="100.0" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0" prefWidth="284.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
-                    <font>
-                        <Font size="23.0" />
-                    </font>
-                    <styleClass>
-                        <String fx:value="action-buttons" />
-                        <String fx:value="btn-green" />
-                    </styleClass>
-                </Button>
-                <Button layoutX="21.0" layoutY="151.0" mnemonicParsing="false" onAction="#chooseClient" prefHeight="68.0" prefWidth="284.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
-                    <font>
-                        <Font size="23.0" />
-                    </font>
-                    <styleClass>
-                        <String fx:value="action-buttons" />
-                        <String fx:value="btn-choose-client" />
-                    </styleClass>
-                </Button>
-            </children>
-        </AnchorPane>
           <VBox maxWidth="300.0" prefHeight="500.0" prefWidth="300.0" AnchorPane.bottomAnchor="100.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <children>
                   <HBox alignment="CENTER" maxHeight="120.0" prefHeight="90.0" prefWidth="290.0" spacing="10.0">
@@ -276,6 +283,24 @@
             <Insets top="10.0" />
          </padding>
           </VBox>
+          <Button fx:id="btnCloseCheck" disable="true" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0" prefWidth="284.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+              <font>
+                  <Font size="23.0" />
+              </font>
+              <styleClass>
+                  <String fx:value="action-buttons" />
+                  <String fx:value="btn-green" />
+              </styleClass>
+          </Button>
+          <Button mnemonicParsing="false" onAction="#chooseClient" prefHeight="68.0" prefWidth="284.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+              <font>
+                  <Font size="23.0" />
+              </font>
+              <styleClass>
+                  <String fx:value="action-buttons" />
+                  <String fx:value="btn-choose-client" />
+              </styleClass>
+          </Button>
     </children>
     <stylesheets>
         <URL value="@../css/base.css" />

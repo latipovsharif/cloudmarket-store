@@ -7,6 +7,10 @@ import javafx.scene.Node;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.swing.text.NumberFormatter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class Utils {
 
     private static final Logger log = LogManager.getLogger(Utils.class);
@@ -16,5 +20,25 @@ public class Utils {
             Main.getMainContainer().getChildren().clear();
             Main.getMainContainer().getChildren().add(node);
         });
+    }
+
+    public static double getDoubleOrZero(String value) {
+        double res = 0;
+        try {
+            res = Double.parseDouble(value);
+        } catch (Exception e) {
+            log.error("cannot parse string to double " + e.getMessage());
+        }
+        return res;
+    }
+
+    public static String getFormatted(double value) {
+        NumberFormat nf = new DecimalFormat("#0.00");
+        return nf.format(value);
+    }
+
+    public String formattedValue(String value) {
+        double res = getDoubleOrZero(value);
+        return getFormatted(res);
     }
 }
