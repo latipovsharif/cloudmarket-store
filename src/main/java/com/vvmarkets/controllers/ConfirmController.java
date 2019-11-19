@@ -5,6 +5,7 @@ import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.ExpenseBody;
+import com.vvmarkets.requests.PaymentBody;
 import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.services.ExpenseService;
 import com.vvmarkets.services.RestClient;
@@ -14,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import okhttp3.internal.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
@@ -112,13 +114,22 @@ public class ConfirmController {
     }
 
     public void btnNumClick(ActionEvent actionEvent) {
-        System.out.println(products.getItems().get(0).getId());
+        System.out.println(products.getItems().get(0).getProductProperties().getId());
         System.out.println(((Button)actionEvent.getSource()).getText());
     }
 
     public void closeCheck(ActionEvent actionEvent) {
         ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
-        Call<ExpenseResponse> listProductCall = documentService.create(new ExpenseBody());
+        Call<ExpenseResponse> listProductCall = documentService.create(
+                new ExpenseBody(
+                        this.products,
+                        new PaymentBody(
+                                Utils.getDoubleOrZero(toPay.getText()),
+                                0,
+                                Utils.getDoubleOrZero(card.getText()),
+                                Utils.getDoubleOrZero(cash.getText())),
+                        "471f0faf-0caa-4994-9306-2370a76315b6",
+                        ""));
         listProductCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ExpenseResponse> call, Response<ExpenseResponse> response) {

@@ -18,7 +18,9 @@ public class TableUtil {
 
     public static TableView<Product> getTable() {
         TableColumn<Product, String> id = new TableColumn<>("Id");
-        id.setCellValueFactory(new PropertyValueFactory<>("id"));
+        id.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getProductProperties().getId())
+        );
         id.setVisible(false);
 
         TableColumn<Product, String> article = new TableColumn<>("Артикул");
@@ -95,6 +97,9 @@ public class TableUtil {
                             setGraphic(null);
                             setText(null);
                         } else {
+                            btn.setMinWidth(50);
+                            btn.setMinHeight(30);
+
                             btn.setOnAction(event -> {
                                 getTableView().getItems().remove(getIndex());
                                 changed.onNext(calculateTotal(getTableView()));

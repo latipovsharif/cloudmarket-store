@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.io.IOException;
 import java.sql.*;
 
 public class Product {
@@ -33,17 +32,17 @@ public class Product {
     @SerializedName("quantity")
     private double quantity;
 
-    public double getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
     @Expose
     @SerializedName("discount")
-    private double discount;
+    private int discount;
 
 
     @Expose

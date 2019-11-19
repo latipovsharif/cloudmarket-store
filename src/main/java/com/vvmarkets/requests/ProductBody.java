@@ -3,27 +3,10 @@ package com.vvmarkets.requests;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//{
-//        "document_hash": "cd01asdf472e-36asdfe8-42c7-bd6asdfa-eadac3354810",
-    //        "seller_id": "471f0faf-0caa-4994-9306-2370a76315b6",
-    //        "shift_id": "3f584e1c-e2f5-4dc4-addb-e5000dae9889",
-    //        "payment": {
-        //        "discount_type": "percent",
-        //        "paid_by_credit_card": 0,
-        //        "paid_in_cash": 0,
-        //        "to_pay": 44,
-        //        "remained": 0
-    //        },
-    //        "sold_source": 1,
-    //        "products": [
-        //        {
-            //        "sell_price": 22,
-            //        "product_id": "478bd4d4-1d4b-4003-9934-36c83f1c85a9",
-            //        "quantity": 2,
-            //        "discount_percent": 0
-        //        }
-    //        ]
-//        }
+//        "sell_price": 22,
+//        "product_id": "478bd4d4-1d4b-4003-9934-36c83f1c85a9",
+//        "quantity": 2,
+//        "discount_percent": 0
 public class ProductBody {
     @SerializedName("sell_price")
     @Expose
@@ -39,5 +22,37 @@ public class ProductBody {
 
     @SerializedName("discount_percent")
     @Expose
-    private Double DiscountPercent;
+    private int DiscountPercent;
+
+    public Double getSellPrice() {
+        return SellPrice;
+    }
+
+    public void setSellPrice(Double sellPrice) {
+        SellPrice = sellPrice;
+    }
+
+    public String getProductId() {
+        return ProductId;
+    }
+
+    public void setProductId(String productId) {
+        ProductId = productId;
+    }
+
+    public Double getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(Double quantity) {
+        Quantity = quantity;
+    }
+
+    public int getDiscountPercent() {
+        return DiscountPercent;
+    }
+
+    public void setDiscountPercent(int discountPercent) {
+        DiscountPercent = discountPercent;
+    }
 }

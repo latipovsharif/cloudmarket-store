@@ -29,4 +29,12 @@ public class PaymentBody {
     @SerializedName("remained")
     @Expose
     private Double Remained;
+
+    public PaymentBody(double toPay, double remained, double cardPaid, double cashPaid) {
+        this.DiscountType = "percent";
+        this.CardPaid = cardPaid;
+        this.CashPaid = cashPaid;
+        this.Remained = remained;
+        this.ToPay = toPay;
+    }
 }
