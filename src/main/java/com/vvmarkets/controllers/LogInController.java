@@ -1,6 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.vvmarkets.configs.Config;
+import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Authorization;
 import com.vvmarkets.presenters.MainPresenter;
@@ -61,16 +62,32 @@ public class LogInController {
                             try {
                                 Utils.showScreen(new MainPresenter(loginContainer).getView());
                             } catch (Exception ex) {
-                                log.error(ex.getMessage());
+                                Platform.runLater(() -> {
+                                    Alert a = DialogUtil.newWarning("Error", ex.getMessage());
+                                    a.show();
+                                });
                             }
+                        } else {
+                            Platform.runLater(() -> {
+                                Alert a = DialogUtil.newWarning("Error", response.body().getMessage());
+                                a.show();
+                            });
                         }
                     }
+                } else {
+                    Platform.runLater(() -> {
+                        Alert a = DialogUtil.newWarning("Неправильный логин/пароль", "Пожалуйста введите правильный логин и/или пароль.");
+                        a.show();
+                    });
                 }
             }
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
-                log.error(t.getMessage());
+                Platform.runLater(() -> {
+                    Alert a = DialogUtil.newWarning("Ошибка", "Ошибка соединения просьба проверить сетевое соединение");
+                    a.show();
+                });
             }
         });
     }

@@ -4,6 +4,10 @@ import com.vvmarkets.Main;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.requests.ExpenseBody;
+import com.vvmarkets.responses.ExpenseResponse;
+import com.vvmarkets.services.ExpenseService;
+import com.vvmarkets.services.RestClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,6 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ConfirmController {
 
@@ -110,7 +117,25 @@ public class ConfirmController {
     }
 
     public void closeCheck(ActionEvent actionEvent) {
-        Utils.showScreen(previousScene);
+        ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
+        Call<ExpenseResponse> listProductCall = documentService.create(new ExpenseBody());
+        listProductCall.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ExpenseResponse> call, Response<ExpenseResponse> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+//                        if (response.body().getStatus() == 0) {
+                            Utils.showScreen(previousScene);
+//                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ExpenseResponse> call, Throwable t) {
+                log.error(t.getMessage());
+            }
+        });
     }
 
     public void chooseClient(ActionEvent actionEvent) {
