@@ -21,32 +21,32 @@ public class TableUtil {
         id.setCellValueFactory(new PropertyValueFactory<>("id"));
         id.setVisible(false);
 
-        TableColumn<Product, String> article = new TableColumn<>("Article");
+        TableColumn<Product, String> article = new TableColumn<>("Артикул");
         article.setPrefWidth(280);
         article.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getArticle())
         );
         article.setVisible(false);
 
-        TableColumn<Product, String> name = new TableColumn<>("Article");
+        TableColumn<Product, String> name = new TableColumn<>("Наименование");
         name.setPrefWidth(280);
         name.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getName())
         );
 
-        TableColumn<Product, Double> total = new TableColumn<>("Total");
+        TableColumn<Product, Double> total = new TableColumn<>("Итог");
         total.setPrefWidth(180);
         total.setCellValueFactory(new PropertyValueFactory<>("total"));
 
-        TableColumn<Product, Double> price = new TableColumn<>("Price");
+        TableColumn<Product, Double> price = new TableColumn<>("Цена");
         price.setPrefWidth(100);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableColumn<Product, Double> discount = new TableColumn<>("Discount");
+        TableColumn<Product, Double> discount = new TableColumn<>("Скидка");
         discount.setPrefWidth(100);
         discount.setCellValueFactory(new PropertyValueFactory<>("discount"));
 
-        TableColumn<Product, Double> quantity = new TableColumn<>("Quantity");
+        TableColumn<Product, Double> quantity = new TableColumn<>("Количество");
         quantity.setPrefWidth(100);
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
