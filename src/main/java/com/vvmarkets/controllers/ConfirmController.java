@@ -1,6 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.vvmarkets.Main;
+import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
@@ -12,15 +13,15 @@ import com.vvmarkets.services.RestClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import okhttp3.internal.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import javax.swing.*;
 
 public class ConfirmController {
 
@@ -100,6 +101,13 @@ public class ConfirmController {
     }
 
     public void cardChanged() {
+        if (Utils.getDoubleOrZero(toPay.getText()) < Utils.getDoubleOrZero(card.getText())) {
+            Alert a = DialogUtil.newWarning("Неправильное значение", "Сумма оплаты по карте не может превышать сумму покупки");
+            a.show();
+            card.setText(toPay.getText());
+            cash.setText("0");
+        }
+
         recalculateChange();
     }
 
@@ -119,17 +127,21 @@ public class ConfirmController {
     }
 
     public void closeCheck(ActionEvent actionEvent) {
+        PaymentBody payment = new PaymentBody(
+                Utils.getDoubleOrZero(toPay.getText()),
+                Utils.getDoubleOrZero(card.getText()),
+                Utils.getDoubleOrZero(cash.getText()));
+        if (payment.isValid()) {
+            return;
+        }
+
+        ExpenseBody expense = new ExpenseBody(this.products,
+                        payment,
+                        MainController.sellerId,
+                        "");
+
         ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
-        Call<ExpenseResponse> listProductCall = documentService.create(
-                new ExpenseBody(
-                        this.products,
-                        new PaymentBody(
-                                Utils.getDoubleOrZero(toPay.getText()),
-                                0,
-                                Utils.getDoubleOrZero(card.getText()),
-                                Utils.getDoubleOrZero(cash.getText())),
-                        "471f0faf-0caa-4994-9306-2370a76315b6",
-                        ""));
+        Call<ExpenseResponse> listProductCall = documentService.create(expense);
         listProductCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ExpenseResponse> call, Response<ExpenseResponse> response) {

@@ -30,11 +30,19 @@ public class PaymentBody {
     @Expose
     private Double Remained;
 
-    public PaymentBody(double toPay, double remained, double cardPaid, double cashPaid) {
+    public PaymentBody(double toPay, double cardPaid, double cashPaid) {
         this.DiscountType = "percent";
         this.CardPaid = cardPaid;
         this.CashPaid = cashPaid;
-        this.Remained = remained;
+        this.Remained = toPay - (cashPaid + cardPaid);
         this.ToPay = toPay;
+    }
+
+    public boolean isValid() {
+        if (CardPaid > ToPay) {
+            return false;
+        }
+
+        return false;
     }
 }

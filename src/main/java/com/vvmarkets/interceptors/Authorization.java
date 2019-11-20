@@ -28,7 +28,11 @@ public class Authorization implements Interceptor {
 
         Request.Builder builder = request.newBuilder().addHeader("Authorization", key);
 
-        if (request.url().encodedPath().contains("/api/v1/cashes/") || request.url().encodedPath().contains("/documents/expense/create/")) {
+        if (
+                request.url().encodedPath().contains("/api/v1/cashes/") ||
+                request.url().encodedPath().contains("/api/v2/cashes/") ||
+                request.url().encodedPath().contains("/documents/expense/create/")
+        ) {
             String cashToken = Config.getCashToken();
             if (cashToken.isEmpty()) {
                 throw new NotAuthorized("Cash token is empty");

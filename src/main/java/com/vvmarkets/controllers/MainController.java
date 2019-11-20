@@ -3,6 +3,7 @@ package com.vvmarkets.controllers;
 import com.vvmarkets.Main;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.dao.Seller;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 
 public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
+    public static String sellerId = "";
 
     public AnchorPane mainContainer;
 
@@ -35,6 +37,8 @@ public class MainController implements Initializable, IController {
 
     @FXML
     public ListView<IListContent> hotAccessListView;
+    @FXML
+    public ComboBox<Seller> cmbSeller;
 
     private String tmpBarcode = "";
 
@@ -72,6 +76,8 @@ public class MainController implements Initializable, IController {
         mainTabPane.getTabs().add(0, newTab);
 
         ListUtil.fillCategoryLisView(hotAccessListView);
+
+        Seller.fillSeller(cmbSeller);
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
@@ -154,5 +160,8 @@ public class MainController implements Initializable, IController {
     private void selectedTabChanged(Event event) {
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
         lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
+    }
+
+    public void sellerChanged(ActionEvent actionEvent) {
     }
 }

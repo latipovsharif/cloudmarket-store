@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TabPane?>
@@ -16,9 +17,10 @@
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <ListView fx:id="hotAccessListView" onMouseClicked="#hotAccessClicked" orientation="HORIZONTAL" prefHeight="122.0" prefWidth="797.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0" />
     </AnchorPane>
-    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" styleClass="mainTabPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="180.0">
+    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" styleClass="mainTabPane" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="180.0">
     </TabPane>
     <VBox alignment="TOP_CENTER" maxWidth="250" minWidth="250" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="180.0">
+      <ComboBox fx:id="cmbSeller" onAction="#sellerChanged" prefHeight="62.0" prefWidth="244.0" promptText="Подавец" />
         <ImageView fx:id="mainProductImage" fitHeight="110.0" fitWidth="240">
             <image>
                 <Image url="@../images/no_image.png" />
