@@ -13,3 +13,17 @@
 .btn-green {
     -fx-background-color: #00ac00;
 }
+
+.scroll-bar:vertical {
+    -fx-pref-width: 26.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 26.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar, .scroll-bar:pressed, .scroll-bar:focused {
+    -fx-font-size: 25;
+}
