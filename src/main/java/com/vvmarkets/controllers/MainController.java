@@ -105,7 +105,19 @@ public class MainController implements Initializable, IController {
     }
 
     public void confirm(ActionEvent actionEvent) throws Exception {
+
+        if (sellerId == null || sellerId.isBlank()) {
+            Alert a = DialogUtil.newWarning("Продавец не выбран", "Для продолжения выберите продавца");
+            a.show();
+            return;
+        }
+
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+        if (tableView.getItems().size() == 0) {
+            Alert a = DialogUtil.newWarning("Корзина пуста", "Для продолжения нужно добавить товар в корзину");
+            a.show();
+            return;
+        }
         ConfirmPresenter cp = new ConfirmPresenter(tableView);
         Utils.showScreen(cp.getView(mainContainer));
     }
@@ -160,6 +172,7 @@ public class MainController implements Initializable, IController {
         Tab newTab = TabUtil.NewTab();
         newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(newTab);
+        mainTabPane.getSelectionModel().select(newTab);
     }
 
     private void selectedTabChanged(Event event) {
@@ -168,5 +181,10 @@ public class MainController implements Initializable, IController {
     }
 
     public void sellerChanged(ActionEvent actionEvent) {
+        sellerId = cmbSeller.getSelectionModel().getSelectedItem().getId();
+    }
+
+    public void closeTabClicked(MouseEvent mouseEvent) {
+        mainTabPane.getTabs().remove(mainTabPane.getSelectionModel().getSelectedIndex());
     }
 }

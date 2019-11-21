@@ -17,8 +17,7 @@
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
         <ListView fx:id="hotAccessListView" onMouseClicked="#hotAccessClicked" orientation="HORIZONTAL" prefHeight="122.0" prefWidth="797.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0" />
     </AnchorPane>
-    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" styleClass="mainTabPane" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="190.0">
-    </TabPane>
+    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" styleClass="mainTabPane" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="190.0" />
     <VBox alignment="TOP_CENTER" maxWidth="250" minWidth="250" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
       <ComboBox fx:id="cmbSeller" onAction="#sellerChanged" prefHeight="62.0" prefWidth="244.0" promptText="Продавец" />
         <ImageView fx:id="mainProductImage" fitHeight="110.0" fitWidth="240">
@@ -48,8 +47,8 @@
             </Button>
         </HBox>
     </VBox>
-    <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="738.6" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#newTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="4.0" />
-    <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="7.0" layoutY="5.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="4.0" />
-    <Button fx:id="btnCloseTab" alignment="CENTER" layoutX="70.0" layoutY="6.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="4.0">
+    <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#newTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="5.0" />
+    <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="150.0" layoutY="4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="5.0" />
+    <Button fx:id="btnCloseTab" onMouseClicked="#closeTabClicked" alignment="CENTER" layoutX="733.0" layoutY="4.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
     </Button>
 </AnchorPane>
