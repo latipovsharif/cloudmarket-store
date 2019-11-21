@@ -20,7 +20,7 @@
     <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="200.0" side="LEFT" styleClass="mainTabPane" tabClosingPolicy="ALL_TABS" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="190.0">
     </TabPane>
     <VBox alignment="TOP_CENTER" maxWidth="250" minWidth="250" spacing="10" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
-      <ComboBox fx:id="cmbSeller" onAction="#sellerChanged" prefHeight="62.0" prefWidth="244.0" promptText="Подавец" />
+      <ComboBox fx:id="cmbSeller" onAction="#sellerChanged" prefHeight="62.0" prefWidth="244.0" promptText="Продавец" />
         <ImageView fx:id="mainProductImage" fitHeight="110.0" fitWidth="240">
             <image>
                 <Image url="@../images/no_image.png" />
