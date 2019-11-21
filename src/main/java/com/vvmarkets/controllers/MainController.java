@@ -133,7 +133,12 @@ public class MainController implements Initializable, IController {
                     Optional<String> result = dialog.showAndWait();
 
                     if (result.isPresent()) {
-                        double entered = Double.parseDouble(result.get());
+                        double entered = 0;
+                        try {
+                            entered = Double.parseDouble(result.get());
+                        } catch (Exception e) {
+                            DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
+                        }
                         if (entered > 0) {
                             clickedRow.setQuantity(entered);
                             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
