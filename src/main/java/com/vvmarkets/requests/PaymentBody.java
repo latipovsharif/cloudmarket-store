@@ -38,11 +38,14 @@ public class PaymentBody {
         this.ToPay = toPay;
     }
 
+    // FIXME возможно следует возвращать ошибку валидации если
+    // сумма оплаты наличными + безналичными больше чем сумма чека
+    // если сумма оплаты безналичными больше 0
     public boolean isValid() {
         if (CardPaid > ToPay) {
             return false;
         }
 
-        return false;
+        return true;
     }
 }

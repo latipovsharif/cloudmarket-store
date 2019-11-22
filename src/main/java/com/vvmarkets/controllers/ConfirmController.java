@@ -130,7 +130,9 @@ public class ConfirmController {
                 Utils.getDoubleOrZero(toPay.getText()),
                 Utils.getDoubleOrZero(card.getText()),
                 Utils.getDoubleOrZero(cash.getText()));
-        if (payment.isValid()) {
+        if (!payment.isValid()) {
+            Alert a = DialogUtil.newError("Неправильная сумма", "Сумма оплаты безналичными не может превышать сумму чека");
+            a.show();
             return;
         }
 
