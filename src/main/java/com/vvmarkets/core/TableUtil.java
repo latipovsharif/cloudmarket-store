@@ -1,6 +1,7 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.requests.ExpenseBody;
 import io.reactivex.subjects.PublishSubject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
@@ -156,5 +157,9 @@ public class TableUtil {
             total += p.getTotal();
         }
         return total;
+    }
+
+    public static boolean saveToDb(ExpenseBody expense) {
+        return true;
     }
 }

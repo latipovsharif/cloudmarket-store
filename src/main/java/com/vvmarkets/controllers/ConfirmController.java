@@ -7,9 +7,10 @@ import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.PaymentBody;
-import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.services.ExpenseService;
 import com.vvmarkets.services.RestClient;
+import com.vvmarkets.responses.ExpenseResponse;
+import com.vvmarkets.utils.ResponseBody;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -139,21 +140,28 @@ public class ConfirmController {
                         "");
 
         ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
-        Call<ExpenseResponse> listProductCall = documentService.create(expense);
+        Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(expense);
         listProductCall.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ExpenseResponse> call, Response<ExpenseResponse> response) {
+            public void onResponse(Call<ResponseBody<ExpenseResponse>> call, Response<ResponseBody<ExpenseResponse>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-//                        if (response.body().getStatus() == 0) {
+                        if (response.body().getStatus() == 0) {
                             Utils.showScreen(previousScene);
-//                        }
+                            products.getItems().clear();
+                            return;
+                        }
                     }
+                }
+
+                if (!TableUtil.saveToDb(expense)) {
+                    Alert a = DialogUtil.newError("Не предвиденная ошибка", "Невозможно сохранить чек. Просьба обратиться к администратору.");
+                    a.show();
                 }
             }
 
             @Override
-            public void onFailure(Call<ExpenseResponse> call, Throwable t) {
+            public void onFailure(Call<ResponseBody<ExpenseResponse>> call, Throwable t) {
                 log.error(t.getMessage());
             }
         });
