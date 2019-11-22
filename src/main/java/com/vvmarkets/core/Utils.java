@@ -50,15 +50,4 @@ public class Utils {
         return res.toString();
     }
 
-    public static void connectionUnavailable() {
-        MainController.isNetworkAvailable = false;
-
-        DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение");
-    }
-
-    public static void connectionAvailable() {
-        MainController.isNetworkAvailable = true;
-
-        DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно");
-    }
 }

@@ -1,12 +1,8 @@
 package com.vvmarkets;
 
 import com.vvmarkets.controllers.LogInController;
-import com.vvmarkets.controllers.MainController;
 import com.vvmarkets.presenters.LogInPresenter;
-import com.vvmarkets.presenters.MainPresenter;
-import io.reactivex.internal.observers.BlockingBaseObserver;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCombination;

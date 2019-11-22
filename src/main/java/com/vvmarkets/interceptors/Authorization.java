@@ -1,14 +1,11 @@
 package com.vvmarkets.interceptors;
 
 import com.vvmarkets.configs.Config;
-import com.vvmarkets.controllers.MainController;
-import com.vvmarkets.core.DialogUtil;
-import com.vvmarkets.core.Utils;
+import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.errors.NotAuthorized;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import org.apache.logging.log4j.core.Core;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -18,9 +15,21 @@ public class Authorization implements Interceptor {
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
         Request request = chain.request();
+        Response response = null;
 
         if (request.url().encodedPath().contains("/api/v1/authorization/get/token/")) {
-            return chain.proceed(request);
+            try {
+                response = chain.proceed(request);
+            } catch (IOException io) {
+                HttpConnectionHolder.INSTANCE.connectionUnavailable();
+            }
+
+            if (response == null) {
+                throw new IOException("Response is null");
+            }
+
+            HttpConnectionHolder.INSTANCE.connectionAvailable();
+            return response;
         }
 
 
@@ -44,21 +53,17 @@ public class Authorization implements Interceptor {
             builder = builder.addHeader("Cash-Authorization", cashToken);
         }
 
-        Response response = null;
         try {
             response = chain.proceed(builder.build());
         } catch (IOException ex) {
-            Utils.connectionUnavailable();
+            HttpConnectionHolder.INSTANCE.connectionUnavailable();
         }
 
         if (response == null) {
             throw new IOException("Response is null");
         }
 
-        if (!MainController.isNetworkAvailable) {
-            Utils.connectionAvailable();
-        }
-
+        HttpConnectionHolder.INSTANCE.connectionAvailable();
         return response;
     }
 }

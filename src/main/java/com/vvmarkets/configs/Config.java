@@ -2,6 +2,7 @@ package com.vvmarkets.configs;
 
 import com.vvmarkets.Main;
 import com.vvmarkets.utils.db;
+import io.reactivex.internal.operators.completable.CompletableAndThenCompletable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +15,7 @@ public class Config {
     private static final String authorizationKey = "AUTHORIZATION";
     private static final String serverIP = "SERVER_IP";
     private static final String cashToken = "CASH_TOKEN";
+    private static final String networkRetryTimeout = "NETWORK_UNREACHABLE_RETRY_TIMEOUT";
 
     private static String getConfig(String key) {
         try (Connection c = db.getConnection()) {
@@ -79,5 +81,16 @@ public class Config {
 
     public static boolean setAuthorizationKey(String token) {
         return setConfig(authorizationKey, token);
+    }
+
+    public static int getNetworkRetryTimeout() {
+        int res;
+        try{
+            res = Integer.parseInt(getConfig(networkRetryTimeout));
+        } catch (Exception e) {
+            res = 5;
+            log.error("cannot parse network unreachable timeout from database");
+        }
+        return res;
     }
 }
