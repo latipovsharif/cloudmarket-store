@@ -10,6 +10,46 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class PaymentBody {
+    public String getDiscountType() {
+        return DiscountType;
+    }
+
+    public void setDiscountType(String discountType) {
+        DiscountType = discountType;
+    }
+
+    public Double getCardPaid() {
+        return CardPaid;
+    }
+
+    public void setCardPaid(Double cardPaid) {
+        CardPaid = cardPaid;
+    }
+
+    public Double getCashPaid() {
+        return CashPaid;
+    }
+
+    public void setCashPaid(Double cashPaid) {
+        CashPaid = cashPaid;
+    }
+
+    public Double getToPay() {
+        return ToPay;
+    }
+
+    public void setToPay(Double toPay) {
+        ToPay = toPay;
+    }
+
+    public Double getRemained() {
+        return Remained;
+    }
+
+    public void setRemained(Double remained) {
+        Remained = remained;
+    }
+
     @SerializedName("discount_type")
     @Expose
     private String DiscountType;

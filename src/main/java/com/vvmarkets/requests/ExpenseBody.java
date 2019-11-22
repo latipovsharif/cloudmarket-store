@@ -32,6 +32,54 @@ import java.util.UUID;
 //        ]
 //        }
 public class ExpenseBody {
+    public PaymentBody getPayment() {
+        return payment;
+    }
+
+    public void setPayment(PaymentBody payment) {
+        this.payment = payment;
+    }
+
+    public List<ProductBody> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<ProductBody> products) {
+        this.products = products;
+    }
+
+    public int getSoldSource() {
+        return soldSource;
+    }
+
+    public void setSoldSource(int soldSource) {
+        this.soldSource = soldSource;
+    }
+
+    public String getDocumentHash() {
+        return documentHash;
+    }
+
+    public void setDocumentHash(String documentHash) {
+        this.documentHash = documentHash;
+    }
+
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public String getShiftId() {
+        return shiftId;
+    }
+
+    public void setShiftId(String shiftId) {
+        this.shiftId = shiftId;
+    }
+
     @SerializedName("payment")
     @Expose
     private PaymentBody payment;

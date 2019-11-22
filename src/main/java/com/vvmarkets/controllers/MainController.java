@@ -29,8 +29,8 @@ import javafx.scene.input.MouseEvent;
 public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
     public static String sellerId = "";
-
     public AnchorPane mainContainer;
+    public static boolean isNetworkAvailable = true;
 
     @FXML
     public AnchorPane hotAccessPane;

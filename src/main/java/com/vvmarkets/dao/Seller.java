@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
 import com.vvmarkets.controllers.MainController;
+import com.vvmarkets.core.DialogUtil;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.services.SellerService;
 import com.vvmarkets.utils.ResponseBody;
@@ -15,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 public class Seller {
@@ -107,7 +110,9 @@ public class Seller {
 
             @Override
             public void onFailure(Call<ResponseBody<List<Seller>>> call, Throwable t) {
-                log.error(t.getMessage());
+                if (!(t instanceof IOException)) {
+                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                }
             }
         });
     }

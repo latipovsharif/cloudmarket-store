@@ -1,7 +1,9 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.Main;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.ExpenseBody;
+import com.vvmarkets.utils.db;
 import io.reactivex.subjects.PublishSubject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
@@ -9,13 +11,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import kotlin.Pair;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.sql.*;
 import java.util.Arrays;
 import java.util.Optional;
 
 public class TableUtil {
 
     public static PublishSubject<Double> changed = PublishSubject.create();
+    private static final Logger log = LogManager.getLogger(Main.class);
 
     public static TableView<Product> getTable() {
         TableColumn<Product, String> id = new TableColumn<>("Id");
@@ -160,6 +166,33 @@ public class TableUtil {
     }
 
     public static boolean saveToDb(ExpenseBody expense) {
+        PreparedStatement stmt = null;
+
+        try (Connection connection = db.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String sql = "insert into sold(seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change) values (?, ?, ?, ?, ?, ?, ?);";
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, expense.getSellerId());
+            stmt.setString(2, "percent");
+            stmt.setDouble(3, expense.getPayment().getCardPaid());
+            stmt.setDouble(4, expense.getPayment().getCashPaid());
+            stmt.setDouble(5, expense.getPayment().getToPay());
+            stmt.setDouble(6, expense.getPayment().getRemained());
+            stmt.setDouble(7, 0);
+            try {
+                stmt.executeUpdate(sql);
+            } catch (SQLException se) {
+                log.error("cannot execute sold insert: " + Utils.stackToString(se.getStackTrace()));
+                connection.rollback();
+                return false;
+            }
+
+            connection.commit();
+        } catch (Exception e) {
+            log.debug(e.getClass().getName() + ": " + e.getMessage());
+        }
+
         return true;
     }
 }

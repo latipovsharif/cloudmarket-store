@@ -1,13 +1,13 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.Main;
-import com.vvmarkets.presenters.MainPresenter;
+import com.vvmarkets.controllers.MainController;
 import javafx.application.Platform;
 import javafx.scene.Node;
+import jdk.jfr.StackTrace;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.swing.text.NumberFormatter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -40,5 +40,25 @@ public class Utils {
     public String formattedValue(String value) {
         double res = getDoubleOrZero(value);
         return getFormatted(res);
+    }
+
+    public static String stackToString(StackTraceElement[] traces) {
+        StringBuilder res = new StringBuilder();
+        for (StackTraceElement t : traces) {
+            res.append(t.toString());
+        }
+        return res.toString();
+    }
+
+    public static void connectionUnavailable() {
+        MainController.isNetworkAvailable = false;
+
+        DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение");
+    }
+
+    public static void connectionAvailable() {
+        MainController.isNetworkAvailable = true;
+
+        DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно");
     }
 }

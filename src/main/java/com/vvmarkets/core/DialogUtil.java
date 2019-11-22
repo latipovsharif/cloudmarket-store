@@ -1,12 +1,13 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.controllers.MainController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
+import org.controlsfx.control.Notifications;
 
 public class DialogUtil {
-
     public static Alert newWarning(String headerText, String contentText) {
         return newAlert(Alert.AlertType.WARNING, headerText, contentText);
     }
@@ -17,7 +18,8 @@ public class DialogUtil {
 
     public static void newWarningOnUIThread(String headerText, String contentText) {
         Platform.runLater(() -> {
-            newAlert(Alert.AlertType.WARNING, headerText, contentText);
+            Alert a = newAlert(Alert.AlertType.WARNING, headerText, contentText);
+            a.show();
         });
     }
 
@@ -34,5 +36,37 @@ public class DialogUtil {
         dialog.setTitle("Количество");
         dialog.setHeaderText("Введите количество");
         return dialog;
+    }
+
+
+    public static void showInformationNotification(String header, String content) {
+        showNotification("info",header,content);
+    }
+
+    public static void showWarningNotification(String header, String content) {
+        showNotification("warn",header,content);
+    }
+
+    public static void showErrorNotification(String content) {
+            showNotification("err","Непредвиденная ошибка",content);
+    }
+
+    private static void showNotification(String notificationType, String header, String content) {
+        Notifications n = Notifications.create().title(header).text(content);
+
+        Platform.runLater(() -> {
+            switch (notificationType) {
+                case "warn":
+                    n.showWarning();
+                    break;
+                case "err":
+                    n.showError();
+                    break;
+                default:
+                    n.showInformation();
+                    break;
+            }
+        });
+
     }
 }

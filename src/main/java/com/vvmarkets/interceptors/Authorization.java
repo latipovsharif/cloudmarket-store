@@ -1,11 +1,14 @@
 package com.vvmarkets.interceptors;
 
 import com.vvmarkets.configs.Config;
+import com.vvmarkets.controllers.MainController;
+import com.vvmarkets.core.DialogUtil;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.NotAuthorized;
 import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.logging.log4j.core.Core;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -41,6 +44,21 @@ public class Authorization implements Interceptor {
             builder = builder.addHeader("Cash-Authorization", cashToken);
         }
 
-        return chain.proceed(builder.build());
+        Response response = null;
+        try {
+            response = chain.proceed(builder.build());
+        } catch (IOException ex) {
+            Utils.connectionUnavailable();
+        }
+
+        if (response == null) {
+            throw new IOException("Response is null");
+        }
+
+        if (!MainController.isNetworkAvailable) {
+            Utils.connectionAvailable();
+        }
+
+        return response;
     }
 }

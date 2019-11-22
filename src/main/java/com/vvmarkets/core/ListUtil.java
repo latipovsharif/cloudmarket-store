@@ -1,6 +1,5 @@
 package com.vvmarkets.core;
 
-import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.services.CategoryService;
@@ -16,6 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.List;
 
 public class ListUtil {
@@ -47,7 +47,9 @@ public class ListUtil {
 
             @Override
             public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
-                log.error(t.getMessage());
+                if (!(t instanceof IOException)) {
+                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                }
             }
         });
     }
@@ -82,7 +84,9 @@ public class ListUtil {
 
             @Override
             public void onFailure(Call<ResponseBody<List<ProductProperties>>> call, Throwable t) {
-                log.error(t.getMessage());
+                if (!(t instanceof IOException)) {
+                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                }
             }
         });
     }

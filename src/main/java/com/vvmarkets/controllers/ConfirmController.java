@@ -21,6 +21,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
+
 
 public class ConfirmController {
 
@@ -164,7 +166,9 @@ public class ConfirmController {
 
             @Override
             public void onFailure(Call<ResponseBody<ExpenseResponse>> call, Throwable t) {
-                log.error(t.getMessage());
+                if (!(t instanceof IOException)) {
+                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                }
             }
         });
     }

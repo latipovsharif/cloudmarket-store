@@ -22,6 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class LogInController {
@@ -84,10 +85,9 @@ public class LogInController {
 
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
-                Platform.runLater(() -> {
-                    Alert a = DialogUtil.newWarning("Ошибка", "Ошибка соединения просьба проверить сетевое соединение");
-                    a.show();
-                });
+                if (!(t instanceof IOException)) {
+                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                }
             }
         });
     }
