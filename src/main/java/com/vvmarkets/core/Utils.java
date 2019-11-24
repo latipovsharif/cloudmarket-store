@@ -46,6 +46,7 @@ public class Utils {
         StringBuilder res = new StringBuilder();
         for (StackTraceElement t : traces) {
             res.append(t.toString());
+            res.append("\n");
         }
         return res.toString();
     }

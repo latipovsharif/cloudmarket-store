@@ -5,6 +5,7 @@ import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.peripheral.ThermalPrinter;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.PaymentBody;
 import com.vvmarkets.services.ExpenseService;
@@ -171,6 +172,13 @@ public class ConfirmController {
                 }
             }
         });
+
+        try {
+            ThermalPrinter p = new ThermalPrinter(expense);
+            p.print();
+        } catch (Exception e) {
+            log.error(Utils.stackToString(e.getStackTrace()));
+        }
     }
 
     public void chooseClient(ActionEvent actionEvent) {
