@@ -24,6 +24,9 @@ public class ProductBody {
     @Expose
     private int DiscountPercent;
 
+
+    transient private String Name;
+
     public Double getSellPrice() {
         return SellPrice;
     }
@@ -54,5 +57,17 @@ public class ProductBody {
 
     public void setDiscountPercent(int discountPercent) {
         DiscountPercent = discountPercent;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public double getTotal() {
+        return getQuantity() * getSellPrice() - (getQuantity() * getSellPrice() * getDiscountPercent() / 100);
     }
 }

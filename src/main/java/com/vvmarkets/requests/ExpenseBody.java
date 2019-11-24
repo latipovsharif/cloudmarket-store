@@ -122,6 +122,7 @@ public class ExpenseBody {
             pb.setDiscountPercent(p.getDiscount());
             pb.setQuantity(p.getQuantity());
             pb.setSellPrice(p.getPrice());
+            pb.setName(p.getProductProperties().getName());
             res.add(pb);
         }
 

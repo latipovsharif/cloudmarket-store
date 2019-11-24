@@ -25,6 +25,7 @@ dependencies {
     compile 'de.jensd:fontawesomefx-commons:11.0'
     compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
     compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
+    compile group: 'com.google.zxing', name: 'zxing-parent', version: '3.4.0', ext: 'pom'
 }
 
 javafx {
