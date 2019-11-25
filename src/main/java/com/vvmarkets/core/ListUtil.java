@@ -7,7 +7,8 @@ import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
-import javafx.geometry.Orientation;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,16 +17,31 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 public class ListUtil {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
 
+    public static ListUtil INSTANCE = new ListUtil();
 
-    public static void fillCategoryLisView(ListView<IListContent> productCategoryListView) {
+    private Map categorized = Collections.synchronizedMap(new HashMap<String, ObservableList<ProductProperties>>());
 
-        productCategoryListView.setOrientation(Orientation.HORIZONTAL);
+    public List<ProductCategory> getMain() {
+        return main;
+    }
 
+    private List<ProductCategory> main = FXCollections.observableList(new ArrayList<>());
+
+    public void fillMainListView(ListView<IListContent> listView) {
+        if (main.size() == 0) {
+            fillMain(listView);
+        } else {
+            listView.getItems().clear();
+            listView.getItems().addAll(main);
+        }
+    }
+
+    private void fillMain(ListView<IListContent> listView) {
         CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
         Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
 
@@ -35,11 +51,14 @@ public class ListUtil {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            for (ProductCategory pp : response.body().getBody()) {
-                                Platform.runLater(() -> {
-                                    productCategoryListView.getItems().add(pp);
-                                });
-                            }
+                            Platform.runLater(() -> {
+                                main.clear();
+                                main.addAll(response.body().getBody());
+                                if (listView != null) {
+                                    listView.getItems().clear();
+                                    listView.getItems().addAll(main);
+                                }
+                            });
                         }
                     }
                 }
@@ -52,16 +71,40 @@ public class ListUtil {
                 }
             }
         });
+
     }
 
-    public static void fillProductList(ListView<IListContent> productPropertiesListView, String categoryID) {
-        productPropertiesListView.setOrientation(Orientation.HORIZONTAL);
+    public void syncFillMain() {
+        fillMain(null);
+    }
+
+    public void fillForCategory(ListView<IListContent> listView, String category) {
+        ObservableList<ProductProperties> list = (ObservableList<ProductProperties>)categorized.get(category);
+
+        if (list == null) {
+            list = FXCollections.observableList(new ArrayList<>());
+            categorized.put(category, list);
+        }
+
+        if (list.size() == 0) {
+            cashForCategory(listView, category);
+        }
+
+        listView.getItems().clear();
+        listView.getItems().addAll(list);
+    }
+
+    private void cashForCategory(ListView<IListContent> listView, String category) {
+        ObservableList<ProductProperties> list = (ObservableList<ProductProperties>)categorized.get(category);
         ProductProperties back = new ProductProperties();
         back.setName("НАЗАД");
-        productPropertiesListView.getItems().add(back);
+
+        if (list.size() == 0) {
+            list.add(back);
+        }
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
-        Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(categoryID);
+        Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(category);
         listProductForCategoryCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody<List<ProductProperties>>> call, Response<ResponseBody<List<ProductProperties>>> response) {
@@ -69,11 +112,16 @@ public class ListUtil {
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
                             if (response.body().getStatus() == 0) {
-                                for (ProductProperties pp : response.body().getBody()) {
-                                    Platform.runLater(() -> {
-                                        productPropertiesListView.getItems().add(pp);
-                                    });
-                                }
+                                Platform.runLater(() -> {
+                                    list.clear();
+                                    list.add(back);
+                                    list.addAll(response.body().getBody());
+
+                                    if (listView != null) {
+                                        listView.getItems().clear();
+                                        listView.getItems().addAll(list);
+                                    }
+                                });
                             }
                         }
                     }
@@ -89,5 +137,9 @@ public class ListUtil {
                 }
             }
         });
+    }
+
+    public void syncCashForCategory(String category) {
+        fillForCategory(null, category);
     }
 }

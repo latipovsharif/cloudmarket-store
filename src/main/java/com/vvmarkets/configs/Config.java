@@ -17,6 +17,23 @@ public class Config {
     private static final String cashToken = "CASH_TOKEN";
     private static final String networkRetryTimeout = "NETWORK_UNREACHABLE_RETRY_TIMEOUT";
 
+    private static final String syncTimeout = "SYNC_TIMEOUT";
+
+    public static int getSyncTimeout() {
+        int res = 0;
+        try {
+            res = Integer.parseInt(getConfig(syncTimeout));
+        } catch (Exception e) {
+            res = 60;
+        }
+        return res;
+    }
+
+    public static boolean setSyncTimeout(int value) {
+        return setConfig(syncTimeout, String.valueOf(value));
+    }
+
+
     private static String getConfig(String key) {
         try (Connection c = db.getConnection()) {
             PreparedStatement stmt = c.prepareStatement("select val from configs where key = ? limit 1");

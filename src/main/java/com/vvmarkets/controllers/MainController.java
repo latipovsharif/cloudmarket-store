@@ -74,8 +74,7 @@ public class MainController implements Initializable, IController {
         newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(0, newTab);
 
-        ListUtil.fillCategoryLisView(hotAccessListView);
-
+        ListUtil.INSTANCE.fillMainListView(hotAccessListView);
         Seller.fillSeller(cmbSeller);
 
         TableUtil.changed.subscribe(aDouble -> {
@@ -121,11 +120,11 @@ public class MainController implements Initializable, IController {
         Utils.showScreen(cp.getView(mainContainer));
     }
 
+
     public void hotAccessClicked(MouseEvent event) {
         IListContent content = hotAccessListView.getSelectionModel().getSelectedItem();
         if (hotAccessListView.getSelectionModel().getSelectedIndex() == 0 && content.getType() == ListContentType.Product) {
-            hotAccessListView.getItems().clear();
-            ListUtil.fillCategoryLisView(hotAccessListView);
+            ListUtil.INSTANCE.fillMainListView(hotAccessListView);
         }
 
         if (content == null || content.getQueryId() == null || content.getQueryId().isEmpty()) {
@@ -135,7 +134,7 @@ public class MainController implements Initializable, IController {
         switch (content.getType()) {
             case Category:
                 hotAccessListView.getItems().clear();
-                ListUtil.fillProductList(hotAccessListView, content.getQueryId());
+                ListUtil.INSTANCE.fillForCategory(hotAccessListView, content.getQueryId());
                 break;
             case Product:
                 try {
