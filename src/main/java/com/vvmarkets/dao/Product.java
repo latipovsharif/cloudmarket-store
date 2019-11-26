@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
@@ -16,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.sql.*;
+import java.util.List;
 
 public class Product {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -140,4 +142,5 @@ public class Product {
 
         return product;
     }
+
 }

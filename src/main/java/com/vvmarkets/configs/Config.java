@@ -17,6 +17,7 @@ public class Config {
     private static final String cashToken = "CASH_TOKEN";
     private static final String networkRetryTimeout = "NETWORK_UNREACHABLE_RETRY_TIMEOUT";
 
+    private static final String offlineMode = "OFFLINE_MODE";
     private static final String syncTimeout = "SYNC_TIMEOUT";
 
     public static int getSyncTimeout() {
@@ -109,5 +110,15 @@ public class Config {
             log.error("cannot parse network unreachable timeout from database");
         }
         return res;
+    }
+
+    public static boolean getOfflineMode() {
+        boolean off= false;
+        try {
+           off = Boolean.parseBoolean(getConfig(offlineMode));
+        } catch (Exception e) {
+            log.warn("cannot get offline mode from database");
+        }
+        return off;
     }
 }

@@ -1,6 +1,7 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.configs.Config;
+import javafx.application.Platform;
 
 public class HttpConnectionHolder {
     public static HttpConnectionHolder INSTANCE = new HttpConnectionHolder();
@@ -17,14 +18,18 @@ public class HttpConnectionHolder {
             NetworkUnreachableStart = System.currentTimeMillis();
             isNetworkReachable = false;
 
-            DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение");
+            Platform.runLater(
+                () -> DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение")
+            );
         }
     }
 
     public void connectionAvailable() {
         if (!isNetworkReachable) {
             isNetworkReachable = true;
-            DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно");
+            Platform.runLater(
+                () -> DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно")
+            );
         }
     }
 

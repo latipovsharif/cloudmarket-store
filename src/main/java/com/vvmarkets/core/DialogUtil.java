@@ -1,6 +1,5 @@
 package com.vvmarkets.core;
 
-import com.vvmarkets.controllers.MainController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
@@ -14,13 +13,6 @@ public class DialogUtil {
 
     public static Alert newError(String headerText, String contentText) {
         return newAlert(Alert.AlertType.ERROR, headerText, contentText);
-    }
-
-    public static void newWarningOnUIThread(String headerText, String contentText) {
-        Platform.runLater(() -> {
-            Alert a = newAlert(Alert.AlertType.WARNING, headerText, contentText);
-            a.show();
-        });
     }
 
     private static Alert newAlert(Alert.AlertType alertType, String headerText, String contentText) {
@@ -67,6 +59,5 @@ public class DialogUtil {
                     break;
             }
         });
-
     }
 }

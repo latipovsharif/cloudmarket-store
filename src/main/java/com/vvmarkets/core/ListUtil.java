@@ -67,7 +67,7 @@ public class ListUtil {
             @Override
             public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                    log.error(Utils.stackToString(t.getStackTrace()));
                 }
             }
         });
@@ -133,7 +133,7 @@ public class ListUtil {
             @Override
             public void onFailure(Call<ResponseBody<List<ProductProperties>>> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                    log.error(Utils.stackToString(t.getStackTrace()));
                 }
             }
         });
