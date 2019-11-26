@@ -34,6 +34,6 @@ public class HttpConnectionHolder {
     }
 
     public boolean shouldRetry() {
-        return isNetworkReachable || (System.currentTimeMillis() - NetworkUnreachableStart) / 1000 > Config.getNetworkRetryTimeout();
+        return isNetworkReachable || (System.currentTimeMillis() - NetworkUnreachableStart) / 1000 < Config.getNetworkRetryTimeout();
     }
 }

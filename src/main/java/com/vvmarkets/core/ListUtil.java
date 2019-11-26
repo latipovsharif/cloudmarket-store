@@ -86,7 +86,7 @@ public class ListUtil {
             categorized.put(category, list);
         }
 
-        if (list.size() == 0) {
+        if (list.size() < 2) {
             cashForCategory(listView, category);
         }
 

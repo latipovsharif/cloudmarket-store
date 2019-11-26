@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
+import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.services.ProductService;
@@ -17,7 +18,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.sql.*;
-import java.util.List;
 
 public class Product {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -94,28 +94,39 @@ public class Product {
     }
 
 
-    public static ObservableList<Product> GetProducts() {
-        ObservableList<Product> products = FXCollections.observableArrayList();
-        Statement stmt = null;
+    private static Product getProductFromDb(String barcode) {
+        Product product = new Product();
+        product.productProperties = new ProductProperties();
+        PreparedStatement stmt = null;
 
         try (Connection connection = db.getConnection()) {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("select id, price from products");
+            stmt = connection.prepareStatement("select id, name, barcode, article, origin, description, price, discount from products where barcode = ?");
+            stmt.setString(1, barcode);
+            ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                Product product = new Product();
                 product.id = rs.getString("id");
+                product.productProperties.setName(rs.getString("name"));
+                product.productProperties.setBarcode(rs.getString("barcode"));
+                product.productProperties.setArticle(rs.getString("article"));
+                product.productProperties.setOrigin(rs.getString("origin"));
+                product.productProperties.setDescription(rs.getString("description"));
                 product.price = rs.getDouble("price");
-                products.add(product);
+                product.discount = rs.getInt("discount");
             }
         } catch (Exception e) {
-            log.debug(e.getClass().getName() + ": " + e.getMessage());
+            log.debug(e.getMessage() + "\n" + Utils.stackToString(e.getStackTrace()));
         }
 
-        return products;
+        return product;
     }
 
     public static Product getProduct(String barcode) throws Exception {
-        Product product = getProductFromNetByBarcode(barcode);
+        Product product = null;
+        if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
+            product = getProductFromNetByBarcode(barcode);
+        } else {
+            product = getProductFromDb(barcode);
+        }
 
         if (product == null) {
             throw new NotFound("product with barcode:" + barcode + " not found");
@@ -142,5 +153,4 @@ public class Product {
 
         return product;
     }
-
 }
