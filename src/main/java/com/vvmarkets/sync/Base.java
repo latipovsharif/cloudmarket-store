@@ -27,17 +27,17 @@ public class Base {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
 
     public static void sync() {
-        if (Config.getOfflineMode()) {
             Runnable croneRunnable = Base::syncMainList;
 
             ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
             executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
+
+        if (Config.getOfflineMode()) {
+            Runnable productCron = Base::syncProducts;
+
+            ScheduledExecutorService productService = Executors.newScheduledThreadPool(1);
+            productService.schedule(productCron, getSyncTimeout(), TimeUnit.SECONDS);
         }
-
-        Runnable productCron = Base::syncProducts;
-
-        ScheduledExecutorService productService = Executors.newScheduledThreadPool(1);
-        productService.schedule(productCron, getSyncTimeout(), TimeUnit.SECONDS);
     }
 
     private static void syncProducts() {

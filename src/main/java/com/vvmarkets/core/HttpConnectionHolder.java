@@ -1,10 +1,14 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
 import javafx.application.Platform;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class HttpConnectionHolder {
     public static HttpConnectionHolder INSTANCE = new HttpConnectionHolder();
+    private static final Logger log = LogManager.getLogger(Main.class);
 
     private boolean isNetworkReachable = true;
     private long NetworkUnreachableStart;
@@ -34,6 +38,14 @@ public class HttpConnectionHolder {
     }
 
     public boolean shouldRetry() {
-        return isNetworkReachable || (System.currentTimeMillis() - NetworkUnreachableStart) / 1000 < Config.getNetworkRetryTimeout();
+        double delay = ((System.currentTimeMillis() - NetworkUnreachableStart) / 1000);
+        if (isNetworkReachable) {
+            return true;
+        }
+        if (delay > Config.getNetworkRetryTimeout()) {
+            return true;
+        }
+
+        return false;
     }
 }

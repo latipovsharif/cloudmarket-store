@@ -10,8 +10,6 @@ import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import com.vvmarkets.utils.db;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
@@ -95,7 +93,7 @@ public class Product {
 
 
     private static Product getProductFromDb(String barcode) {
-        Product product = new Product();
+        Product product = null;
         product.productProperties = new ProductProperties();
         PreparedStatement stmt = null;
 
@@ -104,6 +102,7 @@ public class Product {
             stmt.setString(1, barcode);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                product = new Product();
                 product.id = rs.getString("id");
                 product.productProperties.setName(rs.getString("name"));
                 product.productProperties.setBarcode(rs.getString("barcode"));
