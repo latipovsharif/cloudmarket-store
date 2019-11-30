@@ -93,7 +93,7 @@ public class MainController implements Initializable, IController {
             } catch (NotFound nf) {
                 DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
             } catch (Exception e) {
-                log.error(Utils.stackToString(e.getStackTrace()));
+                Utils.logException(e, "cannot get product");
                 DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
             }
 

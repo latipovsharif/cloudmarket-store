@@ -12,7 +12,6 @@ import com.vvmarkets.services.ExpenseService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.utils.ResponseBody;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -150,29 +149,37 @@ public class ConfirmController {
         listProductCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ResponseBody<ExpenseResponse>> call, Response<ResponseBody<ExpenseResponse>> response) {
+                boolean hasErr = true;
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            Utils.showScreen(previousScene);
-                            products.getItems().clear();
-                            return;
+                            hasErr = false;
                         }
                     }
                 }
 
-                if (!TableUtil.saveToDb(expense)) {
+                if (TableUtil.saveToDb(expense)) {
+                    hasErr = false;
+                }
+
+                if (!hasErr) {
+                    Utils.showScreen(previousScene);
+                    products.getItems().clear();
+                } else {
                     DialogUtil.showErrorNotification("Невозможно сохранить чек. Просьба обратиться к администратору.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody<ExpenseResponse>> call, Throwable t) {
-                if (!TableUtil.saveToDb(expense)) {
-                    DialogUtil.showErrorNotification("Невозможно сохранить чек. Просьба обратиться к администратору.");
+                if (!(t instanceof IOException)) {
+                    Utils.logException((Exception) t, "cannot close check");
+                    DialogUtil.showErrorNotification(t.getMessage());
                 }
 
-                if (!(t instanceof IOException)) {
-                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                if (TableUtil.saveToDb(expense)) {
+                    Utils.showScreen(previousScene);
+                    products.getItems().clear();
                 }
             }
         });
@@ -181,7 +188,7 @@ public class ConfirmController {
             ThermalPrinter p = new ThermalPrinter(expense);
             p.print();
         } catch (Exception e) {
-            log.error(Utils.stackToString(e.getStackTrace()));
+            Utils.logException(e, "cannot print check");
         }
     }
 

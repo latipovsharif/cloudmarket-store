@@ -132,7 +132,7 @@ public class ProductResponse {
             ps.executeBatch();
             ps.close();
         } catch (Exception e) {
-            log.error("cannot insert batch of products\n" + Utils.stackToString(e.getStackTrace()));
+            Utils.logException(e, "cannot insert batch of products");
         }
     }
 }

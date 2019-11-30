@@ -42,13 +42,17 @@ public class Utils {
         return getFormatted(res);
     }
 
-    public static String stackToString(StackTraceElement[] traces) {
+    private static String stackToString(StackTraceElement[] traces) {
         StringBuilder res = new StringBuilder();
         for (StackTraceElement t : traces) {
             res.append(t.toString());
-            res.append("\n");
+            res.append("\n\t");
         }
         return res.toString();
     }
 
+    public static void logException(Exception e, String description) {
+        log.error(description + ": \n\t" + e.getMessage() + "\n\t Stack: " +
+                stackToString(e.getStackTrace()));
+    }
 }

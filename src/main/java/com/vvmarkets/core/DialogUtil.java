@@ -44,9 +44,8 @@ public class DialogUtil {
     }
 
     private static void showNotification(String notificationType, String header, String content) {
-        Notifications n = Notifications.create().title(header).text(content);
-
         Platform.runLater(() -> {
+            Notifications n = Notifications.create().title(header).text(content);
             switch (notificationType) {
                 case "warn":
                     n.showWarning();

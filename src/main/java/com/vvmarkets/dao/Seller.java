@@ -111,7 +111,8 @@ public class Seller {
             @Override
             public void onFailure(Call<ResponseBody<List<Seller>>> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                    Utils.logException((Exception)t, "cannot get seller list from server");
+                    DialogUtil.showErrorNotification("Невозможно получить список продавцов");
                 }
             }
         });

@@ -3,6 +3,7 @@ package com.vvmarkets.core;
 import com.vvmarkets.Main;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.ExpenseBody;
+import com.vvmarkets.requests.ProductBody;
 import com.vvmarkets.utils.db;
 import io.reactivex.subjects.PublishSubject;
 import javafx.beans.property.SimpleStringProperty;
@@ -171,26 +172,54 @@ public class TableUtil {
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
 
-            String sql = "insert into sold(seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change) values (?, ?, ?, ?, ?, ?, ?);";
-            stmt = connection.prepareStatement(sql);
+            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change) values (?, ?, ?, ?, ?, ?, ?, ?);";
+            stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, expense.getSellerId());
-            stmt.setString(2, "percent");
-            stmt.setDouble(3, expense.getPayment().getCardPaid());
-            stmt.setDouble(4, expense.getPayment().getCashPaid());
-            stmt.setDouble(5, expense.getPayment().getToPay());
-            stmt.setDouble(6, expense.getPayment().getRemained());
-            stmt.setDouble(7, 0);
-            try {
-                stmt.executeUpdate(sql);
-            } catch (SQLException se) {
-                log.error("cannot execute sold insert: " + Utils.stackToString(se.getStackTrace()));
+            stmt.setString(2, expense.getDocumentHash());
+            stmt.setString(3, "percent");
+            stmt.setDouble(4, expense.getPayment().getCardPaid());
+            stmt.setDouble(5, expense.getPayment().getCashPaid());
+            stmt.setDouble(6, expense.getPayment().getToPay());
+            stmt.setDouble(7, expense.getPayment().getRemained());
+            stmt.setDouble(8, 0);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                log.error("cannot save sold affected rows equals zero");
                 connection.rollback();
                 return false;
             }
 
+            long savedKey;
+
+            try (ResultSet generatedKey = stmt.getGeneratedKeys()){
+                if (generatedKey.next()) {
+                    savedKey = generatedKey.getLong(1);
+                } else {
+                    log.error("cannot save sold cannot get generated key");
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent) values (?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            for (ProductBody p : expense.getProducts()) {
+                ps.setLong(1, savedKey);
+                ps.setString(2, p.getProductId());
+                ps.setDouble(3, p.getSellPrice());
+                ps.setDouble(4, p.getQuantity());
+                ps.setDouble(5, p.getDiscountPercent());
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
             connection.commit();
         } catch (Exception e) {
-            log.debug(e.getClass().getName() + ": " + e.getMessage());
+            Utils.logException(e, "cannot execute sold insert");
+            return false;
         }
 
         return true;

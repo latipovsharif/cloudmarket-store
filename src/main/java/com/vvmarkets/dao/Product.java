@@ -113,7 +113,7 @@ public class Product {
                 product.discount = rs.getInt("discount");
             }
         } catch (Exception e) {
-            log.debug(e.getMessage() + "\n" + Utils.stackToString(e.getStackTrace()));
+            Utils.logException(e, "cannot get product from DB");
         }
 
         return product;

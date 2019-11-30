@@ -49,7 +49,7 @@ public class Base {
                 }
             }
         } catch (Exception e) {
-            log.error(e.getMessage() + "\n" + Utils.stackToString(e.getStackTrace()));
+            Utils.logException(e, "cannot sync products");
         }
     }
 
@@ -60,13 +60,12 @@ public class Base {
             for (ProductCategory category: ListUtil.INSTANCE.getMain()) {
                 try {
                     ListUtil.INSTANCE.syncCashForCategory(category.getQueryId());
-
                 } catch (Exception ex) {
-                    log.error(Utils.stackToString(ex.getStackTrace()));
+                    Utils.logException(ex,"cannot sync subcategories for main hot access");
                 }
             }
         } catch (Exception e) {
-            log.error(Utils.stackToString(e.getStackTrace()));
+            Utils.logException(e,"cannot sync main list");
         }
     }
 }

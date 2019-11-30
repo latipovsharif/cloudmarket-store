@@ -12,6 +12,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,7 +68,7 @@ public class ListUtil {
             @Override
             public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    log.error(Utils.stackToString(t.getStackTrace()));
+                    Utils.logException((Exception) t, "cannot fill main hot access list");
                 }
             }
         });
@@ -89,8 +90,10 @@ public class ListUtil {
             cashForCategory(listView, category);
         }
 
-        listView.getItems().clear();
-        listView.getItems().addAll(list);
+        if (listView != null) {
+            listView.getItems().clear();
+            listView.getItems().addAll(list);
+        }
     }
 
     private void cashForCategory(ListView<IListContent> listView, String category) {
@@ -106,7 +109,7 @@ public class ListUtil {
         Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(category);
         listProductForCategoryCall.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<ResponseBody<List<ProductProperties>>> call, Response<ResponseBody<List<ProductProperties>>> response) {
+            public void onResponse(@NotNull Call<ResponseBody<List<ProductProperties>>> call, @NotNull Response<ResponseBody<List<ProductProperties>>> response) {
                 try {
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
@@ -125,14 +128,14 @@ public class ListUtil {
                         }
                     }
                 } catch (Exception e) {
-                    log.error(e.getMessage());
+                    Utils.logException(e, "error while handling response of category for product list");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody<List<ProductProperties>>> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    log.error(Utils.stackToString(t.getStackTrace()));
+                    Utils.logException((Exception) t, "io exception while getting product for category");
                 }
             }
         });

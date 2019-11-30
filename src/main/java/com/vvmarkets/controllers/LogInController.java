@@ -86,7 +86,8 @@ public class LogInController {
             @Override
             public void onFailure(Call<Authorization> call, Throwable t) {
                 if (!(t instanceof IOException)) {
-                    DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
+                    Utils.logException((Exception) t, "cannot sign in");
+                    DialogUtil.showErrorNotification(t.getMessage());
                 }
             }
         });
