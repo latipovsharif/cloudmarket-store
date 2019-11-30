@@ -37,8 +37,10 @@ public class ListUtil {
         if (main.size() == 0) {
             fillMain(listView);
         } else {
-            listView.getItems().clear();
-            listView.getItems().addAll(main);
+            if (listView != null) {
+                listView.getItems().clear();
+                listView.getItems().addAll(main);
+            }
         }
     }
 
@@ -70,6 +72,15 @@ public class ListUtil {
                 if (!(t instanceof IOException)) {
                     Utils.logException((Exception) t, "cannot fill main hot access list");
                 }
+
+                Platform.runLater(() -> {
+                    if (listView != null) {
+                        if (main.size() > 0) {
+                            listView.getItems().clear();
+                            listView.getItems().addAll(main);
+                        }
+                    }
+                });
             }
         });
     }
@@ -137,6 +148,15 @@ public class ListUtil {
                 if (!(t instanceof IOException)) {
                     Utils.logException((Exception) t, "io exception while getting product for category");
                 }
+
+                Platform.runLater(() -> {
+                    if (listView != null) {
+                        if (list.size() > 0) {
+                            listView.getItems().clear();
+                            listView.getItems().addAll(list);
+                        }
+                    }
+                });
             }
         });
     }

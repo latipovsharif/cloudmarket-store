@@ -1,10 +1,8 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.Main;
-import com.vvmarkets.controllers.MainController;
 import javafx.application.Platform;
 import javafx.scene.Node;
-import jdk.jfr.StackTrace;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

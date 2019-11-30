@@ -21,19 +21,14 @@ public class HttpConnectionHolder {
         if (isNetworkReachable) {
             NetworkUnreachableStart = System.currentTimeMillis();
             isNetworkReachable = false;
-
-            Platform.runLater(
-                () -> DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение")
-            );
+            DialogUtil.showWarningNotification("Нет соединения", "Невозможно соедениться с сервером, проверьте сетевое соединение");
         }
     }
 
     public void connectionAvailable() {
         if (!isNetworkReachable) {
             isNetworkReachable = true;
-            Platform.runLater(
-                () -> DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно")
-            );
+            DialogUtil.showInformationNotification("Соединение восстановленно", "Соеденение с сервером восстановленно");
         }
     }
 
