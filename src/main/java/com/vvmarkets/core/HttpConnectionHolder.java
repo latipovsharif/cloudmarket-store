@@ -42,7 +42,9 @@ public class HttpConnectionHolder {
         if (isNetworkReachable) {
             return true;
         }
+
         if (delay > Config.getNetworkRetryTimeout()) {
+            NetworkUnreachableStart = System.currentTimeMillis();
             return true;
         }
 

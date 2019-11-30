@@ -71,7 +71,6 @@ public class ListUtil {
                 }
             }
         });
-
     }
 
     public void syncFillMain() {

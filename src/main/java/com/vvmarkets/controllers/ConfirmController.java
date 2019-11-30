@@ -12,6 +12,7 @@ import com.vvmarkets.services.ExpenseService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.utils.ResponseBody;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -160,13 +161,16 @@ public class ConfirmController {
                 }
 
                 if (!TableUtil.saveToDb(expense)) {
-                    Alert a = DialogUtil.newError("Не предвиденная ошибка", "Невозможно сохранить чек. Просьба обратиться к администратору.");
-                    a.show();
+                    DialogUtil.showErrorNotification("Невозможно сохранить чек. Просьба обратиться к администратору.");
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody<ExpenseResponse>> call, Throwable t) {
+                if (!TableUtil.saveToDb(expense)) {
+                    DialogUtil.showErrorNotification("Невозможно сохранить чек. Просьба обратиться к администратору.");
+                }
+
                 if (!(t instanceof IOException)) {
                     DialogUtil.showErrorNotification(Utils.stackToString(t.getStackTrace()));
                 }

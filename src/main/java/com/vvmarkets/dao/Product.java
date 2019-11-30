@@ -94,7 +94,6 @@ public class Product {
 
     private static Product getProductFromDb(String barcode) {
         Product product = null;
-        product.productProperties = new ProductProperties();
         PreparedStatement stmt = null;
 
         try (Connection connection = db.getConnection()) {
@@ -103,6 +102,7 @@ public class Product {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 product = new Product();
+                product.productProperties = new ProductProperties();
                 product.id = rs.getString("id");
                 product.productProperties.setName(rs.getString("name"));
                 product.productProperties.setBarcode(rs.getString("barcode"));
