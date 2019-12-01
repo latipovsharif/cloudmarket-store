@@ -74,7 +74,7 @@ public class TableUtil {
                     Optional<String> result = dialog.showAndWait();
 
                     if (result.isPresent()) {
-                        double entered = Double.parseDouble(result.get());
+                        double entered = Utils.getDoubleOrZero(result.get());
                         clickedRow.setQuantity(entered);
                         tr.getTableView().getItems().set(tr.getIndex(), clickedRow);
 

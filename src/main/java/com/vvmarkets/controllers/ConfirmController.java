@@ -63,19 +63,10 @@ public class ConfirmController {
     }
 
     public void discountChanged() {
-        double dis = 0, toP = 0;
+        double dis, toP;
 
-        try {
-            dis = Double.parseDouble(discount.getText());
-        } catch (Exception e) {
-            log.error("cannot parse discount value " + e.getMessage());
-        }
-
-        try {
-            toP = Double.parseDouble(total.getText());
-        } catch (Exception e) {
-            log.error("cannot parse total value " + e.getMessage());
-        }
+        dis = Utils.getDoubleOrZero(discount.getText());
+        toP = Utils.getDoubleOrZero(total.getText());
 
         toP = toP - (toP * dis / 100);
 
@@ -83,7 +74,7 @@ public class ConfirmController {
     }
 
     private void recalculateChange() {
-        double ch = 0, top, csh, crd;
+        double ch, top, csh, crd;
         top = Utils.getDoubleOrZero(toPay.getText());
         csh = Utils.getDoubleOrZero(cash.getText());
         crd = Utils.getDoubleOrZero(card.getText());

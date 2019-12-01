@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Utils {
 
@@ -23,10 +24,13 @@ public class Utils {
     public static double getDoubleOrZero(String value) {
         double res = 0;
         try {
-            res = Double.parseDouble(value);
+            NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
+            Number n = nf.parse(value);
+            res = n.doubleValue();
         } catch (Exception e) {
             log.error("cannot parse string to double " + e.getMessage());
         }
+
         return res;
     }
 
