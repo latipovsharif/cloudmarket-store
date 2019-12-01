@@ -9,7 +9,7 @@ package com.vvmarkets.requests;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PaymentBody {
+public class  PaymentBody {
     public String getDiscountType() {
         return DiscountType;
     }
@@ -84,6 +84,12 @@ public class PaymentBody {
     public boolean isValid() {
         if (CardPaid > ToPay) {
             return false;
+        }
+
+        // TODO сделать возможность оплатить авансом в далеком будущем
+        double payed = CardPaid + CashPaid;
+        if (payed > ToPay) {
+            CashPaid = ToPay - CardPaid;
         }
 
         return true;

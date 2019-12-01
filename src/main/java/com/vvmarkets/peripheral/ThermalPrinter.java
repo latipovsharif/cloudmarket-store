@@ -58,7 +58,7 @@ public class ThermalPrinter {
         return "";
     }
 
-    public void print() throws PrintException {
+    public void print() {
         StringBuilder builder = new StringBuilder();
         builder.append(getHeader());
         builder.append(getBody(expenseBody.getProducts()));
@@ -67,10 +67,10 @@ public class ThermalPrinter {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             TextFlow textFlow = new TextFlow(new Text(builder.toString()));
-            Paper p = PrintHelper.createPaper("58mm",58,58, Units.MM);
-            PageLayout layout = job.getPrinter().createPageLayout(p, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
-
-            textFlow.setMaxWidth(layout.getPrintableWidth());
+//            Paper p = PrintHelper.createPaper("58mm",58,58, Units.MM);
+//            PageLayout layout = job.getPrinter().createPageLayout(p, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
+//
+//            textFlow.setMaxWidth(layout.getPrintableWidth());
             job.printPage(textFlow);
         } else {
             log.error("cannot create printer job");

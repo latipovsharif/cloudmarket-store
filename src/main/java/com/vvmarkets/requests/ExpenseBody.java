@@ -107,11 +107,11 @@ public class ExpenseBody {
     public ExpenseBody(TableView<Product> tableView, PaymentBody payment, String sellerId, String shiftId) {
         this.soldSource = 1;
         this.documentHash = UUID.randomUUID().toString();
-
-        setProducts(tableView);
         this.payment = payment;
         this.sellerId = sellerId;
         this.shiftId = shiftId;
+
+        setProducts(tableView);
     }
 
     public void setProducts(TableView<Product> products) {

@@ -22,6 +22,10 @@ public class Utils {
     }
 
     public static double getDoubleOrZero(String value) {
+        if (value.isEmpty()) {
+            return 0;
+        }
+
         double res = 0;
         try {
             NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
