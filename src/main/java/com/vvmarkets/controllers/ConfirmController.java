@@ -2,6 +2,7 @@ package com.vvmarkets.controllers;
 
 import com.vvmarkets.Main;
 import com.vvmarkets.core.DialogUtil;
+import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
@@ -19,14 +20,10 @@ import javafx.scene.control.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.io.IOException;
 
 
 public class ConfirmController {
-
     private static final Logger log = LogManager.getLogger(Main.class);
 
     @FXML
@@ -120,6 +117,7 @@ public class ConfirmController {
     }
 
     public void closeCheck(ActionEvent actionEvent) {
+        btnCloseCheck.setDisable(true);
         PaymentBody payment = new PaymentBody(
                 Utils.getDoubleOrZero(toPay.getText()),
                 Utils.getDoubleOrZero(card.getText()),
@@ -131,16 +129,17 @@ public class ConfirmController {
         }
 
         ExpenseBody expense = new ExpenseBody(this.products,
-                        payment,
-                        MainController.sellerId,
-                        "");
+                payment,
+                MainController.sellerId,
+                "");
 
-        ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
-        Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(expense);
-        listProductCall.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<ResponseBody<ExpenseResponse>> call, Response<ResponseBody<ExpenseResponse>> response) {
-                boolean hasErr = true;
+        boolean hasErr = true;
+        if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
+            ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
+            Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(expense);
+            try {
+                Response<ResponseBody<ExpenseResponse>> response = listProductCall.execute();
+
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
@@ -148,39 +147,32 @@ public class ConfirmController {
                         }
                     }
                 }
-
-                if (TableUtil.saveToDb(expense)) {
-                    hasErr = false;
-                }
-
-                if (!hasErr) {
-                    Utils.showScreen(previousScene);
-                    products.getItems().clear();
-                } else {
-                    DialogUtil.showErrorNotification("Невозможно сохранить чек. Просьба обратиться к администратору.");
-                }
+            } catch (Exception e) {
+                Utils.logException(e, "cannot save transaction to the cloud");
             }
-
-            @Override
-            public void onFailure(Call<ResponseBody<ExpenseResponse>> call, Throwable t) {
-                if (!(t instanceof IOException)) {
-                    Utils.logException((Exception) t, "cannot close check");
-                    DialogUtil.showErrorNotification(t.getMessage());
-                }
-
-                if (TableUtil.saveToDb(expense)) {
-                    Utils.showScreen(previousScene);
-                    products.getItems().clear();
-                }
-            }
-        });
-
-        try {
-            ThermalPrinter p = new ThermalPrinter(expense);
-            p.print();
-        } catch (Exception e) {
-            Utils.logException(e, "cannot print check");
         }
+
+        if (hasErr) {
+            if (TableUtil.saveToDb(expense)) {
+                hasErr = false;
+            }
+        }
+
+        if (!hasErr) {
+            try {
+                ThermalPrinter p = new ThermalPrinter(expense);
+                p.print();
+            } catch (Exception e) {
+                Utils.logException(e, "cannot print check");
+            }
+
+            Utils.showScreen(previousScene);
+            products.getItems().clear();
+        } else {
+            DialogUtil.showErrorNotification("Возникла критическая ошибка при сохранении документ, пожалуйста обратитесь к администратору.");
+        }
+
+        btnCloseCheck.setDisable(false);
     }
 
     public void chooseClient(ActionEvent actionEvent) {

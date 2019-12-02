@@ -36,7 +36,7 @@ public class ThermalPrinter {
     }
 
     private String getProductLineTemplate() {
-        return "<b>{counter}.</b> {product} \n {quantity} x {price} - {discount} = {lineTotal}";
+        return "{counter}. {product} \n {quantity} x {price} - {discount} = {lineTotal}";
     }
 
     private String getLineString(ProductBody product, int counter) {
@@ -67,14 +67,13 @@ public class ThermalPrinter {
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
             TextFlow textFlow = new TextFlow(new Text(builder.toString()));
+            textFlow.setStyle("-fx-font-size: 10");
 //            Paper p = PrintHelper.createPaper("58mm",58,58, Units.MM);
-//            PageLayout layout = job.getPrinter().createPageLayout(p, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
-//
-//            textFlow.setMaxWidth(layout.getPrintableWidth());
-            job.printPage(textFlow);
+            PageLayout layout = job.getPrinter().createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
+//            textFlow.setMaxWidth(100);
+            job.printPage(layout, textFlow);
         } else {
             log.error("cannot create printer job");
         }
     }
 }
-
