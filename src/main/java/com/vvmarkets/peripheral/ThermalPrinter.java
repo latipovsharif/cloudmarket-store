@@ -1,7 +1,5 @@
 package com.vvmarkets.peripheral;
 
-import com.sun.javafx.print.PrintHelper;
-import com.sun.javafx.print.Units;
 import com.vvmarkets.Main;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.ProductBody;
@@ -11,7 +9,6 @@ import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.print.PrintException;
 import java.util.List;
 
 public class ThermalPrinter {
@@ -68,9 +65,7 @@ public class ThermalPrinter {
         if (job != null) {
             TextFlow textFlow = new TextFlow(new Text(builder.toString()));
             textFlow.setStyle("-fx-font-size: 10");
-//            Paper p = PrintHelper.createPaper("58mm",58,58, Units.MM);
             PageLayout layout = job.getPrinter().createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
-//            textFlow.setMaxWidth(100);
             job.printPage(layout, textFlow);
         } else {
             log.error("cannot create printer job");

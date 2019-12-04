@@ -19,6 +19,7 @@ public class Config {
 
     private static final String offlineMode = "OFFLINE_MODE";
     private static final String syncTimeout = "SYNC_TIMEOUT";
+    
 
     public static int getSyncTimeout() {
         int res = 0;
