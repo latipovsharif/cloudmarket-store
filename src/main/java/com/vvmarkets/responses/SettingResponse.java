@@ -2,7 +2,16 @@ package com.vvmarkets.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vvmarkets.core.Utils;
+import com.vvmarkets.services.RestClient;
+import com.vvmarkets.services.SettingsService;
+import com.vvmarkets.utils.ResponseBody;
+import com.vvmarkets.utils.db;
+import retrofit2.Call;
+import retrofit2.Response;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 
 public class SettingResponse {
@@ -12,12 +21,18 @@ public class SettingResponse {
     @SerializedName("name")
     @Expose
     private String Name;
-    @SerializedName("description")
+
+    @SerializedName("options")
     @Expose
-    private String Description;
-    @SerializedName("value")
-    @Expose
-    private List<String> Value;
+    private List<OptionResponse> options;
+
+    public List<OptionResponse> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<OptionResponse> options) {
+        this.options = options;
+    }
 
     public String getId() {
         return Id;
@@ -35,19 +50,43 @@ public class SettingResponse {
         Name = name;
     }
 
-    public String getDescription() {
-        return Description;
+
+    public static void sync() {
+        try {
+            SettingsService settingsService = RestClient.getClient().create(SettingsService.class);
+            Call<ResponseBody<List<SettingResponse>>> settingCall = settingsService.get();
+
+            Response<ResponseBody<List<SettingResponse>>> response = settingCall.execute();
+            if (response.isSuccessful()) {
+                if (response.body() != null) {
+                    SettingResponse.saveList(response.body().getBody());
+                }
+            }
+        } catch (Exception e) {
+            Utils.logException(e, "cannot sync settings");
+        }
     }
 
-    public void setDescription(String description) {
-        Description = description;
+    private static void saveList(List<SettingResponse> data) {
+        for(SettingResponse response : data) {
+            response.save();
+        }
     }
 
-    public List<String> getValue() {
-        return Value;
-    }
+    private void save() {
+        try(Connection c = db.getConnection()) {
+            PreparedStatement ps;
+            ps = c.prepareStatement("replace into cash_configs(id, name) values(?, ?)");
+            ps.setString(1, this.getId());
+            ps.setString(2, this.getName());
+            ps.executeUpdate();
+            ps.close();
 
-    public void setValue(List<String> value) {
-        Value = value;
+            for (OptionResponse option: this.options) {
+                option.save(this.getId());
+            }
+        } catch (Exception e) {
+            Utils.logException(e, "cannot save response");
+        }
     }
 }

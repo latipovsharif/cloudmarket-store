@@ -2,7 +2,6 @@ package com.vvmarkets.configs;
 
 import com.vvmarkets.Main;
 import com.vvmarkets.utils.db;
-import io.reactivex.internal.operators.completable.CompletableAndThenCompletable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +21,7 @@ public class Config {
     
 
     public static int getSyncTimeout() {
-        int res = 0;
+        int res;
         try {
             res = Integer.parseInt(getConfig(syncTimeout));
         } catch (Exception e) {
@@ -35,14 +34,12 @@ public class Config {
         return setConfig(syncTimeout, String.valueOf(value));
     }
 
-
     private static String getConfig(String key) {
         try (Connection c = db.getConnection()) {
             PreparedStatement stmt = c.prepareStatement("select val from configs where key = ? limit 1");
             stmt.setString(1, key);
             ResultSet rs = stmt.executeQuery();
-            String val = rs.getString("val");
-            return val;
+            return rs.getString("val");
         } catch (Exception e) {
             return "";
         }

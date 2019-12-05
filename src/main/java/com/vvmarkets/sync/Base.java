@@ -5,6 +5,7 @@ import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.responses.ProductResponse;
+import com.vvmarkets.responses.SettingResponse;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
@@ -24,10 +25,10 @@ public class Base {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
 
     public static void sync() {
-            Runnable croneRunnable = Base::syncMainList;
+        Runnable croneRunnable = Base::syncMain;
 
-            ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-            executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
             Runnable productCron = Base::syncProducts;
@@ -48,12 +49,14 @@ public class Base {
                     ProductResponse.Save(response.body().getBody());
                 }
             }
+
+            SettingResponse.sync();
         } catch (Exception e) {
             Utils.logException(e, "cannot sync products");
         }
     }
 
-    private static void syncMainList() {
+    private static void syncMain() {
         try {
             ListUtil.INSTANCE.syncFillMain();
 
