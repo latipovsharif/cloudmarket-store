@@ -10,32 +10,11 @@
     -fx-background-color: blue;
 }
 
-/*.mainTabPane {*/
-/*    -fx-background-color: #fff;*/
-/*    -fx-padding: 0px;*/
-/*}*/
-
-/*.mainTab {*/
-/*    -fx-pref-width: 90px;*/
-/*    -fx-pref-height: 45px;*/
-/*    -fx-background-color: #fff;*/
-/*    -fx-text-alignment: center;*/
-/*}*/
-
-/*.mainTabActive {*/
-/*    -fx-padding: 10;*/
-/*    -fx-border-insets: 20;*/
-/*    -fx-background-insets: 10;*/
-/*    -fx-border-width: 2;*/
-/*}*/
-
 .tab {
-    -fx-rotate: 90;
-    -fx-pref-height: 70;
+    -fx-pref-height: 50;
     -fx-pref-width: 80;
     -fx-wrap-text: true;
     -fx-border-insets: 10;
-    /*-fx-background-insets: 10;*/
     -fx-border-width: 2;
 }
 
@@ -52,13 +31,6 @@
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
 }
-
-/*.tab-pane > .tab:selected{*/
-/*    -fx-min-width: 1000;*/
-/*    -fx-background-color: red;*/
-/*    -fx-border-color: red;*/
-/*    -fx-border-style: solid none solid none;*/
-/*}*/
 
 #mainBtnExit {
     -fx-rotate: 45;

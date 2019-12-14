@@ -26,6 +26,7 @@ dependencies {
     compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
     compile group: 'com.google.zxing', name: 'zxing-parent', version: '3.4.0', ext: 'pom'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+    compile group: 'com.jfoenix', name: 'jfoenix', version: '9.0.9'
 }
 
 javafx {
