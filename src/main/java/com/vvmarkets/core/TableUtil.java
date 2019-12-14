@@ -64,33 +64,11 @@ public class TableUtil {
 
         table.getColumns().addAll(Arrays.asList(id, article, name, price, quantity, discount, total));
 
-        table.setRowFactory(rf -> {
-            TableRow<Product> tr = new TableRow<>();
-            tr.setOnMouseClicked(event -> {
-                if (!tr.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
-                    Product clickedRow = tr.getItem();
-                    Dialog dialog = DialogUtil.getQuantityDialog(clickedRow.getQuantity());
-
-                    Optional<String> result = dialog.showAndWait();
-
-                    if (result.isPresent()) {
-                        double entered = Utils.getDoubleOrZero(result.get());
-                        clickedRow.setQuantity(entered);
-                        tr.getTableView().getItems().set(tr.getIndex(), clickedRow);
-
-                        changed.onNext(calculateTotal(tr.getTableView()));
-                    }
-                }
-            });
-
-            return tr;
-        });
-
-        TableColumn actionColumn = new TableColumn("Удалить");
-        actionColumn.setCellValueFactory(new PropertyValueFactory<>(""));
+        TableColumn subtract = new TableColumn("-");
+        subtract.setCellValueFactory(new PropertyValueFactory<>(""));
 
 
-        Callback<TableColumn<Product, String>, TableCell<Product, String>> cellFactory =  new Callback<>() {
+        Callback<TableColumn<Product, String>, TableCell<Product, String>> subtractCellFactory =  new Callback<>() {
 
             @Override
             public TableCell call(final TableColumn<Product, String> param) {
@@ -103,26 +81,72 @@ public class TableUtil {
                         super.updateItem(item, empty);
                         if (empty) {
                             setGraphic(null);
-                            setText(null);
                         } else {
                             btn.setMinWidth(50);
                             btn.setMinHeight(30);
 
                             btn.setOnAction(event -> {
-                                getTableView().getItems().remove(getIndex());
+                                Product p = getTableView().getItems().get(getIndex());
+                                if (p.getQuantity() > 1) {
+                                    p.setQuantity(p.getQuantity() - 1);
+                                    getTableView().getItems().set(getIndex(), p);
+                                } else {
+                                    getTableView().getItems().remove(getIndex());
+                                }
                                 changed.onNext(calculateTotal(getTableView()));
                             });
                             setGraphic(btn);
-                            setText(null);
                         }
+                        setText(null);
                     }
                 };
                 return cell;
             }
         };
 
-        actionColumn.setCellFactory(cellFactory);
-        table.getColumns().add(actionColumn);
+        subtract.setCellFactory(subtractCellFactory);
+        table.getColumns().add(subtract);
+
+
+
+        TableColumn add = new TableColumn("+");
+        add.setCellValueFactory(new PropertyValueFactory<>(""));
+
+        Callback<TableColumn<Product, String>, TableCell<Product, String>> addCellFactory =  new Callback<>() {
+
+            @Override
+            public TableCell call(final TableColumn<Product, String> param) {
+                final TableCell<Product, String> cell = new TableCell<>() {
+
+                    final Button btn = new Button("");
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            btn.setMinWidth(50);
+                            btn.setMinHeight(30);
+
+                            btn.setOnAction(event -> {
+                                Product p = getTableView().getItems().get(getIndex());
+                                p.setQuantity(p.getQuantity() + 1);
+                                getTableView().getItems().set(getIndex(), p);
+                                changed.onNext(calculateTotal(getTableView()));
+                            });
+                            setGraphic(btn);
+                        }
+                        setText(null);
+                    }
+                };
+                return cell;
+            }
+        };
+
+        add.setCellFactory(addCellFactory);
+        table.getColumns().add(add);
+
 
         return table;
     }
