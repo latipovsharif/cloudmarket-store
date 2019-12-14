@@ -32,39 +32,32 @@ public class TableUtil {
         id.setVisible(false);
 
         TableColumn<Product, String> article = new TableColumn<>("Артикул");
-        article.setPrefWidth(280);
+        article.setPrefWidth(95);
         article.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getArticle())
         );
         article.setVisible(false);
 
         TableColumn<Product, String> name = new TableColumn<>("Наименование");
-        name.setPrefWidth(280);
+        name.setPrefWidth(95);
         name.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getName())
         );
 
         TableColumn<Product, Double> total = new TableColumn<>("Итог");
-        total.setPrefWidth(180);
+        total.setPrefWidth(80);
         total.setCellValueFactory(new PropertyValueFactory<>("total"));
 
         TableColumn<Product, Double> price = new TableColumn<>("Цена");
-        price.setPrefWidth(100);
+        price.setPrefWidth(45);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
-
-        TableColumn<Product, Double> discount = new TableColumn<>("Скидка");
-        discount.setPrefWidth(100);
-        discount.setCellValueFactory(new PropertyValueFactory<>("discount"));
-
-        TableColumn<Product, Double> quantity = new TableColumn<>("Количество");
-        quantity.setPrefWidth(100);
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         TableView<Product> table = new TableView<>();
 
-        table.getColumns().addAll(Arrays.asList(id, article, name, price, quantity, discount, total));
+        table.getColumns().addAll(Arrays.asList(id, article, name, price));
 
-        TableColumn subtract = new TableColumn("-");
+        TableColumn subtract = new TableColumn("");
+        subtract.setPrefWidth(40);
         subtract.setCellValueFactory(new PropertyValueFactory<>(""));
 
 
@@ -74,7 +67,7 @@ public class TableUtil {
             public TableCell call(final TableColumn<Product, String> param) {
                 final TableCell<Product, String> cell = new TableCell<>() {
 
-                    final Button btn = new Button("");
+                    final Button btn = new Button("-");
 
                     @Override
                     public void updateItem(String item, boolean empty) {
@@ -82,8 +75,7 @@ public class TableUtil {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            btn.setMinWidth(50);
-                            btn.setMinHeight(30);
+                            btn.getStyleClass().add("subtractBtn");
 
                             btn.setOnAction(event -> {
                                 Product p = getTableView().getItems().get(getIndex());
@@ -97,7 +89,6 @@ public class TableUtil {
                             });
                             setGraphic(btn);
                         }
-                        setText(null);
                     }
                 };
                 return cell;
@@ -107,9 +98,14 @@ public class TableUtil {
         subtract.setCellFactory(subtractCellFactory);
         table.getColumns().add(subtract);
 
+        TableColumn<Product, Double> quantity = new TableColumn<>("Количество");
+        quantity.setPrefWidth(45);
+        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
+        table.getColumns().add(quantity);
 
-        TableColumn add = new TableColumn("+");
+        TableColumn add = new TableColumn("");
+        add.setPrefWidth(40);
         add.setCellValueFactory(new PropertyValueFactory<>(""));
 
         Callback<TableColumn<Product, String>, TableCell<Product, String>> addCellFactory =  new Callback<>() {
@@ -118,7 +114,7 @@ public class TableUtil {
             public TableCell call(final TableColumn<Product, String> param) {
                 final TableCell<Product, String> cell = new TableCell<>() {
 
-                    final Button btn = new Button("");
+                    final Button btn = new Button("+");
 
                     @Override
                     public void updateItem(String item, boolean empty) {
@@ -126,8 +122,7 @@ public class TableUtil {
                         if (empty) {
                             setGraphic(null);
                         } else {
-                            btn.setMinWidth(50);
-                            btn.setMinHeight(30);
+                            btn.getStyleClass().add("addBtn");
 
                             btn.setOnAction(event -> {
                                 Product p = getTableView().getItems().get(getIndex());
@@ -137,7 +132,6 @@ public class TableUtil {
                             });
                             setGraphic(btn);
                         }
-                        setText(null);
                     }
                 };
                 return cell;
@@ -145,7 +139,7 @@ public class TableUtil {
         };
 
         add.setCellFactory(addCellFactory);
-        table.getColumns().add(add);
+        table.getColumns().addAll(add, total);
 
 
         return table;

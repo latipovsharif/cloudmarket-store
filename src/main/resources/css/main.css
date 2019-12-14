@@ -24,7 +24,6 @@
 }
 
 .tab:selected {
-    /*-fx-background-color: red;*/
     -fx-border-color: red;
     -fx-border-style: solid none solid none;
 }
@@ -54,15 +53,32 @@
 }
 
 .list-cell {
-    /*-fx-max-width: 100;*/
     -fx-min-width: 150;
     -fx-pref-width: 150;
     -fx-font-size: 15px;
     -fx-wrap-text: true;
 }
 
-.table-row-cell {
-    -fx-cell-size: 40px;
+.subtractBtn {
+    -fx-background-radius: 100;
     -fx-font-size: 20px;
-    -fx-text-alignment: CENTER;
+    -fx-padding: 0px;
+    -fx-border-radius: 100;
+    -fx-text-alignment: center;
+    -fx-background-color: red;
+    -fx-text-fill: #fff;
+    -fx-min-width: 30;
+    -fx-min-height: 15;
+}
+
+.addBtn {
+    -fx-background-radius: 100;
+    -fx-font-size: 20px;
+    -fx-padding: 0px;
+    -fx-border-radius: 100;
+    -fx-text-alignment: center;
+    -fx-background-color: green;
+    -fx-text-fill: #fff;
+    -fx-min-width: 30;
+    -fx-min-height: 15;
 }
