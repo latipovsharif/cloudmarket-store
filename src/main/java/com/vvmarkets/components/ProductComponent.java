@@ -33,6 +33,10 @@ public class ProductComponent extends VBox {
             pc.getChildren().add(iv);
             pc.getChildren().add(lbl);
 
+            pc.setOnMouseClicked(e->{
+                System.out.println(pc.product.getId());
+            });
+
             res.add(pc);
         }
         return res;
