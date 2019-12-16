@@ -1,6 +1,8 @@
 package com.vvmarkets.controllers;
 
+import com.jfoenix.controls.JFXMasonryPane;
 import com.vvmarkets.Main;
+import com.vvmarkets.components.ProductComponent;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.Seller;
@@ -16,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -40,6 +43,12 @@ public class MainController implements Initializable, IController {
     public ComboBox<Seller> cmbSeller;
 
     private String tmpBarcode = "";
+
+    @FXML
+    private VBox bcContainer;
+
+    @FXML
+    private JFXMasonryPane mainMasonryPane;
 
     @Override
     public Node getPreviousView() {
@@ -80,6 +89,8 @@ public class MainController implements Initializable, IController {
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
         });
+
+        mainMasonryPane.getChildren().addAll(ProductComponent.getList("hello"));
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
