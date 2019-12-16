@@ -14,6 +14,14 @@ import java.util.List;
 
 public class ProductComponent extends VBox {
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     private Product product;
 
     public ProductComponent(Product product) {
@@ -33,12 +41,15 @@ public class ProductComponent extends VBox {
             pc.getChildren().add(iv);
             pc.getChildren().add(lbl);
 
-            pc.setOnMouseClicked(e->{
-                System.out.println(pc.product.getId());
-            });
-
             res.add(pc);
         }
         return res;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductComponent{" +
+                "product=" + product.getId() +
+                '}';
     }
 }

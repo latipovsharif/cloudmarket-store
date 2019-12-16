@@ -18,7 +18,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -45,9 +44,6 @@ public class MainController implements Initializable, IController {
     private String tmpBarcode = "";
 
     @FXML
-    private VBox bcContainer;
-
-    @FXML
     private JFXMasonryPane mainMasonryPane;
 
     @Override
@@ -71,8 +67,6 @@ public class MainController implements Initializable, IController {
     @FXML
     public TabPane mainTabPane;
     @FXML
-    public ImageView mainProductImage;
-    @FXML
     public Label lblTotal;
     @FXML
     public Button btnConfirm;
@@ -91,6 +85,7 @@ public class MainController implements Initializable, IController {
         });
 
         mainMasonryPane.getChildren().addAll(ProductComponent.getList("hello"));
+        mainMasonryPane.clearLayout();
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -194,5 +189,18 @@ public class MainController implements Initializable, IController {
 
     public void closeTabClicked(MouseEvent mouseEvent) {
         mainTabPane.getTabs().remove(mainTabPane.getSelectionModel().getSelectedIndex());
+    }
+
+    public void containerClicked(MouseEvent mouseEvent) {
+        ProductComponent pc = null;
+        if(mouseEvent.getPickResult().getIntersectedNode() instanceof ProductComponent) {
+            pc = (ProductComponent)mouseEvent.getPickResult().getIntersectedNode();
+        } else if(mouseEvent.getPickResult().getIntersectedNode() instanceof ImageView) {
+            pc = (ProductComponent)mouseEvent.getPickResult().getIntersectedNode().getParent();
+        }
+
+        if (pc != null) {
+            System.out.println(pc.getProduct().getId());
+        }
     }
 }
