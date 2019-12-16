@@ -28,7 +28,15 @@ public class ProductComponent extends VBox {
         this.product = product;
     }
 
+    public static List<ProductComponent> getList() {
+        return getList("");
+    }
+
     public static List<ProductComponent> getList(String productId) {
+        if (productId == ""){
+
+        }
+
         List<ProductComponent> res = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             Product p = new Product();

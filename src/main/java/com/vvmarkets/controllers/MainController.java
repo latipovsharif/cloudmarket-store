@@ -85,7 +85,6 @@ public class MainController implements Initializable, IController {
         });
 
         mainMasonryPane.getChildren().addAll(ProductComponent.getList("hello"));
-        mainMasonryPane.clearLayout();
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -202,5 +201,9 @@ public class MainController implements Initializable, IController {
         if (pc != null) {
             System.out.println(pc.getProduct().getId());
         }
+    }
+
+    public void logout(ActionEvent actionEvent) {
+        mainMasonryPane.getChildren().clear();
     }
 }
