@@ -33,5 +33,4 @@
             </font>
         </Button>
    </VBox>
-     <ListView fx:id="hotAccessListView" layoutY="237.0" onMouseClicked="#hotAccessClicked" opacity="0.0" orientation="HORIZONTAL" prefHeight="226.0" prefWidth="447.0" visible="false" AnchorPane.bottomAnchor="239.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0" />
 </AnchorPane>

@@ -37,8 +37,6 @@ public class MainController implements Initializable, IController {
     public AnchorPane hotAccessPane;
 
     @FXML
-    public ListView<IListContent> hotAccessListView;
-    @FXML
     public ComboBox<Seller> cmbSeller;
 
     private String tmpBarcode = "";
@@ -76,15 +74,13 @@ public class MainController implements Initializable, IController {
         Tab newTab = TabUtil.NewTab();
         newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(0, newTab);
-
-        ListUtil.INSTANCE.fillMainListView(hotAccessListView);
         Seller.fillSeller(cmbSeller);
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
         });
 
-        mainMasonryPane.getChildren().addAll(ProductComponent.getList("hello"));
+        showMainMenu();
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -126,50 +122,6 @@ public class MainController implements Initializable, IController {
         Utils.showScreen(cp.getView(mainContainer));
     }
 
-
-    public void hotAccessClicked(MouseEvent event) {
-        IListContent content = hotAccessListView.getSelectionModel().getSelectedItem();
-        if (hotAccessListView.getSelectionModel().getSelectedIndex() == 0 && content.getType() == ListContentType.Product) {
-            ListUtil.INSTANCE.fillMainListView(hotAccessListView);
-        }
-
-        if (content == null || content.getQueryId() == null || content.getQueryId().isEmpty()) {
-            return;
-        }
-
-        switch (content.getType()) {
-            case Category:
-                hotAccessListView.getItems().clear();
-                ListUtil.INSTANCE.fillForCategory(hotAccessListView, content.getQueryId());
-                break;
-            case Product:
-                try {
-                    Product clickedRow = Product.getProduct(content.getQueryId());
-                    Dialog dialog = DialogUtil.getQuantityDialog(1);
-                    Optional<String> result = dialog.showAndWait();
-
-                    if (result.isPresent()) {
-                        double entered = Utils.getDoubleOrZero(result.get());
-
-                        if (entered > 0) {
-                            clickedRow.setQuantity(entered);
-                            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-                            TableUtil.addProduct(tableView, clickedRow);
-                        } else {
-                            DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
-                        }
-                    }
-                } catch (NotFound nf) {
-                    DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
-                } catch (Exception e) {
-                    DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
     public void newTabClicked(MouseEvent mouseEvent) {
         Tab newTab = TabUtil.NewTab();
         newTab.setOnSelectionChanged(this::selectedTabChanged);
@@ -192,18 +144,57 @@ public class MainController implements Initializable, IController {
 
     public void containerClicked(MouseEvent mouseEvent) {
         ProductComponent pc = null;
-        if(mouseEvent.getPickResult().getIntersectedNode() instanceof ProductComponent) {
-            pc = (ProductComponent)mouseEvent.getPickResult().getIntersectedNode();
-        } else if(mouseEvent.getPickResult().getIntersectedNode() instanceof ImageView) {
-            pc = (ProductComponent)mouseEvent.getPickResult().getIntersectedNode().getParent();
+        if (mouseEvent.getPickResult().getIntersectedNode() instanceof ProductComponent) {
+            pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode();
+        } else if (mouseEvent.getPickResult().getIntersectedNode() instanceof ImageView) {
+            pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode().getParent();
         }
 
         if (pc != null) {
-            System.out.println(pc.getProduct().getId());
+            if (pc.getProduct() == null || pc.getProduct().getQueryId() == null || pc.getProduct().getQueryId().isEmpty()) {
+                return;
+            }
+
+            switch (pc.getProduct().getType()) {
+                case Category:
+                    mainMasonryPane.getChildren().clear();
+                    mainMasonryPane.getChildren().addAll(ProductComponent.getList(pc.getProduct().getQueryId()));
+                    break;
+                case Product:
+                    try {
+                        Product clickedRow = Product.getProduct(pc.getProduct().getQueryId());
+                        Dialog dialog = DialogUtil.getQuantityDialog(1);
+                        Optional<String> result = dialog.showAndWait();
+
+                        if (result.isPresent()) {
+                            double entered = Utils.getDoubleOrZero(result.get());
+
+                            if (entered > 0) {
+                                clickedRow.setQuantity(entered);
+                                TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+                                TableUtil.addProduct(tableView, clickedRow);
+                            } else {
+                                DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
+                            }
+                        }
+                    } catch (NotFound nf) {
+                        DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
+                    } catch (Exception e) {
+                        DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
     public void logout(ActionEvent actionEvent) {
+        showMainMenu();
+    }
+
+    private void showMainMenu() {
         mainMasonryPane.getChildren().clear();
+        mainMasonryPane.getChildren().addAll(ProductComponent.getList());
     }
 }

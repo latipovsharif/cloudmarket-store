@@ -9,7 +9,6 @@ import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ListView;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -25,26 +24,15 @@ public class ListUtil {
 
     public static ListUtil INSTANCE = new ListUtil();
 
-    private Map categorized = Collections.synchronizedMap(new HashMap<String, ObservableList<ProductProperties>>());
+    private Map categorized = Collections.synchronizedMap(new HashMap<String, ArrayList<IListContent>>());
 
-    public List<ProductCategory> getMain() {
+    public ObservableList<IListContent> getMain() {
         return main;
     }
 
-    private List<ProductCategory> main = FXCollections.observableList(new ArrayList<>());
+    private ObservableList<IListContent> main = FXCollections.observableList(new ArrayList<>());
 
-    public void fillMainListView(ListView<IListContent> listView) {
-        if (main.size() == 0) {
-            fillMain(listView);
-        } else {
-            if (listView != null) {
-                listView.getItems().clear();
-                listView.getItems().addAll(main);
-            }
-        }
-    }
-
-    private void fillMain(ListView<IListContent> listView) {
+    public ObservableList<IListContent> fillMain() {
         CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
         Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
 
@@ -57,10 +45,6 @@ public class ListUtil {
                             Platform.runLater(() -> {
                                 main.clear();
                                 main.addAll(response.body().getBody());
-                                if (listView != null) {
-                                    listView.getItems().clear();
-                                    listView.getItems().addAll(main);
-                                }
                             });
                         }
                     }
@@ -72,48 +56,20 @@ public class ListUtil {
                 if (!(t instanceof IOException)) {
                     Utils.logException((Exception) t, "cannot fill main hot access list");
                 }
-
-                Platform.runLater(() -> {
-                    if (listView != null) {
-                        if (main.size() > 0) {
-                            listView.getItems().clear();
-                            listView.getItems().addAll(main);
-                        }
-                    }
-                });
             }
         });
+
+        return main;
     }
 
     public void syncFillMain() {
-        fillMain(null);
+        fillMain();
     }
 
-    public void fillForCategory(ListView<IListContent> listView, String category) {
-        ObservableList<ProductProperties> list = (ObservableList<ProductProperties>)categorized.get(category);
-
-        if (list == null) {
-            list = FXCollections.observableList(new ArrayList<>());
-            categorized.put(category, list);
-        }
-
-        if (list.size() < 2) {
-            cashForCategory(listView, category);
-        }
-
-        if (listView != null) {
-            listView.getItems().clear();
-            listView.getItems().addAll(list);
-        }
-    }
-
-    private void cashForCategory(ListView<IListContent> listView, String category) {
-        ObservableList<ProductProperties> list = (ObservableList<ProductProperties>)categorized.get(category);
-        ProductProperties back = new ProductProperties();
-        back.setName("НАЗАД");
-
-        if (list.size() == 0) {
-            list.add(back);
+    public ArrayList<IListContent> listForCategory(String category) {
+        ArrayList<IListContent> res = (ArrayList<IListContent>) categorized.get(category);
+        if (res == null) {
+            categorized.put(category, new ArrayList<IListContent>());
         }
 
         ProductService productService = RestClient.getClient().create(ProductService.class);
@@ -125,16 +81,8 @@ public class ListUtil {
                     if (response.isSuccessful()) {
                         if (response.body() != null) {
                             if (response.body().getStatus() == 0) {
-                                Platform.runLater(() -> {
-                                    list.clear();
-                                    list.add(back);
-                                    list.addAll(response.body().getBody());
-
-                                    if (listView != null) {
-                                        listView.getItems().clear();
-                                        listView.getItems().addAll(list);
-                                    }
-                                });
+                                ((ArrayList<IListContent>) categorized.get(category)).clear();
+                                categorized.put(category, response.body().getBody());
                             }
                         }
                     }
@@ -148,20 +96,13 @@ public class ListUtil {
                 if (!(t instanceof IOException)) {
                     Utils.logException((Exception) t, "io exception while getting product for category");
                 }
-
-                Platform.runLater(() -> {
-                    if (listView != null) {
-                        if (list.size() > 0) {
-                            listView.getItems().clear();
-                            listView.getItems().addAll(list);
-                        }
-                    }
-                });
             }
         });
+
+        return res;
     }
 
     public void syncCashForCategory(String category) {
-        fillForCategory(null, category);
+        listForCategory(category);
     }
 }

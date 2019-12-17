@@ -1,9 +1,9 @@
 package com.vvmarkets.sync;
 
 import com.vvmarkets.configs.Config;
+import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
-import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.responses.ProductResponse;
 import com.vvmarkets.responses.SettingResponse;
 import com.vvmarkets.services.ProductService;
@@ -60,7 +60,7 @@ public class Base {
         try {
             ListUtil.INSTANCE.syncFillMain();
 
-            for (ProductCategory category: ListUtil.INSTANCE.getMain()) {
+            for (IListContent category: ListUtil.INSTANCE.getMain()) {
                 try {
                     ListUtil.INSTANCE.syncCashForCategory(category.getQueryId());
                 } catch (Exception ex) {
