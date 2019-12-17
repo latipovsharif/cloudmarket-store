@@ -15,6 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -68,6 +69,9 @@ public class MainController implements Initializable, IController {
     public Label lblTotal;
     @FXML
     public Button btnConfirm;
+
+    @FXML
+    private TextField searchTxtField;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -196,5 +200,15 @@ public class MainController implements Initializable, IController {
     private void showMainMenu() {
         mainMasonryPane.getChildren().clear();
         mainMasonryPane.getChildren().addAll(ProductComponent.getList());
+    }
+
+    public void searchKeyPressed(KeyEvent keyEvent) {
+        if (!searchTxtField.getText().isEmpty()) {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                searchTxtField.getText();
+            }
+        } else {
+
+        }
     }
 }

@@ -19,4 +19,8 @@ public interface ProductService {
     
     @GET("/api/v1/cashes/product/category/")
     Call<ResponseBody<List<ProductProperties>>> productForCategory(@Query("category") String categoryID);
+
+    @GET("/api/v1/cashes/product/search/")
+    Call<ResponseBody<List<ProductProperties>>> productSearch(@Query("product") String product);
+
 }
