@@ -39,18 +39,24 @@ public class ProductComponent extends VBox {
     }
 
     public static List<ProductComponent> getList(String productId) {
-        return listToComponent(ListUtil.INSTANCE.listForCategory(productId));
+        return listToComponent(ListUtil.INSTANCE.listForCategory(productId, false));
     }
 
     private static List<ProductComponent> listToComponent(List<IListContent> contents){
         List<ProductComponent> res = new ArrayList<>();
+
+        if (contents == null) {
+            return res;
+        }
+
         try {
             CopyOnWriteArrayList<IListContent> lst = new CopyOnWriteArrayList<>(contents);
+
             for (IListContent content : lst) {
-//                if (content == null) {
-//                    continue;
-//                }
-//
+                if (content == null) {
+                    continue;
+                }
+
                 ProductComponent pc = new ProductComponent(content);
                 pc.setBackground(new Background(new BackgroundFill(Paint.valueOf("#fff"), null, null)));
                 ImageView iv = new ImageView();

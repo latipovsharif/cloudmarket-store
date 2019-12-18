@@ -58,7 +58,7 @@ public class Utils {
     }
 
     public static void logException(Exception e, String description) {
-        log.error(description + ": \n\t" + e.getMessage() + "\n\t Stack: " +
+        log.error("Description: " + description + ": \n\t Message: " + e.getMessage() + "\n\t Stack: " +
                 stackToString(e.getStackTrace()));
     }
 }

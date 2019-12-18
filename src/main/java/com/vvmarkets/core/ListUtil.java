@@ -66,43 +66,35 @@ public class ListUtil {
         fillMain();
     }
 
-    public ArrayList<IListContent> listForCategory(String category) {
+    public ArrayList<IListContent> listForCategory(String category, boolean forceUpdate) {
+
         ArrayList<IListContent> res = (ArrayList<IListContent>) categorized.get(category);
         if (res == null) {
             categorized.put(category, new ArrayList<IListContent>());
         }
 
-        ProductService productService = RestClient.getClient().create(ProductService.class);
-        Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(category);
-        listProductForCategoryCall.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NotNull Call<ResponseBody<List<ProductProperties>>> call, @NotNull Response<ResponseBody<List<ProductProperties>>> response) {
-                try {
-                    if (response.isSuccessful()) {
-                        if (response.body() != null) {
-                            if (response.body().getStatus() == 0) {
-                                ((ArrayList<IListContent>) categorized.get(category)).clear();
-                                categorized.put(category, response.body().getBody());
-                            }
+        if (forceUpdate || res == null) {
+            ProductService productService = RestClient.getClient().create(ProductService.class);
+            Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(category);
+            try{
+                Response<ResponseBody<List<ProductProperties>>> response = listProductForCategoryCall.execute();
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatus() == 0) {
+                            ((ArrayList<IListContent>) categorized.get(category)).clear();
+                            categorized.put(category, response.body().getBody());
+                            return (ArrayList<IListContent>) categorized.get(category);
                         }
                     }
-                } catch (Exception e) {
-                    Utils.logException(e, "error while handling response of category for product list");
                 }
+            } catch (Exception e) {
+                Utils.logException(e, "error while handling response of category for product list");
             }
-
-            @Override
-            public void onFailure(Call<ResponseBody<List<ProductProperties>>> call, Throwable t) {
-                if (!(t instanceof IOException)) {
-                    Utils.logException((Exception) t, "io exception while getting product for category");
-                }
-            }
-        });
-
+        }
         return res;
     }
 
     public void syncCashForCategory(String category) {
-        listForCategory(category);
+        listForCategory(category, true);
     }
 }

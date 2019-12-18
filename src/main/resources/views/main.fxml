@@ -6,16 +6,14 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css, @../css/base.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController">
+<AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css, @../css/base.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.vvmarkets.controllers.MainController">
    <TextField fx:id="searchTxtField" onKeyPressed="#searchKeyPressed" prefHeight="43.0" prefWidth="376.0" AnchorPane.leftAnchor="350.0" AnchorPane.topAnchor="10.0" />
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
       <ScrollPane fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <content>
-              <JFXMasonryPane fx:id="mainMasonryPane" limitRow="1000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-        </content>
+          <JFXMasonryPane fx:id="mainMasonryPane" limitRow="1000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       </ScrollPane>
     </AnchorPane>
-    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="350.0" styleClass="mainTabPane" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
+    <TabPane fx:id="mainTabPane" prefHeight="200.0" prefWidth="350.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="160.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
     <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#newTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="5.0" />
     <Button fx:id="btnCloseTab" alignment="CENTER" layoutX="150.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeTabClicked" prefHeight="50.0" prefWidth="50.0" rotate="45.0" styleClass="roundedButton" text="+" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="5.0" />
     <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="733.0" layoutY="4.0" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">

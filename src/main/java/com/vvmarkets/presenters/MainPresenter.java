@@ -1,6 +1,7 @@
 package com.vvmarkets.presenters;
 
 import com.vvmarkets.controllers.MainController;
+import com.vvmarkets.core.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -25,8 +26,15 @@ public class MainPresenter implements IPresenter {
 
     public Parent getView() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
-        Parent root = loader.load();
-        this.controller = loader.getController();
+        Parent root = null;
+        try{
+            root = loader.load();
+            this.controller = loader.getController();
+
+        } catch (Exception e) {
+            Utils.logException(e, "cannot load main fxml");
+        }
+
         return root;
     }
 }

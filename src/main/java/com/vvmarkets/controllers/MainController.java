@@ -10,6 +10,7 @@ import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -21,6 +22,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.controlsfx.control.BreadCrumbBar;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -83,6 +85,26 @@ public class MainController implements Initializable, IController {
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
         });
+
+        try{
+            BreadCrumbBar<String> breadCrumbBar = new BreadCrumbBar<>();
+            TreeItem<String> model = BreadCrumbBar.buildTreeModel("Главная");
+            model.getChildren().add(new TreeItem<>("Hello"));
+            breadCrumbBar.setSelectedCrumb(model);
+            breadCrumbBar.setOnCrumbAction(bae -> {
+//                    System.out.println("You just clicked on '" + bae.getSelectedCrumb() + "'!");
+                showMainMenu();
+            });
+
+            AnchorPane.setTopAnchor(breadCrumbBar, 15.0);
+            AnchorPane.setRightAnchor(breadCrumbBar, 250.0);
+            mainContainer.getChildren().add(breadCrumbBar);
+
+        }catch (Exception e){
+            Utils.logException(e, "cannot create bread crumb");
+        }
+
+        System.out.println(System.getProperties());
 
         showMainMenu();
     }
