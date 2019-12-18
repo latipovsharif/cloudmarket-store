@@ -86,26 +86,7 @@ public class MainController implements Initializable, IController {
             lblTotal.setText(String.valueOf(aDouble));
         });
 
-        try{
-            BreadCrumbBar<String> breadCrumbBar = new BreadCrumbBar<>();
-            TreeItem<String> model = BreadCrumbBar.buildTreeModel("Главная");
-            model.getChildren().add(new TreeItem<>("Hello"));
-            breadCrumbBar.setSelectedCrumb(model);
-            breadCrumbBar.setOnCrumbAction(bae -> {
-//                    System.out.println("You just clicked on '" + bae.getSelectedCrumb() + "'!");
-                showMainMenu();
-            });
-
-            AnchorPane.setTopAnchor(breadCrumbBar, 15.0);
-            AnchorPane.setRightAnchor(breadCrumbBar, 250.0);
-            mainContainer.getChildren().add(breadCrumbBar);
-
-        }catch (Exception e){
-            Utils.logException(e, "cannot create bread crumb");
-        }
-
-        System.out.println(System.getProperties());
-
+        setBreadCrumbBar("Главная");
         showMainMenu();
     }
 
@@ -185,6 +166,7 @@ public class MainController implements Initializable, IController {
                 case Category:
                     mainMasonryPane.getChildren().clear();
                     mainMasonryPane.getChildren().addAll(ProductComponent.getList(pc.getProduct().getQueryId()));
+                    setBreadCrumbBar("Главная", pc.getProduct().getName());
                     break;
                 case Product:
                     try {
@@ -222,15 +204,38 @@ public class MainController implements Initializable, IController {
     private void showMainMenu() {
         mainMasonryPane.getChildren().clear();
         mainMasonryPane.getChildren().addAll(ProductComponent.getList());
+        setBreadCrumbBar("Главная");
     }
 
     public void searchKeyPressed(KeyEvent keyEvent) {
         if (!searchTxtField.getText().isEmpty()) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                searchTxtField.getText();
+                mainMasonryPane.getChildren().clear();
+                mainMasonryPane.getChildren().addAll(ProductComponent.getSearchList(searchTxtField.getText()));
             }
         } else {
-
+            showMainMenu();
         }
+    }
+
+    private <T> void setBreadCrumbBar(T ...data) {
+        try{
+            BreadCrumbBar<T> breadCrumbBar = new BreadCrumbBar<>();
+            TreeItem<T> model = BreadCrumbBar.buildTreeModel(data);
+            breadCrumbBar.setSelectedCrumb(model);
+            breadCrumbBar.setOnCrumbAction(bae -> {
+                if(!bae.getSelectedCrumb().isLeaf()) {
+                    showMainMenu();
+                }
+            });
+
+            AnchorPane.setTopAnchor(breadCrumbBar, 15.0);
+            AnchorPane.setRightAnchor(breadCrumbBar, 250.0);
+            mainContainer.getChildren().add(breadCrumbBar);
+
+        }catch (Exception e){
+            Utils.logException(e, "cannot create bread crumb");
+        }
+
     }
 }

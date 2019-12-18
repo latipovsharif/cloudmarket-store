@@ -66,7 +66,7 @@ public class ListUtil {
         fillMain();
     }
 
-    public ArrayList<IListContent> listForCategory(String category, boolean forceUpdate) {
+    public List<? extends IListContent> listForCategory(String category, boolean forceUpdate) {
 
         ArrayList<IListContent> res = (ArrayList<IListContent>) categorized.get(category);
         if (res == null) {
@@ -83,7 +83,7 @@ public class ListUtil {
                         if (response.body().getStatus() == 0) {
                             ((ArrayList<IListContent>) categorized.get(category)).clear();
                             categorized.put(category, response.body().getBody());
-                            return (ArrayList<IListContent>) categorized.get(category);
+                            return response.body().getBody();
                         }
                     }
                 }
