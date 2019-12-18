@@ -62,6 +62,8 @@ public class LogInController {
                             Config.setAuthorizationKey(response.body().getToken());
                             try {
                                 Utils.showScreen(new MainPresenter(loginContainer).getView());
+                                txtLogin.setText("");
+                                txtPassword.setText("");
                             } catch (Exception ex) {
                                 Platform.runLater(() -> {
                                     Alert a = DialogUtil.newWarning("Error", ex.getMessage());

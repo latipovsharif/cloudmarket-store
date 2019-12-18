@@ -30,7 +30,7 @@ public class MainPresenter implements IPresenter {
         try{
             root = loader.load();
             this.controller = loader.getController();
-
+            this.controller.setPreviousView(previousNode);
         } catch (Exception e) {
             Utils.logException(e, "cannot load main fxml");
         }

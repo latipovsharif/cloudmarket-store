@@ -216,7 +216,7 @@ public class MainController implements Initializable, IController {
     }
 
     public void logout(ActionEvent actionEvent) {
-        showMainMenu();
+        Utils.showScreen(previousView);
     }
 
     private void showMainMenu() {
