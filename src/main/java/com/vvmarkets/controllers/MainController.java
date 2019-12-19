@@ -87,24 +87,6 @@ public class MainController implements Initializable, IController {
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
-        if (keyEvent.getCode() == KeyCode.ENTER) {
-            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-
-            try {
-                Product product = Product.getProduct(tmpBarcode);
-                product.setQuantity(1);
-                TableUtil.addProduct(tableView, product);
-            } catch (NotFound nf) {
-                DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
-            } catch (Exception e) {
-                Utils.logException(e, "cannot get product");
-                DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
-            }
-
-            tmpBarcode = "";
-        } else if (keyEvent.getCode().isDigitKey()) {
-            tmpBarcode += keyEvent.getText();
-        }
     }
 
     public void confirm(ActionEvent actionEvent) throws Exception {
