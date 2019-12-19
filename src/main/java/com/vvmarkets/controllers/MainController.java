@@ -10,19 +10,16 @@ import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.controlsfx.control.BreadCrumbBar;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URL;
@@ -86,7 +83,6 @@ public class MainController implements Initializable, IController {
             lblTotal.setText(String.valueOf(aDouble));
         });
 
-        setBreadCrumbBar("Главная");
         showMainMenu();
     }
 
@@ -166,7 +162,6 @@ public class MainController implements Initializable, IController {
                 case Category:
                     mainMasonryPane.getChildren().clear();
                     mainMasonryPane.getChildren().addAll(ProductComponent.getList(pc.getProduct().getQueryId()));
-                    setBreadCrumbBar("Главная", pc.getProduct().getName());
                     break;
                 case Product:
                     try {
@@ -201,14 +196,13 @@ public class MainController implements Initializable, IController {
         Utils.showScreen(previousView);
     }
 
-    private void showMainMenu() {
+    public void showMainMenu() {
         mainMasonryPane.getChildren().clear();
         mainMasonryPane.getChildren().addAll(ProductComponent.getList());
-        setBreadCrumbBar("Главная");
     }
 
     public void searchKeyPressed(KeyEvent keyEvent) {
-        if (!searchTxtField.getText().isEmpty()) {
+        if (!searchTxtField.getText().isEmpty() && !searchTxtField.getText().isBlank()) {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 mainMasonryPane.getChildren().clear();
                 mainMasonryPane.getChildren().addAll(ProductComponent.getSearchList(searchTxtField.getText()));
@@ -216,26 +210,5 @@ public class MainController implements Initializable, IController {
         } else {
             showMainMenu();
         }
-    }
-
-    private <T> void setBreadCrumbBar(T ...data) {
-        try{
-            BreadCrumbBar<T> breadCrumbBar = new BreadCrumbBar<>();
-            TreeItem<T> model = BreadCrumbBar.buildTreeModel(data);
-            breadCrumbBar.setSelectedCrumb(model);
-            breadCrumbBar.setOnCrumbAction(bae -> {
-                if(!bae.getSelectedCrumb().isLeaf()) {
-                    showMainMenu();
-                }
-            });
-
-            AnchorPane.setTopAnchor(breadCrumbBar, 15.0);
-            AnchorPane.setRightAnchor(breadCrumbBar, 250.0);
-            mainContainer.getChildren().add(breadCrumbBar);
-
-        }catch (Exception e){
-            Utils.logException(e, "cannot create bread crumb");
-        }
-
     }
 }

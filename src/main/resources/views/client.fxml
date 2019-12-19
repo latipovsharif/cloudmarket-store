@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 
 
-<AnchorPane prefHeight="589.0" prefWidth="819.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="com.vvmarkets.controllers.ClientController">
+<AnchorPane prefHeight="589.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ClientController">
    <children>
       <HBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="819.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
