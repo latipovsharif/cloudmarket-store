@@ -3,7 +3,6 @@ package com.vvmarkets.components;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
-import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
@@ -39,11 +38,11 @@ public class ProductComponent extends VBox {
     }
 
     public static List<ProductComponent> getList() {
-        return listToComponent(ListUtil.INSTANCE.fillMain());
+        return listToComponent(ListUtil.INSTANCE.fillMain(), false);
     }
 
     public static List<ProductComponent> getList(String productId) {
-        return listToComponent(ListUtil.INSTANCE.listForCategory(productId, false));
+        return listToComponent(ListUtil.INSTANCE.listForCategory(productId, false), true);
     }
 
     public static List<ProductComponent> getSearchList(String searchString) {
@@ -55,7 +54,7 @@ public class ProductComponent extends VBox {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
                     if (response.body().getStatus() == 0) {
-                        return listToComponent(response.body().getBody());
+                        return listToComponent(response.body().getBody(), true);
                     }
                 }
             }
@@ -65,8 +64,14 @@ public class ProductComponent extends VBox {
         return new ArrayList<>();
     }
 
-    private static List<ProductComponent> listToComponent(List<? extends IListContent> contents){
+    private static List<ProductComponent> listToComponent(List<? extends IListContent> contents, boolean addBack){
         List<ProductComponent> res = new ArrayList<>();
+
+        if (addBack) {
+            var p = new ProductProperties();
+            p.setName("НАЗАД");
+            res.add(0, getComponent(p));
+        }
 
         if (contents == null) {
             return res;
@@ -80,19 +85,22 @@ public class ProductComponent extends VBox {
                     continue;
                 }
 
-                ProductComponent pc = new ProductComponent(content);
-                pc.setBackground(new Background(new BackgroundFill(Paint.valueOf("#fff"), null, null)));
-                ImageView iv = new ImageView();
-                iv.setImage(new Image("images/no_image.png"));
-                Label lbl = new Label(content.getName());
-                pc.getChildren().add(iv);
-                pc.getChildren().add(lbl);
-
-                res.add(pc);
+                res.add(getComponent(content));
             }
         }catch(Exception e) {
             Utils.logException(e, "cannot get list of content");
         }
         return res;
+    }
+
+    private static ProductComponent getComponent(IListContent content) {
+        ProductComponent pc = new ProductComponent(content);
+        pc.setBackground(new Background(new BackgroundFill(Paint.valueOf("#fff"), null, null)));
+        ImageView iv = new ImageView();
+        iv.setImage(new Image("images/no_image.png"));
+        Label lbl = new Label(content.getName());
+        pc.getChildren().add(iv);
+        pc.getChildren().add(lbl);
+        return pc;
     }
 }

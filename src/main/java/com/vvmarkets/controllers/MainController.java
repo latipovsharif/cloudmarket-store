@@ -5,6 +5,7 @@ import com.vvmarkets.Main;
 import com.vvmarkets.components.ProductComponent;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.dao.Seller;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
@@ -136,6 +137,12 @@ public class MainController implements Initializable, IController {
         }
 
         if (pc != null) {
+            if (pc.getProduct() instanceof ProductProperties) {
+                if (pc.getProduct().getQueryId() == null) {
+                    showMainMenu();
+                }
+            }
+
             if (pc.getProduct() == null || pc.getProduct().getQueryId() == null || pc.getProduct().getQueryId().isEmpty()) {
                 return;
             }
