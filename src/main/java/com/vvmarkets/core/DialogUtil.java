@@ -1,5 +1,6 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.dao.ProductProperties;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
@@ -22,14 +23,6 @@ public class DialogUtil {
 
         return alert;
     }
-
-    public static Dialog getQuantityDialog(double quantity) {
-        Dialog dialog = new TextInputDialog(String.valueOf(quantity));
-        dialog.setTitle("Количество");
-        dialog.setHeaderText("Введите количество");
-        return dialog;
-    }
-
 
     public static void showInformationNotification(String header, String content) {
         showNotification("info",header,content);

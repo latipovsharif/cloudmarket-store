@@ -155,11 +155,12 @@ public class MainController implements Initializable, IController {
                 case Product:
                     try {
                         Product clickedRow = Product.getProduct(pc.getProduct().getQueryId());
-                        Dialog dialog = DialogUtil.getQuantityDialog(1);
-                        Optional<String> result = dialog.showAndWait();
+                        Dialog dialog = new QuantityDialog(pc.getProduct());
+//                        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+                        Optional<Double> result = dialog.showAndWait();
 
                         if (result.isPresent()) {
-                            double entered = Utils.getDoubleOrZero(result.get());
+                            double entered = result.get();
 
                             if (entered > 0) {
                                 clickedRow.setQuantity(entered);

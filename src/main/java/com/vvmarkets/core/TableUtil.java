@@ -9,7 +9,6 @@ import io.reactivex.subjects.PublishSubject;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.util.Callback;
 import kotlin.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -17,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class TableUtil {
 
