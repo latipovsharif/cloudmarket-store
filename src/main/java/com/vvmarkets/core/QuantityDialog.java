@@ -23,6 +23,11 @@ public class QuantityDialog extends Dialog<Double> {
                     }
             );
 
+            controller.btnCancel.setOnAction(actionEvent -> {
+                setResult(-1.0);
+                this.close();
+            });
+
         } catch (Exception e) {
             Utils.logException(e, "cannot load fxml for quantity dialog");
         }

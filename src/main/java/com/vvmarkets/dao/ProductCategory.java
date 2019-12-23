@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListContentType;
+import javafx.scene.image.Image;
 
 public class ProductCategory implements IListContent{
     @Expose
@@ -13,6 +14,8 @@ public class ProductCategory implements IListContent{
     @Expose
     @SerializedName("name")
     private String name;
+
+    private String thumb;
 
     public String getId() {
         return id;
@@ -54,4 +57,17 @@ public class ProductCategory implements IListContent{
     public String getQueryId() {
         return getId();
     }
+
+    public Image getThumb() {
+        if (thumb == null || thumb.isBlank() || thumb.isEmpty()) {
+            return new Image("images/no_image.png");
+        }
+
+        return new Image(thumb);
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
+    }
+
 }

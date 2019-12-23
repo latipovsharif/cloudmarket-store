@@ -26,6 +26,24 @@ public class QuantityDialogController {
     private IListContent content;
 
     public void btnNumClicked(ActionEvent actionEvent) {
-        System.out.println(((Button)actionEvent.getSource()).getText());
+        txtValue.setText(txtValue.getText() + ((Button)actionEvent.getSource()).getText());
+    }
+
+    public void btnClearClicked(ActionEvent actionEvent) {
+        txtValue.setText("");
+    }
+
+    public void btnDotClicked(ActionEvent actionEvent) {
+        if (txtValue.getText().contains(".")){
+            return;
+        }
+
+        txtValue.setText(txtValue.getText() + ".");
+    }
+
+    public void btnBackClicked(ActionEvent actionEvent) {
+        if (txtValue.getText().length() > 0) {
+            txtValue.setText(txtValue.getText(0, txtValue.getText().length() - 1));
+        }
     }
 }

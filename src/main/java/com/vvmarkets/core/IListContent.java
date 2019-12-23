@@ -5,6 +5,8 @@
  */
 package com.vvmarkets.core;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author sharif
@@ -13,4 +15,5 @@ public interface IListContent {
     String getName();
     String getQueryId();
     ListContentType getType();
+    Image getThumb();
 }

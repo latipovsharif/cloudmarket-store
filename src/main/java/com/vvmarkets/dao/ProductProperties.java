@@ -4,11 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListContentType;
+import javafx.scene.image.Image;
 
 public class ProductProperties implements IListContent{
     @Expose
     @SerializedName("id")
     private String id;
+
+    private String thumb;
 
     @Expose
     @SerializedName("name")
@@ -123,5 +126,17 @@ public class ProductProperties implements IListContent{
 
     public String getQueryId(){
         return getBarcode();
+    }
+
+    public Image getThumb() {
+        if (thumb == null || thumb.isBlank() || thumb.isEmpty()) {
+            return new Image("images/no_image.png");
+        }
+
+        return new Image(thumb);
+    }
+
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 }

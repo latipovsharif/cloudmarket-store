@@ -8,7 +8,6 @@ import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -70,6 +69,7 @@ public class ProductComponent extends VBox {
         if (addBack) {
             var p = new ProductProperties();
             p.setName("НАЗАД");
+            p.setThumb("images/back.png");
             res.add(0, getComponent(p));
         }
 
@@ -97,7 +97,11 @@ public class ProductComponent extends VBox {
         ProductComponent pc = new ProductComponent(content);
         pc.setBackground(new Background(new BackgroundFill(Paint.valueOf("#fff"), null, null)));
         ImageView iv = new ImageView();
-        iv.setImage(new Image("images/no_image.png"));
+        iv.setImage(content.getThumb());
+        iv.prefHeight(150);
+        iv.prefWidth(150);
+        iv.setFitWidth(150);
+        iv.setFitHeight(150);
         Label lbl = new Label(content.getName());
         pc.getChildren().add(iv);
         pc.getChildren().add(lbl);

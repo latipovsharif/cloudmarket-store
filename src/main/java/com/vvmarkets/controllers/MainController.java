@@ -161,6 +161,9 @@ public class MainController implements Initializable, IController {
 
                         if (result.isPresent()) {
                             double entered = result.get();
+                            if (entered < 0) {
+                                return;
+                            }
 
                             if (entered > 0) {
                                 clickedRow.setQuantity(entered);
