@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane fx:controller="com.vvmarkets.controllers.QuantityDialogController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="336.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="336.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.QuantityDialogController">
       <Label layoutX="58.0" layoutY="10.0" prefHeight="30.0" prefWidth="218.0" text="Введите количество" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="20.0" />
          </font></Label>
-      <TextField fx:id="txtValue" layoutX="43.0" layoutY="49.0" prefHeight="50.0" prefWidth="174.0" />
+      <TextField fx:id="txtValue" layoutX="43.0" layoutY="49.0" prefHeight="50.0" prefWidth="174.0" promptText="1">
+      <font>
+         <Font size="22.0" />
+      </font></TextField>
       <Button layoutX="239.0" layoutY="49.0" mnemonicParsing="false" onAction="#btnBackClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="&lt;" />
       <HBox alignment="CENTER" layoutX="133.0" layoutY="104.0" prefHeight="308.0" prefWidth="336.0" spacing="20.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
             <VBox alignment="TOP_CENTER" spacing="10.0">
@@ -55,4 +54,3 @@
             </Button>
       </HBox>
 </AnchorPane>
-

@@ -18,7 +18,11 @@ public class QuantityDialog extends Dialog<Double> {
 
             controller.btnConfirm.setOnAction(
                     actionEvent -> {
-                        setResult(Utils.getDoubleOrZero(controller.txtValue.getText()));
+                        if (controller.txtValue.getText().isEmpty()) {
+                            setResult(1.0);
+                        } else {
+                            setResult(Utils.getDoubleOrZero(controller.txtValue.getText()));
+                        }
                         this.close();
                     }
             );
