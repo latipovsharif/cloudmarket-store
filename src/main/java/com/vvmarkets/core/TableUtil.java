@@ -40,7 +40,7 @@ public class TableUtil {
         article.setVisible(false);
 
         TableColumn<Product, String> name = new TableColumn<>("Наименование");
-        name.setPrefWidth(95);
+        name.setPrefWidth(140);
         Callback<TableColumn<Product, String>, TableCell<Product, String>> addNameFactory =  new Callback<>() {
             @Override
             public TableCell call(final TableColumn<Product, String> param) {
@@ -56,7 +56,8 @@ public class TableUtil {
                         } else {
                             Product p = getTableView().getItems().get(getIndex());
                             lbl.setText(p.getProductProperties().getName());
-                            lbl.setPrefSize(90, 30);
+                            lbl.setPrefSize(130, 30);
+                            lbl.setStyle("-fx-wrap-text: true; -fx-font-size: 12");
 
 
                             lbl.setOnMouseClicked(event -> {
@@ -88,17 +89,17 @@ public class TableUtil {
         name.setCellFactory(addNameFactory);
 
         TableColumn<Product, Double> total = new TableColumn<>("Итог");
-        total.setPrefWidth(80);
+        total.setPrefWidth(90);
         total.setCellValueFactory(new PropertyValueFactory<>("total"));
 
         TableColumn<Product, Double> price = new TableColumn<>("Цена");
-        price.setPrefWidth(45);
+        price.setPrefWidth(55);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         table.getColumns().addAll(Arrays.asList(id, article, name, price));
 
         TableColumn subtract = new TableColumn("");
-        subtract.setPrefWidth(40);
+        subtract.setPrefWidth(50);
         subtract.setCellValueFactory(new PropertyValueFactory<>(""));
 
         Callback<TableColumn<Product, String>, TableCell<Product, String>> subtractCellFactory =  new Callback<>() {
@@ -139,13 +140,13 @@ public class TableUtil {
         table.getColumns().add(subtract);
 
         TableColumn<Product, Double> quantity = new TableColumn<>("Количество");
-        quantity.setPrefWidth(45);
+        quantity.setPrefWidth(55);
         quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         table.getColumns().add(quantity);
 
         TableColumn add = new TableColumn("");
-        add.setPrefWidth(40);
+        add.setPrefWidth(50);
         add.setCellValueFactory(new PropertyValueFactory<>(""));
 
         Callback<TableColumn<Product, String>, TableCell<Product, String>> addCellFactory =  new Callback<>() {
