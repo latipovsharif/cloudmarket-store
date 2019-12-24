@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class TableUtil {
 
@@ -23,6 +24,8 @@ public class TableUtil {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public static TableView<Product> getTable() {
+        TableView<Product> table = new TableView<>();
+
         TableColumn<Product, String> id = new TableColumn<>("Id");
         id.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getProductProperties().getId())
@@ -38,9 +41,51 @@ public class TableUtil {
 
         TableColumn<Product, String> name = new TableColumn<>("Наименование");
         name.setPrefWidth(95);
-        name.setCellValueFactory(param ->
-                new SimpleStringProperty(param.getValue().getProductProperties().getName())
-        );
+        Callback<TableColumn<Product, String>, TableCell<Product, String>> addNameFactory =  new Callback<>() {
+            @Override
+            public TableCell call(final TableColumn<Product, String> param) {
+                final TableCell<Product, String> cell = new TableCell<>() {
+
+                    final Label lbl = new Label();
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            Product p = getTableView().getItems().get(getIndex());
+                            lbl.setText(p.getProductProperties().getName());
+                            lbl.setPrefSize(90, 30);
+
+
+                            lbl.setOnMouseClicked(event -> {
+                                Dialog dialog = new QuantityDialog(p.getProductProperties());
+                                Optional<Double> result = dialog.showAndWait();
+                                if (result.isPresent()) {
+                                    double entered = result.get();
+                                    if (entered < 0) {
+                                        return;
+                                    }
+
+                                    if (entered > 0) {
+                                        p.setQuantity(entered);
+                                        getTableView().getItems().set(getIndex(), p);
+                                        changed.onNext(calculateTotal(getTable()));
+                                    } else {
+                                        DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
+                                    }
+                                }
+                            });
+                            setGraphic(lbl);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        name.setCellFactory(addNameFactory);
 
         TableColumn<Product, Double> total = new TableColumn<>("Итог");
         total.setPrefWidth(80);
@@ -50,14 +95,11 @@ public class TableUtil {
         price.setPrefWidth(45);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TableView<Product> table = new TableView<>();
-
         table.getColumns().addAll(Arrays.asList(id, article, name, price));
 
         TableColumn subtract = new TableColumn("");
         subtract.setPrefWidth(40);
         subtract.setCellValueFactory(new PropertyValueFactory<>(""));
-
 
         Callback<TableColumn<Product, String>, TableCell<Product, String>> subtractCellFactory =  new Callback<>() {
 
@@ -138,7 +180,6 @@ public class TableUtil {
 
         add.setCellFactory(addCellFactory);
         table.getColumns().addAll(add, total);
-
 
         return table;
     }
