@@ -72,7 +72,7 @@ public class TableUtil {
                                     if (entered > 0) {
                                         p.setQuantity(entered);
                                         getTableView().getItems().set(getIndex(), p);
-                                        changed.onNext(calculateTotal(getTable()));
+                                        changed.onNext(calculateTotal(getTableView()));
                                     } else {
                                         DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
                                     }

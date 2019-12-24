@@ -130,7 +130,7 @@ public class ConfirmController {
 
         ExpenseBody expense = new ExpenseBody(this.products,
                 payment,
-                MainController.sellerId,
+                MainController.seller.getId(),
                 "");
 
         boolean hasErr = true;

@@ -85,36 +85,11 @@ public class Seller {
         return this.FullName;
     }
 
-    public static void fillSeller(ComboBox<Seller> sellerComboBox) {
+    public static Seller fillSeller() throws IOException {
         SellerService sellerService = RestClient.getClient().create(SellerService.class);
         Call<ResponseBody<List<Seller>>> sellerList = sellerService.sellerList();
 
-        sellerList.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<ResponseBody<List<Seller>>> call, Response<ResponseBody<List<Seller>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getStatus() == 0) {
-                            Platform.runLater(() -> {
-                                sellerComboBox.getItems().addAll(response.body().getBody());
-                                if (sellerComboBox.getItems().size() == 1) {
-                                    sellerComboBox.getSelectionModel().select(0);
-                                    sellerComboBox.setDisable(true);
-                                    MainController.sellerId = sellerComboBox.getSelectionModel().getSelectedItem().getId();
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody<List<Seller>>> call, Throwable t) {
-                if (!(t instanceof IOException)) {
-                    Utils.logException((Exception)t, "cannot get seller list from server");
-                    DialogUtil.showErrorNotification("Невозможно получить список продавцов");
-                }
-            }
-        });
+        Response<ResponseBody<List<Seller>>> response = sellerList.execute();
+        return response.body().getBody().get(0);
     }
 }

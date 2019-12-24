@@ -23,6 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -31,14 +32,11 @@ import javafx.scene.input.MouseEvent;
 
 public class MainController implements Initializable, IController {
     private static final Logger log = LogManager.getLogger(Main.class);
-    public static String sellerId = "";
+    public static Seller seller;
     public AnchorPane mainContainer;
 
     @FXML
     public AnchorPane hotAccessPane;
-
-    @FXML
-    public ComboBox<Seller> cmbSeller;
 
     private String tmpBarcode = "";
 
@@ -78,7 +76,15 @@ public class MainController implements Initializable, IController {
         Tab newTab = TabUtil.NewTab();
         newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(0, newTab);
-        Seller.fillSeller(cmbSeller);
+        try {
+            seller = Seller.fillSeller();
+        } catch (IOException e) {
+            Utils.logException(e, "cannot get seller");
+            Alert a = DialogUtil.newWarning("Ошибка при получении продавца", "Невозможно получить продавца\r\n либо он не установлен либо сеть недоступна");
+            a.show();
+            return;
+
+        }
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(String.valueOf(aDouble));
@@ -91,13 +97,6 @@ public class MainController implements Initializable, IController {
     }
 
     public void confirm(ActionEvent actionEvent) throws Exception {
-
-        if (sellerId == null || sellerId.isBlank()) {
-            Alert a = DialogUtil.newWarning("Продавец не выбран", "Для продолжения выберите продавца");
-            a.show();
-            return;
-        }
-
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
         if (tableView.getItems().size() == 0) {
             Alert a = DialogUtil.newWarning("Корзина пуста", "Для продолжения нужно добавить товар в корзину");
@@ -118,10 +117,6 @@ public class MainController implements Initializable, IController {
     private void selectedTabChanged(Event event) {
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
         lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
-    }
-
-    public void sellerChanged(ActionEvent actionEvent) {
-        sellerId = cmbSeller.getSelectionModel().getSelectedItem().getId();
     }
 
     public void closeTabClicked(MouseEvent mouseEvent) {
