@@ -48,7 +48,6 @@ public class ThermalPrinter {
 
     private String getHeader() {
         return "";
-
     }
 
     private String getFooter() {
@@ -65,8 +64,17 @@ public class ThermalPrinter {
         if (job != null) {
             TextFlow textFlow = new TextFlow(new Text(builder.toString()));
             textFlow.setStyle("-fx-font-size: 10");
-            PageLayout layout = job.getPrinter().createPageLayout(Paper.NA_LETTER, PageOrientation.PORTRAIT, Printer.MarginType.HARDWARE_MINIMUM);
-            job.printPage(layout, textFlow);
+            PageLayout layout = job.getPrinter().createPageLayout(
+                    Paper.NA_LETTER,
+                    PageOrientation.PORTRAIT,
+                    Printer.MarginType.HARDWARE_MINIMUM
+            );
+
+            boolean printed = job.printPage(layout, textFlow);
+            if (printed) {
+                job.endJob();
+            }
+
         } else {
             log.error("cannot create printer job");
         }
