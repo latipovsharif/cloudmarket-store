@@ -2,8 +2,16 @@ package com.vvmarkets.requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vvmarkets.core.HttpConnectionHolder;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
+import com.vvmarkets.responses.ExpenseResponse;
+import com.vvmarkets.services.ExpenseService;
+import com.vvmarkets.services.RestClient;
+import com.vvmarkets.utils.ResponseBody;
 import javafx.scene.control.TableView;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,5 +135,27 @@ public class ExpenseBody {
         }
 
         this.products = res;
+    }
+
+    public boolean SaveToNetwork() {
+        if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
+            ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
+            Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(this);
+            try {
+                Response<ResponseBody<ExpenseResponse>> response = listProductCall.execute();
+
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        if (response.body().getStatus() == 0) {
+                            return false;
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                Utils.logException(e, "cannot save transaction to the cloud");
+            }
+        }
+
+        return true;
     }
 }

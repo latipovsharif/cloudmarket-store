@@ -2,28 +2,27 @@ package com.vvmarkets.controllers;
 
 import com.vvmarkets.Main;
 import com.vvmarkets.core.DialogUtil;
-import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.peripheral.ThermalPrinter;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.PaymentBody;
-import com.vvmarkets.services.ExpenseService;
-import com.vvmarkets.services.RestClient;
-import com.vvmarkets.responses.ExpenseResponse;
-import com.vvmarkets.utils.ResponseBody;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import retrofit2.Call;
-import retrofit2.Response;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 
-public class ConfirmController {
+public class ConfirmController implements Initializable {
     private static final Logger log = LogManager.getLogger(Main.class);
 
     @FXML
@@ -33,7 +32,7 @@ public class ConfirmController {
     @FXML
     private TextField discount;
     @FXML
-    private TextField cash;
+    private TextField txtCash;
     @FXML
     private TextField card;
     @FXML
@@ -42,8 +41,16 @@ public class ConfirmController {
     private Button btnCloseCheck;
 
 
+
     private Node previousScene;
     private TableView<Product> products;
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        btnCloseCheck.setDisable(true);
+        txtCash.textProperty().addListener((observableValue, s, t1) -> recalculateChange());
+    }
 
     public void totalChanged() {
         calculateToPay();
@@ -73,7 +80,7 @@ public class ConfirmController {
     private void recalculateChange() {
         double ch, top, csh, crd;
         top = Utils.getDoubleOrZero(toPay.getText());
-        csh = Utils.getDoubleOrZero(cash.getText());
+        csh = Utils.getDoubleOrZero(txtCash.getText());
         crd = Utils.getDoubleOrZero(card.getText());
 
         ch = (csh + crd) - top;
@@ -86,16 +93,13 @@ public class ConfirmController {
         recalculateChange();
     }
 
-    public void cashChanged() {
-        recalculateChange();
-    }
-
     public void cardChanged() {
         if (Utils.getDoubleOrZero(toPay.getText()) < Utils.getDoubleOrZero(card.getText())) {
-            Alert a = DialogUtil.newWarning("Неправильное значение", "Сумма оплаты по карте не может превышать сумму покупки");
+            Alert a = DialogUtil.newWarning("Неправильное значение",
+                    "Сумма оплаты по карте не может превышать сумму покупки");
             a.show();
             card.setText(toPay.getText());
-            cash.setText("0");
+            txtCash.setText("0");
         }
 
         recalculateChange();
@@ -111,9 +115,27 @@ public class ConfirmController {
         calculateToPay();
     }
 
+
     public void btnNumClick(ActionEvent actionEvent) {
-        System.out.println(products.getItems().get(0).getProductProperties().getId());
-        System.out.println(((Button)actionEvent.getSource()).getText());
+        txtCash.setText(txtCash.getText() + ((Button)actionEvent.getSource()).getText());
+    }
+
+    public void btnClearClicked(ActionEvent actionEvent) {
+        txtCash.setText("");
+    }
+
+    public void btnDotClicked(ActionEvent actionEvent) {
+        if (txtCash.getText().contains(".")){
+            return;
+        }
+
+        txtCash.setText(txtCash.getText() + ".");
+    }
+
+    public void btnBackClicked(ActionEvent actionEvent) {
+        if (txtCash.getText().length() > 0) {
+            txtCash.setText(txtCash.getText(0, txtCash.getText().length() - 1));
+        }
     }
 
     public void closeCheck(ActionEvent actionEvent) {
@@ -121,10 +143,12 @@ public class ConfirmController {
         PaymentBody payment = new PaymentBody(
                 Utils.getDoubleOrZero(toPay.getText()),
                 Utils.getDoubleOrZero(card.getText()),
-                Utils.getDoubleOrZero(cash.getText()));
+                Utils.getDoubleOrZero(txtCash.getText()));
         if (!payment.isValid()) {
-            Alert a = DialogUtil.newError("Неправильная сумма", "Сумма оплаты безналичными не может превышать сумму чека");
+            Alert a = DialogUtil.newError("Неправильная сумма",
+                    "Сумма оплаты безналичными не может превышать сумму чека");
             a.show();
+            btnCloseCheck.setDisable(false);
             return;
         }
 
@@ -133,24 +157,7 @@ public class ConfirmController {
                 MainController.seller.getId(),
                 "");
 
-        boolean hasErr = true;
-        if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
-            ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
-            Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(expense);
-            try {
-                Response<ResponseBody<ExpenseResponse>> response = listProductCall.execute();
-
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getStatus() == 0) {
-                            hasErr = false;
-                        }
-                    }
-                }
-            } catch (Exception e) {
-                Utils.logException(e, "cannot save transaction to the cloud");
-            }
-        }
+        boolean hasErr = expense.SaveToNetwork();
 
         if (hasErr) {
             if (TableUtil.saveToDb(expense)) {
@@ -178,4 +185,9 @@ public class ConfirmController {
     public void chooseClient(ActionEvent actionEvent) {
 
     }
+
+    public void cancel(ActionEvent actionEvent) {
+        Utils.showScreen(previousScene);
+    }
+
 }

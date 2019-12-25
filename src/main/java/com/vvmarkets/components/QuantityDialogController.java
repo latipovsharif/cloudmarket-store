@@ -1,4 +1,4 @@
-package com.vvmarkets.controllers;
+package com.vvmarkets.components;
 
 import com.vvmarkets.core.IListContent;
 import javafx.event.ActionEvent;

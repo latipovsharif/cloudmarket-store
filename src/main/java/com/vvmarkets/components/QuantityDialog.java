@@ -1,6 +1,7 @@
-package com.vvmarkets.core;
+package com.vvmarkets.components;
 
-import com.vvmarkets.controllers.QuantityDialogController;
+import com.vvmarkets.core.IListContent;
+import com.vvmarkets.core.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Dialog;

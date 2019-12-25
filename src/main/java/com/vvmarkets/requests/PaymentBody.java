@@ -92,6 +92,10 @@ public class  PaymentBody {
             CashPaid = ToPay - CardPaid;
         }
 
+        if (payed < ToPay) {
+            return false;
+        }
+
         return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.vvmarkets.core;
 
 import com.vvmarkets.Main;
+import com.vvmarkets.components.QuantityDialog;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.ProductBody;

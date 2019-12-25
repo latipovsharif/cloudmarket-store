@@ -3,6 +3,7 @@ package com.vvmarkets.controllers;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.vvmarkets.Main;
 import com.vvmarkets.components.ProductComponent;
+import com.vvmarkets.components.QuantityDialog;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductProperties;
