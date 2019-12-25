@@ -17,7 +17,7 @@
     <TabPane fx:id="mainTabPane" prefWidth="450.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
     <Button fx:id="mainBtnNewTab" alignment="CENTER" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#newTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="5.0">
       <graphic>
-         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../images/plus.png" />
             </image>
@@ -26,7 +26,7 @@
     </Button>
     <Button fx:id="btnCloseTab" alignment="CENTER" layoutX="150.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#closeTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="5.0">
         <graphic>
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../images/close.png" />
             </image></ImageView>
@@ -34,7 +34,7 @@
     </Button>
     <Button fx:id="btnMainMenu" alignment="CENTER" layoutX="733.0" layoutY="4.0" mnemonicParsing="false" onAction="#showMainMenu" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="5.0">
         <graphic>
-            <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@../images/home.png" />
                 </image>
@@ -43,7 +43,7 @@
     </Button>
     <Button fx:id="mainBtnExit" alignment="CENTER" layoutX="733.0" layoutY="4.0" mnemonicParsing="false" onAction="#logout" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="5.0">
       <graphic>
-         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
             <image>
                <Image url="@../images/logout.png" />
             </image>

@@ -48,7 +48,6 @@ public class ConfirmController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        btnCloseCheck.setDisable(true);
         txtCash.textProperty().addListener((observableValue, s, t1) -> recalculateChange());
     }
 
