@@ -63,7 +63,7 @@ public class ProductComponent extends VBox {
         return new ArrayList<>();
     }
 
-    private static List<ProductComponent> listToComponent(List<? extends IListContent> contents, boolean addBack){
+    public static List<ProductComponent> listToComponent(List<? extends IListContent> contents, boolean addBack){
         List<ProductComponent> res = new ArrayList<>();
 
         if (addBack) {

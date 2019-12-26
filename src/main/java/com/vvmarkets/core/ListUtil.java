@@ -62,6 +62,25 @@ public class ListUtil {
         return main;
     }
 
+    public static List<ProductCategory> fillMainSync() {
+        try {
+            CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
+            Response<ResponseBody<List<ProductCategory>>> response = categoryService.categoryList().execute();
+
+            if (response.isSuccessful()) {
+                if (response.body() != null) {
+                    if (response.body().getStatus() == 0) {
+                        return response.body().getBody();
+                    }
+                }
+            }
+        } catch(Exception e) {
+            Utils.logException(e, "cannot get sync version of main list");
+        }
+
+        return new ArrayList<>();
+    }
+
     public void syncFillMain() {
         fillMain();
     }

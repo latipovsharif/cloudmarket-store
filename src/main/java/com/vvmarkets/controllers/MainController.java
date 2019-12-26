@@ -91,7 +91,11 @@ public class MainController implements Initializable, IController {
             lblTotal.setText(String.valueOf(aDouble));
         });
 
-        showMainMenu();
+        mainMasonryPane.getChildren().addAll(
+                ProductComponent.listToComponent(
+                        ListUtil.fillMainSync(),
+                        false)
+        );
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {

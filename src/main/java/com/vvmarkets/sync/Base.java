@@ -9,8 +9,6 @@ import com.vvmarkets.responses.SettingResponse;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -22,8 +20,6 @@ import java.util.concurrent.TimeUnit;
 import static com.vvmarkets.configs.Config.getSyncTimeout;
 
 public class Base {
-    private static final Logger log = LogManager.getLogger(ListUtil.class);
-
     public static void sync() {
         Runnable croneRunnable = Base::syncMain;
 
