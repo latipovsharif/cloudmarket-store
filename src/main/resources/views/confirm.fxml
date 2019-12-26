@@ -11,7 +11,7 @@
     <children>
         <HBox alignment="CENTER" layoutX="7.0" prefHeight="530.0" prefWidth="830.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <VBox alignment="TOP_CENTER">
+                <VBox alignment="TOP_CENTER" prefHeight="481.0" prefWidth="476.0">
                     <children>
                         <HBox>
                             <children>
@@ -25,7 +25,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="total" disable="true" onKeyTyped="#totalChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="total" disable="true" onKeyTyped="#totalChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -47,7 +47,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="discount" disable="true" onKeyTyped="#discountChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="discount" disable="true" onKeyTyped="#discountChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -70,7 +70,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="toPay" disable="true" onKeyTyped="#toPayChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="toPay" disable="true" onKeyTyped="#toPayChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -92,7 +92,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="txtCash" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="txtCash" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -114,7 +114,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="card" disable="true" onKeyTyped="#cardChanged" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="card" disable="true" onKeyTyped="#cardChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>
@@ -136,7 +136,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="change" disable="true" prefHeight="100.0" prefWidth="450.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="change" disable="true" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </HBox.margin>
@@ -154,7 +154,7 @@
                   <Insets top="10.0" />
                </padding>
                 </VBox>
-                <VBox>
+                <VBox prefHeight="481.0" prefWidth="348.0" spacing="10.0">
                     <children>
                         <HBox alignment="CENTER" maxHeight="120.0" prefHeight="90.0" prefWidth="290.0" spacing="10.0">
                             <children>

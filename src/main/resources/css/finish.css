@@ -1,9 +1,9 @@
 .btn-num {
-    -fx-pref-width: 70;
-    -fx-pref-height: 70;
+    -fx-pref-width: 90;
+    -fx-pref-height: 90;
     -fx-text-fill: #fff;
-    -fx-background-color: #03ff45;
-    -fx-font-size: 26;
+    -fx-background-color: #161cff;
+    -fx-font-size: 28;
 }
 
 .btn-choose-client {

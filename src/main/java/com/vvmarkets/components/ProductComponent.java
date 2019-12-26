@@ -68,7 +68,7 @@ public class ProductComponent extends VBox {
 
         if (addBack) {
             var p = new ProductProperties();
-            p.setName("НАЗАД");
+            p.setName("");
             p.setThumb("images/back.png");
             res.add(0, getComponent(p));
         }
@@ -103,6 +103,7 @@ public class ProductComponent extends VBox {
         iv.setFitWidth(150);
         iv.setFitHeight(150);
         Label lbl = new Label(content.getName());
+        lbl.setStyle("-fx-font-size: 14px; -fx-font-weight: bold");
         pc.getChildren().add(iv);
         pc.getChildren().add(lbl);
         return pc;
