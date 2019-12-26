@@ -37,19 +37,23 @@ public class DialogUtil {
     }
 
     private static void showNotification(String notificationType, String header, String content) {
-        Platform.runLater(() -> {
-            Notifications n = Notifications.create().title(header).text(content);
-            switch (notificationType) {
-                case "warn":
-                    n.showWarning();
-                    break;
-                case "err":
-                    n.showError();
-                    break;
-                default:
-                    n.showInformation();
-                    break;
-            }
-        });
+        try {
+            Platform.runLater(() -> {
+                Notifications n = Notifications.create().title(header).text(content);
+                switch (notificationType) {
+                    case "warn":
+                        n.showWarning();
+                        break;
+                    case "err":
+                        n.showError();
+                        break;
+                    default:
+                        n.showInformation();
+                        break;
+                }
+            });
+        } catch (Exception e) {
+            Utils.logException(e, "cannot show popup dialog");
+        }
     }
 }

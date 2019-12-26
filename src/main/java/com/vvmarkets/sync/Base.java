@@ -34,7 +34,7 @@ public class Base {
             Runnable productCron = Base::syncProducts;
 
             ScheduledExecutorService productService = Executors.newScheduledThreadPool(1);
-            productService.schedule(productCron, getSyncTimeout(), TimeUnit.SECONDS);
+            productService.schedule(productCron, 0, TimeUnit.SECONDS);
         }
     }
 
