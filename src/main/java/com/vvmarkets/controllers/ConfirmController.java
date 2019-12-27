@@ -8,6 +8,7 @@ import com.vvmarkets.dao.Product;
 import com.vvmarkets.peripheral.ThermalPrinter;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.PaymentBody;
+import com.vvmarkets.responses.ExpenseResponse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -156,12 +157,16 @@ public class ConfirmController implements Initializable {
                 MainController.seller.getId(),
                 "");
 
-        boolean hasErr = expense.SaveToNetwork();
+        ExpenseResponse expenseResponse = expense.SaveToNetwork();
+        boolean hasErr = true;
 
-        if (hasErr) {
+        if (expenseResponse == null) {
             if (TableUtil.saveToDb(expense)) {
                 hasErr = false;
             }
+        } else {
+            expense.setId(expenseResponse.getDocumentNumber());
+            hasErr = false;
         }
 
         if (!hasErr) {

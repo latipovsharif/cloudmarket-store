@@ -112,6 +112,16 @@ public class ExpenseBody {
     @Expose
     private String shiftId;
 
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
+    }
+
+    private String Id;
+
     public ExpenseBody(TableView<Product> tableView, PaymentBody payment, String sellerId, String shiftId) {
         this.soldSource = 1;
         this.documentHash = UUID.randomUUID().toString();
@@ -137,7 +147,7 @@ public class ExpenseBody {
         this.products = res;
     }
 
-    public boolean SaveToNetwork() {
+    public ExpenseResponse SaveToNetwork() {
         if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
             ExpenseService documentService = RestClient.getClient().create(ExpenseService.class);
             Call<ResponseBody<ExpenseResponse>> listProductCall = documentService.create(this);
@@ -147,7 +157,7 @@ public class ExpenseBody {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            return false;
+                            return response.body().getBody();
                         }
                     }
                 }
@@ -156,6 +166,6 @@ public class ExpenseBody {
             }
         }
 
-        return true;
+        return null;
     }
 }

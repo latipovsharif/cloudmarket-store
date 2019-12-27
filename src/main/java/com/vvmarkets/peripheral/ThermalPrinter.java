@@ -1,6 +1,9 @@
 package com.vvmarkets.peripheral;
 
 import com.vvmarkets.Main;
+import com.vvmarkets.configs.RemoteConfig;
+import com.vvmarkets.controllers.MainController;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.ProductBody;
 import javafx.print.*;
@@ -9,61 +12,87 @@ import javafx.scene.text.TextFlow;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.print.*;
 import java.util.List;
 
 public class ThermalPrinter {
 
     ExpenseBody expenseBody = null;
+    TextFlow textFlow = new TextFlow();
+
     private static final Logger log = LogManager.getLogger(Main.class);
 
     public ThermalPrinter(ExpenseBody body) {
         this.expenseBody = body;
     }
 
-    private String getBody(List<ProductBody> expense) {
-        StringBuilder body = new StringBuilder();
+    private void getBody(List<ProductBody> expense) {
+        getProductLineHeader();
+
         int i = 1;
         for (ProductBody p : expense) {
-            body.append(getLineString(p, i));
-            body.append("\n");
+            textFlow.getChildren().add(getLineString(p, i));
             i++;
         }
+    }
 
-        return body.toString();
+    private void getProductLineHeader() {
+        textFlow.getChildren().add(new Text("Кассир:           " + MainController.seller.getFullName() + "\n"));
+        Text storeText = new Text(RemoteConfig.getConfig(RemoteConfig.ConfigType.GENERAL, RemoteConfig.ConfigSubType.STORE_NAME) + "\n");
+        storeText.setStyle("-fx-font-size: 20px");
+
+        String headerText = RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_HEADER);
+        Text text = new Text(headerText.
+                replace("{counter}", "#").
+                replace("{product}", "Товар").
+                replace("{quantity}", "Кол-во").
+                replace("{price}", "Цена").
+                replace("{discount}", "Скидка").
+                replace("{lineTotal}","Итого")
+                + "\n"
+        );
+        text.setStyle("-fx-font-weight: bold");
+        textFlow.getChildren().add(text);
+        textFlow.getChildren().add(new Text("--------------------------"));
     }
 
     private String getProductLineTemplate() {
-        return "{counter}. {product} \n {quantity} x {price} - {discount} = {lineTotal}";
+        return RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_ROW);
     }
 
-    private String getLineString(ProductBody product, int counter) {
-        return getProductLineTemplate()
+    private Text getLineString(ProductBody product, int counter) {
+        return new Text(getProductLineTemplate()
                 .replace("{counter}", String.valueOf(counter))
                 .replace("{product}", product.getName())
                 .replace("{quantity}", String.valueOf(product.getQuantity()))
                 .replace("{price}", String.valueOf(product.getSellPrice()))
                 .replace("{discount}", String.valueOf(product.getDiscountPercent()))
-                .replace("{lineTotal}", String.valueOf(product.getTotal()));
+                .replace("{lineTotal}", String.valueOf(product.getTotal())) + "\n");
     }
 
-    private String getHeader() {
-        return "";
+    private void getHeader() {
     }
 
-    private String getFooter() {
-        return "";
+    private void getFooter() {
+        Text documentNumber = new Text("\n" + expenseBody.getId() + "\n");
+        documentNumber.setStyle("-fx-font-size: 28; -fx-alignment: center");
+        textFlow.getChildren().add(documentNumber);
+    }
+
+    private void formCheck() {
+        getHeader();
+        getBody(expenseBody.getProducts());
+        getFooter();
     }
 
     public void print() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(getHeader());
-        builder.append(getBody(expenseBody.getProducts()));
-        builder.append(getFooter());
+        textFlow.setStyle("-fx-min-width: 500px; -fx-alignment: right");
+
+
+        formCheck();
 
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job != null) {
-            TextFlow textFlow = new TextFlow(new Text(builder.toString()));
-            textFlow.setStyle("-fx-font-size: 10");
             PageLayout layout = job.getPrinter().createPageLayout(
                     Paper.NA_LETTER,
                     PageOrientation.PORTRAIT,

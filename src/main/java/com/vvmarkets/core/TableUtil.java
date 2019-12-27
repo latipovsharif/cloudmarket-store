@@ -261,6 +261,8 @@ public class TableUtil {
                 }
             }
 
+            expense.setId(String.valueOf(savedKey));
+
             sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent) values (?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 

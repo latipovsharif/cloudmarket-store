@@ -26,7 +26,10 @@ public class RemoteConfig {
 
     public enum ConfigSubType {
         STORE_NAME("storeName"),
-        PRINTER_NAME("receiptPrinter");
+        LABEL_ROW("labelRow"),
+        LABEL_FOOTER("labelFooter"),
+        LABEL_HEADER("labelHeader"),
+        LABEL_WIDTH("labelWidth");
 
         private String type;
 
@@ -39,7 +42,7 @@ public class RemoteConfig {
         }
     }
 
-    private static String getConfig(ConfigType configType, ConfigSubType subType) {
+    public static String getConfig(ConfigType configType, ConfigSubType subType) {
         String res = null;
 
         try (Connection c = db.getConnection()) {
@@ -53,10 +56,9 @@ public class RemoteConfig {
                 ps.setString(1, configType.getType());
                 ps.setString(2, subType.getType());
                 rs = ps.executeQuery();
-            }
-
-            if (rs.next()) {
-                res = rs.getString(1);
+                if (rs.next()) {
+                    res = rs.getString(1);
+                }
             }
         } catch (Exception e) {
             Utils.logException(e, "cannot get config for cash");
