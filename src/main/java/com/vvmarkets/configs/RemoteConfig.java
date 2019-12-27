@@ -10,7 +10,8 @@ import java.sql.ResultSet;
 public class RemoteConfig {
     public enum ConfigType {
         GENERAL("general"),
-        PRINTER("printer");
+        PRINTER("printer"),
+        PRINTER_SECOND("printerSecond");
 
         private String type;
 
