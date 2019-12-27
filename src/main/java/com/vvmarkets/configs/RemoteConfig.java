@@ -25,6 +25,7 @@ public class RemoteConfig {
     }
 
     public enum ConfigSubType {
+        NAME("name"),
         STORE_NAME("storeName"),
         LABEL_ROW("labelRow"),
         LABEL_FOOTER("labelFooter"),

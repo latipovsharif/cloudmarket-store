@@ -1,26 +1,20 @@
 package com.vvmarkets.peripheral;
 
-import com.vvmarkets.Main;
 import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.controllers.MainController;
-import com.vvmarkets.core.Utils;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.ProductBody;
+import javafx.collections.ObservableSet;
 import javafx.print.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import javax.print.*;
 import java.util.List;
 
 public class ThermalPrinter {
 
-    ExpenseBody expenseBody = null;
+    ExpenseBody expenseBody;
     TextFlow textFlow = new TextFlow();
-
-    private static final Logger log = LogManager.getLogger(Main.class);
 
     public ThermalPrinter(ExpenseBody body) {
         this.expenseBody = body;
@@ -29,54 +23,90 @@ public class ThermalPrinter {
     private void getBody(List<ProductBody> expense) {
         getProductLineHeader();
 
+        addDashes(
+                RemoteConfig.getConfig(
+                        RemoteConfig.ConfigType.PRINTER,
+                        RemoteConfig.ConfigSubType.LABEL_WIDTH)
+        );
+
         int i = 1;
         for (ProductBody p : expense) {
-            textFlow.getChildren().add(getLineString(p, i));
+            getLineString(p, i);
             i++;
         }
+
+        addDashes(
+                RemoteConfig.getConfig(
+                        RemoteConfig.ConfigType.PRINTER,
+                        RemoteConfig.ConfigSubType.LABEL_WIDTH)
+        );
     }
 
     private void getProductLineHeader() {
-        textFlow.getChildren().add(new Text("Кассир:           " + MainController.seller.getFullName() + "\n"));
-        Text storeText = new Text(RemoteConfig.getConfig(RemoteConfig.ConfigType.GENERAL, RemoteConfig.ConfigSubType.STORE_NAME) + "\n");
-        storeText.setStyle("-fx-font-size: 20px");
+        addTextLine("Кассир:           " + MainController.seller.getFullName());
+        addTextLine(
+                RemoteConfig.getConfig(
+                        RemoteConfig.ConfigType.GENERAL,
+                        RemoteConfig.ConfigSubType.STORE_NAME) ,
+                "-fx-font-size: 20px");
 
         String headerText = RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_HEADER);
-        Text text = new Text(headerText.
+        headerText = headerText.
                 replace("{counter}", "#").
                 replace("{product}", "Товар").
                 replace("{quantity}", "Кол-во").
                 replace("{price}", "Цена").
                 replace("{discount}", "Скидка").
-                replace("{lineTotal}","Итого")
-                + "\n"
-        );
-        text.setStyle("-fx-font-weight: bold");
-        textFlow.getChildren().add(text);
-        textFlow.getChildren().add(new Text("--------------------------"));
+                replace("{lineTotal}","Итого");
+
+        addTextLine(headerText, "-fx-font-weight: bold");
+    }
+
+    private void addTextLine(String text) {
+        addTextLine(text, "");
+    }
+
+    private void addTextLine(String text, String style) {
+        Text t = new Text(text);
+        t.setStyle(style);
+
+        textFlow.getChildren().add(t);
+        addNewLine();
+    }
+
+    private void addDashes(String paperSize) {
+        String style = "-fx-font-weight: bold;";
+        if (paperSize.equals("58")) {
+            addTextLine("------------------------------", style);
+        } else {
+            addTextLine("----------------------------------------", style);
+        }
+    }
+
+    private void addNewLine() {
+        textFlow.getChildren().add(new Text("\n"));
     }
 
     private String getProductLineTemplate() {
         return RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_ROW);
     }
 
-    private Text getLineString(ProductBody product, int counter) {
-        return new Text(getProductLineTemplate()
+    private void getLineString(ProductBody product, int counter) {
+        addTextLine(getProductLineTemplate()
                 .replace("{counter}", String.valueOf(counter))
                 .replace("{product}", product.getName())
                 .replace("{quantity}", String.valueOf(product.getQuantity()))
                 .replace("{price}", String.valueOf(product.getSellPrice()))
                 .replace("{discount}", String.valueOf(product.getDiscountPercent()))
-                .replace("{lineTotal}", String.valueOf(product.getTotal())) + "\n");
+                .replace("{lineTotal}", String.valueOf(product.getTotal())));
     }
 
     private void getHeader() {
+
     }
 
     private void getFooter() {
-        Text documentNumber = new Text("\n" + expenseBody.getId() + "\n");
-        documentNumber.setStyle("-fx-font-size: 28; -fx-alignment: center");
-        textFlow.getChildren().add(documentNumber);
+        addTextLine(expenseBody.getId(),"-fx-font-size: 28; -fx-alignment: center");
     }
 
     private void formCheck() {
@@ -86,26 +116,51 @@ public class ThermalPrinter {
     }
 
     public void print() {
-        textFlow.setStyle("-fx-min-width: 500px; -fx-alignment: right");
-
-
         formCheck();
 
-        PrinterJob job = PrinterJob.createPrinterJob();
-        if (job != null) {
-            PageLayout layout = job.getPrinter().createPageLayout(
-                    Paper.NA_LETTER,
-                    PageOrientation.PORTRAIT,
-                    Printer.MarginType.HARDWARE_MINIMUM
-            );
+        String printer = RemoteConfig.getConfig(
+                RemoteConfig.ConfigType.PRINTER,
+                RemoteConfig.ConfigSubType.NAME
+        );
 
-            boolean printed = job.printPage(layout, textFlow);
-            if (printed) {
-                job.endJob();
+        if (printer!=null) {
+            Printer p = getPrinter(printer);
+            doPrint(p);
+        }
+
+        String secondPrinter = RemoteConfig.getConfig(
+                RemoteConfig.ConfigType.PRINTER_SECOND,
+                RemoteConfig.ConfigSubType.NAME
+        );
+
+        if (secondPrinter != null) {
+            Printer p = getPrinter(secondPrinter);
+            doPrint(p);
+        }
+    }
+
+    private Printer getPrinter(String printerName) {
+        Printer myPrinter = null;
+        ObservableSet<Printer> printers = Printer.getAllPrinters();
+        for(Printer printer : printers){
+            if(printer.getName().matches(printerName)){
+                myPrinter = printer;
             }
+        }
+        return myPrinter;
+    }
 
-        } else {
-            log.error("cannot create printer job");
+    private void doPrint(Printer printer) {
+        PrinterJob job = PrinterJob.createPrinterJob(printer);
+        PageLayout layout = job.getPrinter().createPageLayout(
+                Paper.NA_LETTER,
+                PageOrientation.PORTRAIT,
+                Printer.MarginType.HARDWARE_MINIMUM
+        );
+
+        boolean printed = job.printPage(layout, textFlow);
+        if (printed) {
+            job.endJob();
         }
     }
 }
