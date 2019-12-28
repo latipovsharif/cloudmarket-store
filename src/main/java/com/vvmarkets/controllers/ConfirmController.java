@@ -1,6 +1,5 @@
 package com.vvmarkets.controllers;
 
-import com.vvmarkets.Main;
 import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
@@ -9,22 +8,17 @@ import com.vvmarkets.peripheral.ThermalPrinter;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.PaymentBody;
 import com.vvmarkets.responses.ExpenseResponse;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
 public class ConfirmController implements Initializable {
-    private static final Logger log = LogManager.getLogger(Main.class);
 
     @FXML
     private TextField total;

@@ -1,9 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.jfoenix.controls.JFXMasonryPane;
-import com.vvmarkets.Main;
 import com.vvmarkets.components.ProductComponent;
-import com.vvmarkets.components.QuantityDialog;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductProperties;
@@ -20,19 +18,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import javafx.scene.input.MouseEvent;
 
 public class MainController implements Initializable, IController {
-    private static final Logger log = LogManager.getLogger(Main.class);
     public static Seller seller;
     public AnchorPane mainContainer;
 

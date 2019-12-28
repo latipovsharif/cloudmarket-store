@@ -1,14 +1,9 @@
 package com.vvmarkets.core;
 
-import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
-import javafx.application.Platform;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class HttpConnectionHolder {
     public static HttpConnectionHolder INSTANCE = new HttpConnectionHolder();
-    private static final Logger log = LogManager.getLogger(Main.class);
 
     private boolean isNetworkReachable = true;
     private long NetworkUnreachableStart;

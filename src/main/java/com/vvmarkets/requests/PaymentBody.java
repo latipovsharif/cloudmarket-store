@@ -1,11 +1,5 @@
 package com.vvmarkets.requests;
 
-//        "discount_type": "percent",
-//        "paid_by_credit_card": 0,
-//        "paid_in_cash": 0,
-//        "to_pay": 44,
-//        "remained": 0
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

@@ -9,9 +9,6 @@ import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,8 +17,6 @@ import java.io.IOException;
 import java.util.*;
 
 public class ListUtil {
-    private static final Logger log = LogManager.getLogger(ListUtil.class);
-
     public static ListUtil INSTANCE = new ListUtil();
 
     private Map categorized = Collections.synchronizedMap(new HashMap<String, ArrayList<IListContent>>());

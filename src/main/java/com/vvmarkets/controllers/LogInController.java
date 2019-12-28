@@ -17,8 +17,6 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class LogInController {
-    private static final Logger log = LogManager.getLogger(LogInController.class);
     @FXML
     public PasswordField txtPassword;
     @FXML

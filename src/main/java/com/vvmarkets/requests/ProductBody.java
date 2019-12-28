@@ -3,10 +3,6 @@ package com.vvmarkets.requests;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-//        "sell_price": 22,
-//        "product_id": "478bd4d4-1d4b-4003-9934-36c83f1c85a9",
-//        "quantity": 2,
-//        "discount_percent": 0
 public class ProductBody {
     @SerializedName("sell_price")
     @Expose

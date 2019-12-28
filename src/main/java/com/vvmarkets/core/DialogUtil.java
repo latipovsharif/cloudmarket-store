@@ -1,10 +1,7 @@
 package com.vvmarkets.core;
 
-import com.vvmarkets.dao.ProductProperties;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.TextInputDialog;
 import org.controlsfx.control.Notifications;
 
 public class DialogUtil {

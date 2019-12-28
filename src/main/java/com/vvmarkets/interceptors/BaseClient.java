@@ -1,7 +1,6 @@
 package com.vvmarkets.interceptors;
 
 import okhttp3.OkHttpClient;
-import okhttp3.internal.connection.ConnectInterceptor;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.util.concurrent.TimeUnit;
