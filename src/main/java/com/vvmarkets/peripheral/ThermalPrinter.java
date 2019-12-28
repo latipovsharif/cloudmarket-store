@@ -9,6 +9,8 @@ import javafx.print.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ThermalPrinter {
@@ -32,24 +34,17 @@ public class ThermalPrinter {
         int i = 1;
         for (ProductBody p : expense) {
             getLineString(p, i);
+            addDashes(
+                    RemoteConfig.getConfig(
+                            RemoteConfig.ConfigType.PRINTER,
+                            RemoteConfig.ConfigSubType.LABEL_WIDTH)
+            );
+
             i++;
         }
-
-        addDashes(
-                RemoteConfig.getConfig(
-                        RemoteConfig.ConfigType.PRINTER,
-                        RemoteConfig.ConfigSubType.LABEL_WIDTH)
-        );
     }
 
     private void getProductLineHeader() {
-        addTextLine("Кассир:           " + MainController.seller.getFullName());
-        addTextLine(
-                RemoteConfig.getConfig(
-                        RemoteConfig.ConfigType.GENERAL,
-                        RemoteConfig.ConfigSubType.STORE_NAME) ,
-                "-fx-font-size: 20px");
-
         String headerText = RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_HEADER);
         headerText = headerText.
                 replace("{counter}", "#").
@@ -59,14 +54,17 @@ public class ThermalPrinter {
                 replace("{discount}", "Скидка").
                 replace("{lineTotal}","Итого");
 
-        addTextLine(headerText, "-fx-font-weight: bold");
+        addTextLine(headerText, "-fx-font-weight: bold; -fx-font-size: 10");
     }
 
     private void addTextLine(String text) {
         addTextLine(text, "");
     }
 
+
+
     private void addTextLine(String text, String style) {
+        style = "-fx-font-family: 'Courier New'; " + style;
         Text t = new Text(text);
         t.setStyle(style);
 
@@ -77,14 +75,23 @@ public class ThermalPrinter {
     private void addDashes(String paperSize) {
         String style = "-fx-font-weight: bold;";
         if (paperSize.equals("58")) {
-            addTextLine("------------------------------", style);
+            addTextLine("--------------------------", style);
         } else {
-            addTextLine("----------------------------------------", style);
+            addTextLine("------------------------------------------", style);
         }
     }
 
+    private void addNewLine(int lines) {
+        StringBuilder b = new StringBuilder();
+        for(int i = 0; i < lines; i++) {
+            b.append("\n");
+        }
+
+        textFlow.getChildren().add(new Text(b.toString()));
+    }
+
     private void addNewLine() {
-        textFlow.getChildren().add(new Text("\n"));
+        addNewLine(1);
     }
 
     private String getProductLineTemplate() {
@@ -98,15 +105,38 @@ public class ThermalPrinter {
                 .replace("{quantity}", String.valueOf(product.getQuantity()))
                 .replace("{price}", String.valueOf(product.getSellPrice()))
                 .replace("{discount}", String.valueOf(product.getDiscountPercent()))
-                .replace("{lineTotal}", String.valueOf(product.getTotal())));
+                .replace("{lineTotal}", String.valueOf(product.getTotal())), "-fx-font-size: 10");
     }
 
     private void getHeader() {
+        addTextLine("Кассир:      " + MainController.seller.getFullName());
 
+        addTextLine(
+                RemoteConfig.getConfig(
+                        RemoteConfig.ConfigType.GENERAL,
+                        RemoteConfig.ConfigSubType.STORE_NAME
+                ),"-fx-font-size: 28; -fx-font-weight: bold");
+
+        addNewLine();
     }
 
     private void getFooter() {
-        addTextLine(expenseBody.getId(),"-fx-font-size: 28; -fx-alignment: center");
+        String style = "-fx-font-size: 12px";
+        addTextLine("Наличные:     " + expenseBody.getPayment().getCashPaid(), style);
+        addTextLine("Безналичные:  " + expenseBody.getPayment().getCardPaid(), style);
+        addTextLine("Итого:        " + expenseBody.getPayment().getToPay(), style);
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+
+        addTextLine("Дата:  " + formatter.format(time), style);
+        addTextLine("  Номер в очереди","-fx-font-size: 18; -fx-alignment: center");
+
+        int length = 0;
+        if (expenseBody.getId().length() > 2) {
+            length = expenseBody.getId().length() - 2;
+        }
+
+        addTextLine("    " + expenseBody.getId().substring(length),"-fx-font-size: 32; -fx-alignment: center");
     }
 
     private void formCheck() {
@@ -123,8 +153,14 @@ public class ThermalPrinter {
                 RemoteConfig.ConfigSubType.NAME
         );
 
+        Printer p;
         if (printer!=null) {
-            Printer p = getPrinter(printer);
+            p = getPrinter(printer);
+        } else {
+            p = Printer.getDefaultPrinter();
+        }
+
+        if (p != null) {
             doPrint(p);
         }
 
@@ -134,7 +170,7 @@ public class ThermalPrinter {
         );
 
         if (secondPrinter != null) {
-            Printer p = getPrinter(secondPrinter);
+            p = getPrinter(secondPrinter);
             doPrint(p);
         }
     }
