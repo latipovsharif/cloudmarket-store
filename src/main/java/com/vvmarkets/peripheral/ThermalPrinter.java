@@ -105,7 +105,8 @@ public class ThermalPrinter {
                 .replace("{quantity}", String.valueOf(product.getQuantity()))
                 .replace("{price}", String.valueOf(product.getSellPrice()))
                 .replace("{discount}", String.valueOf(product.getDiscountPercent()))
-                .replace("{lineTotal}", String.valueOf(product.getTotal())), "-fx-font-size: 10");
+                .replace("{lineTotal}", String.valueOf(product.getTotal()) + " c."),
+                "-fx-font-size: 10");
     }
 
     private void getHeader() {
@@ -115,28 +116,30 @@ public class ThermalPrinter {
                 RemoteConfig.getConfig(
                         RemoteConfig.ConfigType.GENERAL,
                         RemoteConfig.ConfigSubType.STORE_NAME
-                ),"-fx-font-size: 28; -fx-font-weight: bold");
+                ),"-fx-font-size: 22; -fx-font-weight: bold");
 
         addNewLine();
     }
 
     private void getFooter() {
-        String style = "-fx-font-size: 12px";
-        addTextLine("Наличные:     " + expenseBody.getPayment().getCashPaid(), style);
-        addTextLine("Безналичные:  " + expenseBody.getPayment().getCardPaid(), style);
-        addTextLine("Итого:        " + expenseBody.getPayment().getToPay(), style);
+        String style = "-fx-font-size: 10px; -fx-font-weight: bold";
+        addTextLine("Наличные:     " + expenseBody.getPayment().getCashPaid() + " c.", style);
+        addTextLine("Итого:        " + expenseBody.getPayment().getToPay() + " c.", style);
         LocalDateTime time = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
 
-        addTextLine("Дата:  " + formatter.format(time), style);
-        addTextLine("  Номер в очереди","-fx-font-size: 18; -fx-alignment: center");
+        addTextLine("Дата: " + formatter.format(time), style);
+        addTextLine("Номер в очереди","-fx-font-size: 15; -fx-alignment: center");
 
         int length = 0;
         if (expenseBody.getId().length() > 2) {
             length = expenseBody.getId().length() - 2;
         }
 
-        addTextLine("    " + expenseBody.getId().substring(length),"-fx-font-size: 32; -fx-alignment: center");
+        addTextLine("  " + expenseBody.getId().substring(length),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");
+        addNewLine();
+        addTextLine("Служба доставки:","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
+        addTextLine(" (92) 100 0200","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
     }
 
     private void formCheck() {
