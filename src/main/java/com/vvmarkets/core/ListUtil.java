@@ -87,7 +87,7 @@ public class ListUtil {
             categorized.put(category, new ArrayList<IListContent>());
         }
 
-        if (forceUpdate || res == null) {
+        if (forceUpdate || res == null || res.isEmpty()) {
             ProductService productService = RestClient.getClient().create(ProductService.class);
             Call<ResponseBody<List<ProductProperties>>> listProductForCategoryCall = productService.productForCategory(category);
             try{
