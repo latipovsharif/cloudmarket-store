@@ -129,6 +129,8 @@ public class MainController implements Initializable, IController {
             pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode();
         } else if (mouseEvent.getPickResult().getIntersectedNode() instanceof ImageView) {
             pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode().getParent();
+        } else if (mouseEvent.getPickResult().getIntersectedNode() instanceof Label) {
+            pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode().getParent();
         } else {
             try {
                 pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode().getParent().getParent();
