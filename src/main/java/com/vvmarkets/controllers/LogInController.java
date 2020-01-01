@@ -12,6 +12,7 @@ import com.vvmarkets.sync.Base;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -22,9 +23,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
-public class LogInController {
+public class LogInController implements Initializable {
     @FXML
     public PasswordField txtPassword;
     @FXML
@@ -37,6 +40,24 @@ public class LogInController {
     public AnchorPane loginContainer;
     @FXML
     private TextField txtLogin;
+
+    String focused = "login";
+
+    boolean isUpper = false;
+
+    String[][] keyboardLower = {
+            {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"},
+            {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"},
+            {"a", "s", "d", "f", "g", "h", "i", "j", "k", "l"},
+            {"z", "x", "c", "v", "b", "n", "m"}
+    };
+
+    String[][] keyboardUpper = {
+            {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")"},
+            {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"},
+            {"A", "S", "D", "F", "G", "H", "I", "J", "K", "L"},
+            {"Z", "X", "C", "V", "B", "N", "M"}
+    };
 
     public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
@@ -126,5 +147,40 @@ public class LogInController {
 
     public void exit(ActionEvent actionEvent) {
         Platform.exit();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        txtLogin.focusedProperty().addListener((obs, newVal, oldVal)-> {
+            if (obs.getValue()) {
+                focused = "login";
+            }
+        });
+
+        txtPassword.focusedProperty().addListener((obs, newVal, oldVal) -> {
+            if(obs.getValue()) {
+                focused = "password";
+            }
+        });
+
+        createKeyboard();
+    }
+
+    private void createKeyboard() {
+        String[][] iterable = keyboardLower;
+
+        if (isUpper) {
+            iterable = keyboardUpper;
+        }
+
+        for (String[] data: iterable) {
+            for (String item: data) {
+
+            }
+        }
+    }
+
+    public void btnKeyboardClick(ActionEvent actionEvent) {
+
     }
 }
