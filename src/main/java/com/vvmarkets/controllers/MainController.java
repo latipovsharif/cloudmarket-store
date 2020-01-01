@@ -133,7 +133,7 @@ public class MainController implements Initializable, IController {
             try {
                 pc = (ProductComponent) mouseEvent.getPickResult().getIntersectedNode().getParent().getParent();
             } catch (Exception e) {
-                Utils.logException(e, "cannot get product component from clicked one");
+                return;
             }
         }
 

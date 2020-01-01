@@ -82,8 +82,10 @@ public class SettingResponse {
             ps.executeUpdate();
             ps.close();
 
-            for (OptionResponse option: this.options) {
-                option.save(this.getId());
+            if (this.options != null && !this.options.isEmpty()) {
+                for (OptionResponse option : this.options) {
+                    option.save(this.getId());
+                }
             }
         } catch (Exception e) {
             Utils.logException(e, "cannot save response");

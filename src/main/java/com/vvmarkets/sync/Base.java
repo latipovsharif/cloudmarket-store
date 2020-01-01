@@ -4,6 +4,8 @@ import com.vvmarkets.configs.Config;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
+import com.vvmarkets.requests.ExpenseBody;
+import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.responses.ProductResponse;
 import com.vvmarkets.responses.SettingResponse;
 import com.vvmarkets.services.ProductService;
@@ -65,6 +67,18 @@ public class Base {
             }
         } catch (Exception e) {
             Utils.logException(e,"cannot sync main list");
+        }
+
+        try {
+            ExpenseBody body = new ExpenseBody().getUnfinished();
+            if (body != null) {
+                ExpenseResponse response = body.SaveToNetwork();
+                if (response != null) {
+                    body.deleteFromDB();
+                }
+            }
+        } catch (Exception e) {
+            Utils.logException(e, "cannot send unfinished sold");
         }
     }
 }
