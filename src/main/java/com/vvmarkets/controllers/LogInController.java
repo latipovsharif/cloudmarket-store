@@ -14,9 +14,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,24 +43,11 @@ public class LogInController implements Initializable {
     public AnchorPane loginContainer;
     @FXML
     private TextField txtLogin;
-
-    String focused = "login";
+    @FXML
+    private VBox keyboardContainer;
 
     boolean isUpper = false;
-
-    String[][] keyboardLower = {
-            {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"},
-            {"q", "w", "e", "r", "t", "y", "u", "i", "o", "p"},
-            {"a", "s", "d", "f", "g", "h", "i", "j", "k", "l"},
-            {"z", "x", "c", "v", "b", "n", "m"}
-    };
-
-    String[][] keyboardUpper = {
-            {"!", "@", "#", "$", "%", "^", "&", "*", "(", ")"},
-            {"Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"},
-            {"A", "S", "D", "F", "G", "H", "I", "J", "K", "L"},
-            {"Z", "X", "C", "V", "B", "N", "M"}
-    };
+    String focused = "login";
 
     public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
@@ -162,25 +152,104 @@ public class LogInController implements Initializable {
                 focused = "password";
             }
         });
-
-        createKeyboard();
-    }
-
-    private void createKeyboard() {
-        String[][] iterable = keyboardLower;
-
-        if (isUpper) {
-            iterable = keyboardUpper;
-        }
-
-        for (String[] data: iterable) {
-            for (String item: data) {
-
-            }
-        }
     }
 
     public void btnKeyboardClick(ActionEvent actionEvent) {
+        String val = ((Button)actionEvent.getSource()).getText();
+        if(focused.equals("password")) {
+            txtPassword.setText(txtPassword.getText() + val);
+        } else {
+            txtLogin.setText(txtLogin.getText() + val);
+        }
+    }
 
+    public void btnBackspaceClick(ActionEvent actionEvent) {
+        if(focused.equals("password")) {
+            txtPassword.setText(txtPassword.getText().substring(0, txtPassword.getText().length() - 1));
+        } else {
+            txtLogin.setText(txtLogin.getText().substring(0, txtLogin.getText().length() - 1));
+        }
+    }
+
+    public void btnShiftClick(ActionEvent actionEvent) {
+        for (Node node : keyboardContainer.getChildren()) {
+            if (node instanceof HBox) {
+                for (Node childNode: ((HBox) node).getChildren()) {
+                    Button btn = (Button) childNode;
+                    if (isUpper) {
+                        switch (btn.getText()) {
+                            case "!":
+                                btn.setText("1");
+                                break;
+                            case "@":
+                                btn.setText("2");
+                                break;
+                            case "#":
+                                btn.setText("3");
+                                break;
+                            case "$":
+                                btn.setText("4");
+                                break;
+                            case "%":
+                                btn.setText("5");
+                                break;
+                            case "^":
+                                btn.setText("6");
+                                break;
+                            case "&":
+                                btn.setText("7");
+                                break;
+                            case "*":
+                                btn.setText("8");
+                                break;
+                            case "(":
+                                btn.setText("9");
+                                break;
+                            case ")":
+                                btn.setText("0");
+                                break;
+                            default:
+                                btn.setText(btn.getText().toLowerCase());
+                        }
+                    } else {
+                        switch (btn.getText()) {
+                            case "1":
+                                btn.setText("!");
+                                break;
+                            case "2":
+                                btn.setText("@");
+                                break;
+                            case "3":
+                                btn.setText("#");
+                                break;
+                            case "4":
+                                btn.setText("$");
+                                break;
+                            case "5":
+                                btn.setText("%");
+                                break;
+                            case "6":
+                                btn.setText("^");
+                                break;
+                            case "7":
+                                btn.setText("&");
+                                break;
+                            case "8":
+                                btn.setText("*");
+                                break;
+                            case "9":
+                                btn.setText("(");
+                                break;
+                            case "0":
+                                btn.setText(")");
+                                break;
+                            default:
+                                btn.setText(btn.getText().toUpperCase());
+                        }
+                    }
+                }
+            }
+        }
+        isUpper = !isUpper;
     }
 }
