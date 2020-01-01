@@ -23,16 +23,33 @@ import static com.vvmarkets.configs.Config.getSyncTimeout;
 
 public class Base {
     public static void sync() {
-        Runnable croneRunnable = Base::syncMain;
-
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+
+        Runnable croneRunnable = Base::syncMain;
         executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
+
+        Runnable soldSync = Base::syncSold;
+        executorService.scheduleAtFixedRate(soldSync, 0,10, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
             Runnable productCron = Base::syncProducts;
 
             ScheduledExecutorService productService = Executors.newScheduledThreadPool(1);
             productService.schedule(productCron, 0, TimeUnit.SECONDS);
+        }
+    }
+
+    private static void syncSold() {
+        try {
+            ExpenseBody body = new ExpenseBody().getUnfinished();
+            if (body != null) {
+                ExpenseResponse response = body.SaveToNetwork();
+                if (response != null) {
+                    body.deleteFromDB();
+                }
+            }
+        } catch (Exception e) {
+            Utils.logException(e, "cannot send unfinished sold");
         }
     }
 
@@ -67,18 +84,6 @@ public class Base {
             }
         } catch (Exception e) {
             Utils.logException(e,"cannot sync main list");
-        }
-
-        try {
-            ExpenseBody body = new ExpenseBody().getUnfinished();
-            if (body != null) {
-                ExpenseResponse response = body.SaveToNetwork();
-                if (response != null) {
-                    body.deleteFromDB();
-                }
-            }
-        } catch (Exception e) {
-            Utils.logException(e, "cannot send unfinished sold");
         }
     }
 }
