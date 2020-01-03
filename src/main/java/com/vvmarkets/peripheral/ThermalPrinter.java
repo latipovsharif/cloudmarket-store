@@ -131,12 +131,7 @@ public class ThermalPrinter {
         addTextLine("Дата: " + formatter.format(time), style);
         addTextLine("Номер в очереди","-fx-font-size: 15; -fx-alignment: center");
 
-        int length = 0;
-        if (expenseBody.getId().length() > 2) {
-            length = expenseBody.getId().length() - 2;
-        }
-
-        addTextLine("  " + expenseBody.getId().substring(length),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");
+        addTextLine("  " + MainController.getCheckCounter(),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");
         addNewLine();
         addTextLine("Служба доставки:","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
         addTextLine(" (92) 100 0200","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");

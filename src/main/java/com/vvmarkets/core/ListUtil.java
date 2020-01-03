@@ -28,32 +28,33 @@ public class ListUtil {
     private ObservableList<IListContent> main = FXCollections.observableList(new ArrayList<>());
 
     public ObservableList<IListContent> fillMain() {
-        CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
-        Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
+        if (!main.isEmpty()) {
+            CategoryService categoryService = RestClient.getClient().create(CategoryService.class);
+            Call<ResponseBody<List<ProductCategory>>> listCategoryCall = categoryService.categoryList();
 
-        listCategoryCall.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<ResponseBody<List<ProductCategory>>> call, Response<ResponseBody<List<ProductCategory>>> response) {
-                if (response.isSuccessful()) {
-                    if (response.body() != null) {
-                        if (response.body().getStatus() == 0) {
-                            Platform.runLater(() -> {
-                                main.clear();
-                                main.addAll(response.body().getBody());
-                            });
+            listCategoryCall.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<ResponseBody<List<ProductCategory>>> call, Response<ResponseBody<List<ProductCategory>>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            if (response.body().getStatus() == 0) {
+                                Platform.runLater(() -> {
+                                    main.clear();
+                                    main.addAll(response.body().getBody());
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
-                if (!(t instanceof IOException)) {
-                    Utils.logException((Exception) t, "cannot fill main hot access list");
+                @Override
+                public void onFailure(Call<ResponseBody<List<ProductCategory>>> call, Throwable t) {
+                    if (!(t instanceof IOException)) {
+                        Utils.logException((Exception) t, "cannot fill main hot access list");
+                    }
                 }
-            }
-        });
-
+            });
+        }
         return main;
     }
 
@@ -65,6 +66,8 @@ public class ListUtil {
             if (response.isSuccessful()) {
                 if (response.body() != null) {
                     if (response.body().getStatus() == 0) {
+                        INSTANCE.main.clear();
+                        INSTANCE.main.addAll(response.body().getBody());
                         return response.body().getBody();
                     }
                 }

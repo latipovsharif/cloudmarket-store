@@ -1,8 +1,8 @@
 package com.vvmarkets.sync;
 
 import com.vvmarkets.configs.Config;
-import com.vvmarkets.core.IListContent;
-import com.vvmarkets.core.ListUtil;
+//import com.vvmarkets.core.IListContent;
+//import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.responses.ExpenseResponse;
@@ -19,14 +19,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.vvmarkets.configs.Config.getSyncTimeout;
+//import static com.vvmarkets.configs.Config.getSyncTimeout;
 
 public class Base {
     public static void sync() {
         ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
 
-        Runnable croneRunnable = Base::syncMain;
-        executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
+//        Runnable croneRunnable = Base::syncMain;
+//        executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
 
         Runnable soldSync = Base::syncSold;
         executorService.scheduleAtFixedRate(soldSync, 0,10, TimeUnit.SECONDS);
@@ -71,19 +71,19 @@ public class Base {
         }
     }
 
-    private static void syncMain() {
-        try {
-            ListUtil.INSTANCE.syncFillMain();
-
-            for (IListContent category: ListUtil.INSTANCE.getMain()) {
-                try {
-                    ListUtil.INSTANCE.syncCashForCategory(category.getQueryId());
-                } catch (Exception ex) {
-                    Utils.logException(ex,"cannot sync subcategories for main hot access");
-                }
-            }
-        } catch (Exception e) {
-            Utils.logException(e,"cannot sync main list");
-        }
-    }
+//    private static void syncMain() {
+//        try {
+//            ListUtil.INSTANCE.syncFillMain();
+//
+//            for (IListContent category: ListUtil.INSTANCE.getMain()) {
+//                try {
+//                    ListUtil.INSTANCE.syncCashForCategory(category.getQueryId());
+//                } catch (Exception ex) {
+//                    Utils.logException(ex,"cannot sync subcategories for main hot access");
+//                }
+//            }
+//        } catch (Exception e) {
+//            Utils.logException(e,"cannot sync main list");
+//        }
+//    }
 }

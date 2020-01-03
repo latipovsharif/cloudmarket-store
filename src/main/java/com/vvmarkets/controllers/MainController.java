@@ -66,6 +66,13 @@ public class MainController implements Initializable, IController {
     @FXML
     private TextField searchTxtField;
 
+    private static int checkCounter = 1;
+
+    public static int getCheckCounter() {
+        if (checkCounter > 200) checkCounter = 1;
+        return ++checkCounter;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Tab newTab = TabUtil.NewTab();
