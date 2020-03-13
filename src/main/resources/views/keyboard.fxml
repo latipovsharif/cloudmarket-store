@@ -3,80 +3,90 @@
 <?import java.net.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="mainContainer" prefHeight="610.0" prefWidth="799.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.LogInController">
     <AnchorPane fx:id="loginContainer" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken" prefHeight="34.0" prefWidth="158.0" styleClass="action-buttons, btn-blue" text="Установить токен" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-      <HBox layoutX="20.0" layoutY="82.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="82.0">
+        <Button fx:id="btnSetToken" layoutX="723.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#setToken" prefHeight="34.0" prefWidth="158.0" styleClass="btn-red" text="Установить токен" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+      <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
          <children>
-              <VBox alignment="CENTER" fillWidth="false" prefHeight="528.0" prefWidth="447.0" spacing="10.0">
-                  <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="46.0" prefWidth="295.0" promptText="Логин" />
-                  <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="46.0" prefWidth="295.0" promptText="Пароль" />
-                  <HBox spacing="10.0">
-                      <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" prefHeight="45.0" prefWidth="120.0" styleClass="action-buttons, btn-red" text="Выйти" />
-                      <Button fx:id="btnSingIn" mnemonicParsing="false" onAction="#signIn" prefHeight="45.0" prefWidth="120.0" styleClass="action-buttons, btn-blue" text="Войти" />
-                  </HBox>
+              <VBox alignment="CENTER" fillWidth="false" prefHeight="168.0" prefWidth="799.0" spacing="10.0">
+                  <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="46.0" prefWidth="350.0" promptText="Логин" />
+                  <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="46.0" prefWidth="350.0" promptText="Пароль" />
               </VBox>
-            <VBox alignment="CENTER" fx:id="keyboardContainer">
+            <VBox fx:id="keyboardContainer" alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" prefHeight="90.0" spacing="10.0">
+                  <HBox alignment="CENTER" prefHeight="75.0" spacing="10.0">
                      <children>
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="1" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="2" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="3" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="4" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="5" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="6" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="7" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="8" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="9" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="0" />
-                        <Button onAction="#btnBackspaceClick" styleClass="btn-default" text="backspace" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="1" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="2" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="3" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="4" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="5" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="6" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="7" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="8" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="9" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="0" />
+                        <Button onAction="#btnBackspaceClick" styleClass="btn-default, btn-blue" text="backspace" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="90.0" spacing="10.0">
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="75.0" spacing="10.0">
                      <children>
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="q" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="w" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="e" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="r" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="t" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="y" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="u" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="i" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="o" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="p" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="q" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="w" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="e" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="r" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="t" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="y" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="u" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="i" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="o" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="p" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="310.0" prefHeight="90.0" spacing="10.0">
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="310.0" prefHeight="75.0" spacing="10.0">
                      <children>
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="a" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="s" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="d" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="f" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="g" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="h" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="j" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="k" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="l" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="a" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="s" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="d" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="f" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="g" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="h" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="j" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="k" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="l" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="90.0" spacing="10.0">
+                  <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="75.0" spacing="10.0">
                      <children>
-                        <Button onAction="#btnShiftClick" styleClass="btn-default" text="shift" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="z" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="x" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="c" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="v" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="b" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="n" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="m" />
-                        <Button onAction="#btnKeyboardClick" styleClass="btn-default" text="." />
+                        <Button onAction="#btnShiftClick" styleClass="btn-default, btn-blue" text="shift" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="z" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="x" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="c" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="v" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="b" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="n" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="m" />
+                        <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-blue" text="." />
                      </children>
                   </HBox>
-               </children></VBox>
+               </children>
+            </VBox>
+               <HBox alignment="CENTER" prefHeight="100.0" spacing="10.0">
+                   <Button fx:id="btnExit" mnemonicParsing="false" onAction="#exit" prefHeight="60.0" prefWidth="220.0" styleClass="btn-red" text="Выйти">
+                  <font>
+                     <Font name="System Bold" size="25.0" />
+                  </font>
+               </Button>
+                   <Button fx:id="btnSingIn" mnemonicParsing="false" onAction="#signIn" prefHeight="60.0" prefWidth="220.0" styleClass="btn-blue" text="Войти">
+                  <font>
+                     <Font name="Consolas Bold" size="25.0" />
+                  </font>
+               </Button>
+               </HBox>
          </children>
-      </HBox>
+      </VBox>
     </AnchorPane>
    <stylesheets>
       <URL value="@../css/base.css" />

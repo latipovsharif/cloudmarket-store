@@ -1,12 +1,15 @@
-.action-buttons {
-    -fx-text-fill: #ffffff;
+.btn-white {
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #000000;
 }
 
 .btn-blue {
+    -fx-text-fill: #ffffff;
     -fx-background-color: #0362fc;
 }
 
 .btn-red {
+    -fx-text-fill: #ffffff;
     -fx-background-color: #fc210f;
 }
 
