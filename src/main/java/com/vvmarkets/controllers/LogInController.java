@@ -8,7 +8,7 @@ import com.vvmarkets.presenters.MainPresenter;
 import com.vvmarkets.requests.AuthorizationBody;
 import com.vvmarkets.services.AuthorizationService;
 import com.vvmarkets.services.RestClient;
-import com.vvmarkets.sync.Base;
+import com.vvmarkets.sync.Syncronizer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -50,6 +50,8 @@ public class LogInController implements Initializable {
     boolean isUpper = false;
     String focused = "login";
 
+    private Syncronizer s = new Syncronizer();
+
     public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
 
@@ -81,7 +83,7 @@ public class LogInController implements Initializable {
                                 txtLogin.setText("");
                                 txtPassword.setText("");
 
-                                Base.sync();
+                                s.startSync();
                             } catch (Exception ex) {
                                 Platform.runLater(() -> {
                                     Alert a = DialogUtil.newWarning("Error", ex.getMessage());
@@ -143,6 +145,7 @@ public class LogInController implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
+        s.stopSync();
         Platform.exit();
     }
 

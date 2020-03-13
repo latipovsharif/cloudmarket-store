@@ -112,9 +112,12 @@ public class ProductResponse {
     private double Discount;
 
 
-    public static void Save(List<ProductResponse> products) {
+    public static void ClearAndSave(List<ProductResponse> products) {
         String sql = "replace into products(id, name, barcode, article, origin, description, price, discount) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection c = db.getConnection()) {
+            var stmt = c.createStatement();
+            stmt.executeQuery("delete from products");
+
             PreparedStatement ps = c.prepareStatement(sql);
 
             for (ProductResponse p: products) {

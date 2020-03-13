@@ -19,28 +19,20 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-//import static com.vvmarkets.configs.Config.getSyncTimeout;
+public class Syncronizer {
+    ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(0);
 
-public class Base {
-    public static void sync() {
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
-
-//        Runnable croneRunnable = Base::syncMain;
-//        executorService.scheduleAtFixedRate(croneRunnable, 0, getSyncTimeout(), TimeUnit.SECONDS);
-
-        Runnable soldSync = Base::syncSold;
-        executorService.scheduleAtFixedRate(soldSync, 0,10, TimeUnit.SECONDS);
+    public void startSync() {
+        scheduler.scheduleAtFixedRate(Syncronizer::syncSold, 0, 10, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
-            Runnable productCron = Base::syncProducts;
-
-            ScheduledExecutorService productService = Executors.newScheduledThreadPool(1);
-            productService.schedule(productCron, 0, TimeUnit.SECONDS);
+            scheduler.schedule(Syncronizer::syncProducts, 0, TimeUnit.SECONDS);
         }
     }
 
     private static void syncSold() {
         try {
+            System.out.println("processing sold");
             ExpenseBody body = new ExpenseBody().getUnfinished();
             if (body != null) {
                 ExpenseResponse response = body.SaveToNetwork();
@@ -55,13 +47,14 @@ public class Base {
 
     private static void syncProducts() {
         try {
+            System.out.println("syncing products");
             ProductService productService = RestClient.getClient().create(ProductService.class);
             Call<ResponseBody<List<ProductResponse>>> productCall = productService.productList();
 
             Response<ResponseBody<List<ProductResponse>>> response = productCall.execute();
             if (response.isSuccessful()) {
                 if (response.body() != null) {
-                    ProductResponse.Save(response.body().getBody());
+                    ProductResponse.ClearAndSave(response.body().getBody());
                 }
             }
 
@@ -71,19 +64,7 @@ public class Base {
         }
     }
 
-//    private static void syncMain() {
-//        try {
-//            ListUtil.INSTANCE.syncFillMain();
-//
-//            for (IListContent category: ListUtil.INSTANCE.getMain()) {
-//                try {
-//                    ListUtil.INSTANCE.syncCashForCategory(category.getQueryId());
-//                } catch (Exception ex) {
-//                    Utils.logException(ex,"cannot sync subcategories for main hot access");
-//                }
-//            }
-//        } catch (Exception e) {
-//            Utils.logException(e,"cannot sync main list");
-//        }
-//    }
+    public void stopSync() {
+        scheduler.shutdown();
+    }
 }
