@@ -28,7 +28,7 @@
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="8" />
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="9" />
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="0" />
-                        <Button onAction="#btnBackspaceClick" styleClass="btn-default, btn-blue" text="backspace" />
+                        <Button onAction="#btnBackspaceClick" styleClass="btn-default, btn-blue" text="BACKSPACE" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="75.0" spacing="10.0">
@@ -60,7 +60,7 @@
                   </HBox>
                   <HBox alignment="CENTER" layoutX="10.0" layoutY="237.0" prefHeight="75.0" spacing="10.0">
                      <children>
-                        <Button onAction="#btnShiftClick" styleClass="btn-default, btn-blue" text="shift" />
+                        <Button onAction="#btnShiftClick" styleClass="btn-default, btn-blue" text="SHIFT" />
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="z" />
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="x" />
                         <Button onAction="#btnKeyboardClick" styleClass="btn-default, btn-white" text="c" />

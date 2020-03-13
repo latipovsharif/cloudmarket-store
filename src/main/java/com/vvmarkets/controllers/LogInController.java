@@ -8,7 +8,7 @@ import com.vvmarkets.presenters.MainPresenter;
 import com.vvmarkets.requests.AuthorizationBody;
 import com.vvmarkets.services.AuthorizationService;
 import com.vvmarkets.services.RestClient;
-import com.vvmarkets.sync.Syncronizer;
+import com.vvmarkets.sync.Synchronizer;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.apache.logging.log4j.core.jackson.ContextDataAsEntryListDeserializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,7 +51,7 @@ public class LogInController implements Initializable {
     boolean isUpper = false;
     String focused = "login";
 
-    private Syncronizer s = new Syncronizer();
+    private Synchronizer s = new Synchronizer();
 
     public void signIn(ActionEvent e) {
         String cashToken = Config.getCashToken();
@@ -116,7 +117,7 @@ public class LogInController implements Initializable {
     }
 
     public void setToken(MouseEvent mouseEvent) {
-        Dialog<String> dialogPane = new Dialog<>();
+        Dialog<ButtonType> dialogPane = new Dialog<>();
         VBox box = new VBox();
         box.setSpacing(10);
         TextField textField = new TextField();
@@ -125,21 +126,29 @@ public class LogInController implements Initializable {
         box.getChildren().add(textField);
 
         dialogPane.getDialogPane().setContent(box);
-        dialogPane.setResultConverter(dBtn -> textField.getText());
 
         ButtonType setTokenButton = new ButtonType("Установить", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButton = new ButtonType("Отменить", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         dialogPane.getDialogPane().getButtonTypes().addAll(setTokenButton, cancelButton);
-        Optional<String> result = dialogPane.showAndWait();
+        Optional<ButtonType> result = dialogPane.showAndWait();
 
-        result.ifPresent(token -> {
-            if (!Config.setCashToken(token)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Невозможно установить токен");
-                alert.setHeaderText("Невозможно установить токен");
-                alert.setContentText("Просьба обратиться к администратору");
-                alert.show();
+        result.ifPresent(btn -> {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Невозможно установить токен");
+            alert.setHeaderText("Невозможно установить токен");
+
+            if (!btn.getButtonData().isCancelButton()) {
+
+                if (!textField.getText().isEmpty()) {
+                    if (!Config.setCashToken(textField.getText())) {
+                        alert.setContentText("Просьба обратиться к администратору");
+                        alert.show();
+                    }
+                } else {
+                    alert.setContentText("Токен не может быть пустым");
+                    alert.show();
+                }
             }
         });
     }
@@ -218,6 +227,9 @@ public class LogInController implements Initializable {
                             case ")":
                                 btn.setText("0");
                                 break;
+                            case "BACKSPACE":
+                            case "SHIFT":
+                                break;
                             default:
                                 btn.setText(btn.getText().toLowerCase());
                         }
@@ -252,6 +264,9 @@ public class LogInController implements Initializable {
                                 break;
                             case "0":
                                 btn.setText(")");
+                                break;
+                            case "BACKSPACE":
+                            case "SHIFT":
                                 break;
                             default:
                                 btn.setText(btn.getText().toUpperCase());

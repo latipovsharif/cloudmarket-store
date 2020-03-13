@@ -19,14 +19,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class Syncronizer {
+public class Synchronizer {
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(0);
 
     public void startSync() {
-        scheduler.scheduleAtFixedRate(Syncronizer::syncSold, 0, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 10, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
-            scheduler.schedule(Syncronizer::syncProducts, 0, TimeUnit.SECONDS);
+            scheduler.schedule(Synchronizer::syncProducts, 0, TimeUnit.SECONDS);
         }
     }
 
