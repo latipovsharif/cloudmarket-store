@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -29,6 +28,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
+import static com.vvmarkets.configs.Config.getLoginSuffix;
 
 public class LogInController implements Initializable {
     @FXML
@@ -58,10 +59,16 @@ public class LogInController implements Initializable {
             alert.setHeaderText("Токен не установлен");
             alert.setContentText("Пожалуйста установите токен для кассы.");
             alert.show();
+            return;
+        }
+
+        String login = txtLogin.getText();
+        if (!login.contains("@")) {
+            login = login + getLoginSuffix();
         }
 
         AuthorizationService authService = RestClient.getClient().create(AuthorizationService.class);
-        Call<Authorization> listProductCall = authService.auth(new AuthorizationBody(txtLogin.getText(), txtPassword.getText()));
+        Call<Authorization> listProductCall = authService.auth(new AuthorizationBody(login, txtPassword.getText()));
         listProductCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<Authorization> call, Response<Authorization> response) {

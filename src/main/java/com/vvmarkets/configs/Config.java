@@ -18,6 +18,7 @@ public class Config {
 
     private static final String offlineMode = "OFFLINE_MODE";
     private static final String syncTimeout = "SYNC_TIMEOUT";
+    private static final String loginSuffix = "LOGIN_SUFFIX";
     
 
     public static int getSyncTimeout() {
@@ -118,5 +119,13 @@ public class Config {
             log.warn("cannot get offline mode from database");
         }
         return off;
+    }
+
+    public static String getLoginSuffix() {
+        return getConfig(loginSuffix);
+    }
+
+    public static boolean setLoginSuffix(String suffix){
+        return setConfig(loginSuffix, suffix);
     }
 }
