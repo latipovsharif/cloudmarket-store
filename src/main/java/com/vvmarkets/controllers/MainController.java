@@ -101,18 +101,7 @@ public class MainController implements Initializable, IController {
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {
-            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-
-            try {
-                tableView.getItems().add(Product.getProduct(tmpBarcode));
-            } catch (NotFound nf) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.show();
-            } catch (Exception e) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText(e.getMessage());
-                alert.show();
-            }
+            addProduct(tmpBarcode);
             tmpBarcode = "";
         } else if(keyEvent.getCode().isDigitKey()) {
             tmpBarcode += keyEvent.getText();
@@ -180,21 +169,25 @@ public class MainController implements Initializable, IController {
                     mainMasonryPane.getChildren().addAll(ProductComponent.getList(pc.getProduct().getQueryId()));
                     break;
                 case Product:
-                    try {
-                        Product clickedRow = Product.getProduct(pc.getProduct().getQueryId());
-                        clickedRow.setQuantity(1);
-
-                        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-                        TableUtil.addProduct(tableView, clickedRow);
-                    } catch (NotFound nf) {
-                        DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
-                    } catch (Exception e) {
-                        DialogUtil.newError("Непредвиденная ошибка", e.getMessage()).show();
-                    }
+                    addProduct(pc.getProduct().getQueryId());
                     break;
                 default:
                     break;
             }
+        }
+    }
+
+    private void addProduct(String barcode) {
+        try {
+            Product clickedRow = Product.getProduct(barcode);
+            clickedRow.setQuantity(1);
+
+            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+            TableUtil.addProduct(tableView, clickedRow);
+        } catch (NotFound nf) {
+            DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
+        } catch (Exception e) {
+            DialogUtil.newError("Непредвиденная ошибка", e.getMessage()).show();
         }
     }
 

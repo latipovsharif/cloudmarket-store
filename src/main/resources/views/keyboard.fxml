@@ -12,7 +12,7 @@
          <children>
               <VBox alignment="CENTER" fillWidth="false" prefHeight="168.0" prefWidth="799.0" spacing="10.0">
                   <TextField fx:id="txtLogin" alignment="CENTER" prefHeight="46.0" prefWidth="350.0" promptText="Логин" />
-                  <PasswordField fx:id="txtPassword" alignment="CENTER" prefHeight="46.0" prefWidth="350.0" promptText="Пароль" />
+                  <PasswordField fx:id="txtPassword" onKeyPressed="#passwordKeyPressed"  alignment="CENTER" prefHeight="46.0" prefWidth="350.0" promptText="Пароль" />
               </VBox>
             <VBox fx:id="keyboardContainer" alignment="CENTER">
                <children>

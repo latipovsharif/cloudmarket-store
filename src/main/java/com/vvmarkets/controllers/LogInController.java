@@ -16,6 +16,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -53,7 +55,7 @@ public class LogInController implements Initializable {
 
     private Synchronizer s = new Synchronizer();
 
-    public void signIn(ActionEvent e) {
+    public void signIn() {
         String cashToken = Config.getCashToken();
 
         if (cashToken.isEmpty()) {
@@ -276,5 +278,11 @@ public class LogInController implements Initializable {
             }
         }
         isUpper = !isUpper;
+    }
+
+    public void passwordKeyPressed(KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            signIn();
+        }
     }
 }
