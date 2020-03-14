@@ -116,7 +116,7 @@ public class ProductResponse {
         String sql = "replace into products(id, name, barcode, article, origin, description, price, discount) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection c = db.getConnection()) {
             var stmt = c.createStatement();
-            stmt.executeQuery("delete from products");
+            stmt.execute("delete from products");
 
             PreparedStatement ps = c.prepareStatement(sql);
 

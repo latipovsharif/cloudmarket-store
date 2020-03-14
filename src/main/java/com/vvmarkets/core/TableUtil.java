@@ -62,7 +62,7 @@ public class TableUtil {
 
 
                             lbl.setOnMouseClicked(event -> {
-                                Dialog dialog = new QuantityDialog(p.getProductProperties());
+                                Dialog<Double> dialog = new QuantityDialog(p.getProductProperties());
                                 Optional<Double> result = dialog.showAndWait();
                                 if (result.isPresent()) {
                                     double entered = result.get();
@@ -192,11 +192,20 @@ public class TableUtil {
         if(pair != null) {
             pair.getSecond().setQuantity(pair.getSecond().getQuantity() + product.getQuantity());
             setProduct(productTableView, pair);
+            setSelection(productTableView, pair.getFirst());
         } else {
             productTableView.getItems().add(product);
+            setSelection(productTableView, productTableView.getItems().size() - 1);
         }
 
         changed.onNext(calculateTotal(productTableView));
+    }
+
+    private static void setSelection(TableView<Product> tv, int idx) {
+        if (tv.getItems().size() > 0) {
+            tv.getSelectionModel().clearSelection();
+            tv.getSelectionModel().select(idx);
+        }
     }
 
     private static Pair<Integer, Product> getProductIndex(TableView<Product> tableView, Product product) {
@@ -204,7 +213,7 @@ public class TableUtil {
         for (int i = 0; i < tableView.getItems().size(); i++) {
             Product existingProduct = tableView.getItems().get(i);
 
-            if (product.getId().equals(existingProduct.getId())) {
+            if (product.getProductProperties().getId().equals(existingProduct.getProductProperties().getId())) {
                 pair = new Pair<>(i, existingProduct);
                 break;
             }

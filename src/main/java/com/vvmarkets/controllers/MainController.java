@@ -100,6 +100,23 @@ public class MainController implements Initializable, IController {
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+
+            try {
+                tableView.getItems().add(Product.getProduct(tmpBarcode));
+            } catch (NotFound nf) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.show();
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.show();
+            }
+            tmpBarcode = "";
+        } else if(keyEvent.getCode().isDigitKey()) {
+            tmpBarcode += keyEvent.getText();
+        }
     }
 
     public void confirm(ActionEvent actionEvent) throws Exception {
