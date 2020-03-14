@@ -8,7 +8,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css, @../css/base.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController">
-   <TextField fx:id="searchTxtField" onKeyPressed="#searchKeyPressed" prefHeight="43.0" prefWidth="376.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="10.0" />
+   <TextField fx:id="searchTxtField" layoutX="156.0" prefHeight="43.0" prefWidth="289.0" AnchorPane.leftAnchor="156.0" AnchorPane.topAnchor="10.0" />
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
       <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <JFXMasonryPane fx:id="mainMasonryPane" limitRow="1000" minHeight="2000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

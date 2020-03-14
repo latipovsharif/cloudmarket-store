@@ -8,6 +8,7 @@ import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.dao.Seller;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -23,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javafx.scene.input.MouseEvent;
 
@@ -68,6 +71,9 @@ public class MainController implements Initializable, IController {
 
     private static int checkCounter = 1;
 
+    private Timer textTimer;
+    private TimerTask textTimerTask;
+
     public static int getCheckCounter() {
         if (checkCounter > 200) checkCounter = 1;
         return ++checkCounter;
@@ -97,6 +103,20 @@ public class MainController implements Initializable, IController {
                         ListUtil.fillMainSync(),
                         false)
         );
+
+        searchTxtField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (textTimer != null) {
+                textTimer.cancel();
+            }
+            textTimer = new Timer();
+            textTimerTask = new TimerTask() {
+                @Override
+                public void run() {
+                    Platform.runLater(MainController.this::searchOnType);
+                }
+            };
+            textTimer.schedule(textTimerTask, 1000);
+        });
     }
 
     public void keyPressed(@NotNull KeyEvent keyEvent) {
@@ -200,12 +220,10 @@ public class MainController implements Initializable, IController {
         mainMasonryPane.getChildren().addAll(ProductComponent.getList());
     }
 
-    public void searchKeyPressed(KeyEvent keyEvent) {
+    public void searchOnType() {
         if (!searchTxtField.getText().isEmpty() && !searchTxtField.getText().isBlank()) {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
                 mainMasonryPane.getChildren().clear();
                 mainMasonryPane.getChildren().addAll(ProductComponent.getSearchList(searchTxtField.getText()));
-            }
         } else {
             showMainMenu();
         }
