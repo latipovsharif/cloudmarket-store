@@ -189,7 +189,7 @@ public class MainController implements Initializable, IController {
                     } catch (NotFound nf) {
                         DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
                     } catch (Exception e) {
-                        DialogUtil.newError("Не предвиденная ошибка", e.getMessage()).show();
+                        DialogUtil.newError("Непредвиденная ошибка", e.getMessage()).show();
                     }
                     break;
                 default:

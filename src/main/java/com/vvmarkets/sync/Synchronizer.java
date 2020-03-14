@@ -23,7 +23,7 @@ public class Synchronizer {
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(0);
 
     public void startSync() {
-        scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 100, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
             scheduler.schedule(Synchronizer::syncProducts, 0, TimeUnit.SECONDS);
@@ -36,7 +36,7 @@ public class Synchronizer {
             ExpenseBody body = new ExpenseBody().getUnfinished();
             if (body != null) {
                 ExpenseResponse response = body.SaveToNetwork();
-                if (response != null) {
+                if (response != null && !response.getReceiptId().isEmpty()) {
                     body.deleteFromDB();
                 }
             }

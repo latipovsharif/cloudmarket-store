@@ -3,6 +3,7 @@ package com.vvmarkets.dao;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
+import com.vvmarkets.configs.Config;
 import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.NotFound;
@@ -92,7 +93,7 @@ public class Product {
     }
 
 
-    private static Product getProductFromDb(String barcode) {
+    private static Product getProductFromDb(String barcode) throws NotFound {
         Product product = null;
         PreparedStatement stmt = null;
 
@@ -103,7 +104,7 @@ public class Product {
             while (rs.next()) {
                 product = new Product();
                 product.productProperties = new ProductProperties();
-                product.id = rs.getString("id");
+                product.productProperties.setId(rs.getString("id"));
                 product.productProperties.setName(rs.getString("name"));
                 product.productProperties.setBarcode(rs.getString("barcode"));
                 product.productProperties.setArticle(rs.getString("article"));
@@ -113,13 +114,18 @@ public class Product {
                 product.discount = rs.getInt("discount");
             }
         } catch (Exception e) {
-            Utils.logException(e, "cannot get product from DB");
+            throw new NotFound(String.format("cannot get product from db: %s, exc: %s", barcode, e.getMessage()));
         }
 
         return product;
     }
 
     public static Product getProduct(String barcode) throws Exception {
+
+        if (Config.getOfflineMode()) {
+            return getProductFromDb(barcode);
+        }
+
         Product product = null;
         if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
             product = getProductFromNetByBarcode(barcode);
