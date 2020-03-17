@@ -4,13 +4,15 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
+import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.core.HttpConnectionHolder;
-import com.vvmarkets.core.Utils;
+import com.vvmarkets.errors.InvalidFormat;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import com.vvmarkets.utils.db;
+import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
@@ -117,26 +119,75 @@ public class Product {
             throw new NotFound(String.format("cannot get product from db: %s, exc: %s", barcode, e.getMessage()));
         }
 
+        if (product == null) {
+            throw new NotFound(String.format("cannot get product from db: %s", barcode));
+        }
+
         return product;
     }
 
     public static Product getProduct(String barcode) throws Exception {
+        var cleanedCode = getProductCodeFromBarcode(barcode);
+        System.out.println(String.format("code is %s and quantity is %f",cleanedCode.getValue(), cleanedCode.getKey()));
+        Product product = null;
 
         if (Config.getOfflineMode()) {
-            return getProductFromDb(barcode);
+            product = getProductFromDb(cleanedCode.getValue());
+            product.setQuantity(cleanedCode.getKey());
+            return product;
         }
 
-        Product product = null;
         if (HttpConnectionHolder.INSTANCE.shouldRetry()) {
-            product = getProductFromNetByBarcode(barcode);
+            product = getProductFromNetByBarcode(cleanedCode.getValue());
         } else {
-            product = getProductFromDb(barcode);
+            product = getProductFromDb(cleanedCode.getValue());
         }
 
-        if (product == null) {
-            throw new NotFound("product with barcode:" + barcode + " not found");
-        }
+        product.setQuantity(cleanedCode.getKey());
         return product;
+    }
+
+    private static Pair<Double, String> getProductCodeFromBarcode(String barcode) throws InvalidFormat {
+        var format = RemoteConfig.getConfig(RemoteConfig.ConfigType.PIECEMEAL, RemoteConfig.ConfigSubType.FORMAT);
+        if (!format.matches("\\d{2}-\\d[C|W]-\\d[C|W]")) {
+            throw new InvalidFormat("invalid server format from the server");
+        }
+
+        String[] fmt = format.split("-");
+        if (!barcode.startsWith(fmt[0])) {
+            return new Pair<>(1.0, barcode);
+        }
+
+        Double q = null;
+        String c = null;
+
+        int f = Integer.parseInt(fmt[1].substring(0, 1));
+        int s = Integer.parseInt(fmt[2].substring(0, 1));
+
+        String fs = barcode.substring(2, 2 + f);
+        String ss = barcode.substring(2 + f, 2 + f + s);
+
+        if (fmt[1].contains("C"))  {
+            c = fs;
+        } else if (fmt[1].contains("W")) {
+            q = Double.parseDouble(fs);
+        }
+
+        if (fmt[2].contains("C")) {
+            c = ss;
+        } else if (fmt[2].contains("W")) {
+            q = Double.parseDouble(ss);
+        }
+
+        if (q == null || c == null) {
+            throw new InvalidFormat("invalid format no C's or no W's");
+        }
+
+        if (q < 0) {
+            throw new InvalidFormat("quantity cannot be less than 0");
+        }
+
+        return new Pair<>(q / 100, c);
     }
 
     private static Product getProductFromNetByBarcode(String barcode) throws Exception {

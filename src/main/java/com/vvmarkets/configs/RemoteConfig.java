@@ -11,7 +11,8 @@ public class RemoteConfig {
     public enum ConfigType {
         GENERAL("general"),
         PRINTER("printer"),
-        PRINTER_SECOND("printerSecond");
+        PRINTER_SECOND("printerSecond"),
+        PIECEMEAL("piecemeal");
 
         private String type;
 
@@ -30,7 +31,8 @@ public class RemoteConfig {
         LABEL_ROW("labelRow"),
         LABEL_FOOTER("labelFooter"),
         LABEL_HEADER("labelHeader"),
-        LABEL_WIDTH("labelWidth");
+        LABEL_WIDTH("labelWidth"),
+        FORMAT("format");
 
         private String type;
 

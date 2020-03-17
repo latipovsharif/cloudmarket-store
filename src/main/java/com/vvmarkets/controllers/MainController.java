@@ -6,6 +6,7 @@ import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.dao.Seller;
+import com.vvmarkets.errors.InvalidFormat;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.presenters.ConfirmPresenter;
 import javafx.application.Platform;
@@ -200,12 +201,13 @@ public class MainController implements Initializable, IController {
     private void addProduct(String barcode) {
         try {
             Product clickedRow = Product.getProduct(barcode);
-            clickedRow.setQuantity(1);
-
             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
             TableUtil.addProduct(tableView, clickedRow);
         } catch (NotFound nf) {
-            DialogUtil.newWarning("Не найден", "Товар с кодом " + tmpBarcode + " не найден").show();
+            DialogUtil.newWarning("Не найден", String.format( "Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
+        } catch (InvalidFormat ifmt) {
+            DialogUtil.newError("Неправильный формат",
+                    String.format("Неправильно настроена функция работы с весовыми товарами или задан неправильный код для товара %s.\r\n %s", tmpBarcode, ifmt.getMessage())).show();
         } catch (Exception e) {
             DialogUtil.newError("Непредвиденная ошибка", e.getMessage()).show();
         }
