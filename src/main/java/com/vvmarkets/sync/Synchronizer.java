@@ -4,6 +4,7 @@ import com.vvmarkets.configs.Config;
 //import com.vvmarkets.core.IListContent;
 //import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
+import com.vvmarkets.dao.ProductUpdate;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.responses.ExpenseResponse;
 import com.vvmarkets.responses.ProductResponse;
@@ -26,8 +27,10 @@ public class Synchronizer {
         scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 100, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
-            scheduler.schedule(Synchronizer::syncProducts, 0, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Synchronizer::syncProducts, 0, 100, TimeUnit.SECONDS);
         }
+
+        SettingResponse.sync();
     }
 
     private static void syncSold() {
@@ -49,16 +52,27 @@ public class Synchronizer {
         try {
             System.out.println("syncing products");
             ProductService productService = RestClient.getClient().create(ProductService.class);
-            Call<ResponseBody<List<ProductResponse>>> productCall = productService.productList();
 
-            Response<ResponseBody<List<ProductResponse>>> response = productCall.execute();
-            if (response.isSuccessful()) {
-                if (response.body() != null) {
-                    ProductResponse.ClearAndSave(response.body().getBody());
+            long version = ProductUpdate.getCurrentVersion();
+            Call<ResponseBody<List<Long>>> productVersions = productService.productVersion(version);
+            Response<ResponseBody<List<Long>>> responseBodyCall = productVersions.execute();
+            if (responseBodyCall.isSuccessful()) {
+                if (responseBodyCall.body() != null && responseBodyCall.body().getBody() != null) {
+                    List<Long> lst = responseBodyCall.body().getBody();
+                    for (var l: lst) {
+                        Call<ResponseBody<List<ProductResponse>>> productCall = productService.productList(l);
+
+                        Response<ResponseBody<List<ProductResponse>>> response = productCall.execute();
+                        if (response.isSuccessful()) {
+                            if (response.body() != null) {
+                                ProductResponse.Update(response.body().getBody());
+                            }
+                        }
+
+                        ProductUpdate.setCurrentVersion(l);
+                    }
                 }
             }
-
-            SettingResponse.sync();
         } catch (Exception e) {
             Utils.logException(e, "cannot sync products");
         }

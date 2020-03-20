@@ -128,7 +128,6 @@ public class Product {
 
     public static Product getProduct(String barcode) throws Exception {
         var cleanedCode = getProductCodeFromBarcode(barcode);
-        System.out.println(String.format("code is %s and quantity is %f",cleanedCode.getValue(), cleanedCode.getKey()));
         Product product = null;
 
         if (Config.getOfflineMode()) {
