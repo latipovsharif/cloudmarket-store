@@ -156,8 +156,10 @@ public class LogInController implements Initializable {
     }
 
     public void exit(ActionEvent actionEvent) {
+        System.out.println("exiting application");
         s.stopSync();
         Platform.exit();
+        System.exit(0);
     }
 
     @Override

@@ -79,6 +79,7 @@ public class Synchronizer {
     }
 
     public void stopSync() {
+        System.out.println("shutting down now");
         scheduler.shutdown();
     }
 }
