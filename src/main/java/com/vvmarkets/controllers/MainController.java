@@ -96,7 +96,7 @@ public class MainController implements Initializable, IController {
         }
 
         TableUtil.changed.subscribe(aDouble -> {
-            lblTotal.setText(String.valueOf(aDouble));
+            lblTotal.setText(Utils.getFormatted(aDouble));
         });
 
         mainMasonryPane.getChildren().addAll(
@@ -149,7 +149,7 @@ public class MainController implements Initializable, IController {
 
     private void selectedTabChanged(Event event) {
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-        lblTotal.setText(String.valueOf(TableUtil.calculateTotal(tableView)));
+        lblTotal.setText(Utils.getFormatted(TableUtil.calculateTotal(tableView)));
     }
 
     public void closeTabClicked(MouseEvent mouseEvent) {

@@ -6,6 +6,7 @@ import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
 import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.core.HttpConnectionHolder;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.errors.InvalidFormat;
 import com.vvmarkets.errors.NotFound;
 import com.vvmarkets.services.ProductService;
@@ -19,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.sql.*;
+import java.text.DecimalFormat;
 
 public class Product {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -60,10 +62,11 @@ public class Product {
 
     public void setProductProperties(ProductProperties productProperties) {
         this.productProperties = productProperties;
+
     }
 
     public double getTotal() {
-        return quantity * price - (quantity * price * discount / 100);
+        return Utils.round(quantity * price - (quantity * price * discount / 100));
     }
 
     public void setTotal(double total) {
@@ -71,7 +74,7 @@ public class Product {
     }
 
     public double getQuantity() {
-        return quantity;
+        return Utils.round(quantity);
     }
 
     public void setQuantity(double quantity) {
@@ -79,7 +82,7 @@ public class Product {
     }
 
     public double getPrice() {
-        return price;
+        return Utils.round(price);
     }
 
     public void setPrice(double price) {

@@ -43,6 +43,11 @@ public class Utils {
         return nf.format(value);
     }
 
+    public static Double round(double v) {
+        NumberFormat nf = new DecimalFormat("#0.00");
+        return Double.valueOf(nf.format(v));
+    }
+
     public String formattedValue(String value) {
         double res = getDoubleOrZero(value);
         return getFormatted(res);

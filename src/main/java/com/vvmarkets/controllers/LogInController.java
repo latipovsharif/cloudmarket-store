@@ -22,7 +22,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.apache.logging.log4j.core.jackson.ContextDataAsEntryListDeserializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
