@@ -2,6 +2,7 @@ package com.vvmarkets.peripheral;
 
 import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.controllers.MainController;
+import com.vvmarkets.core.Utils;
 import com.vvmarkets.requests.ExpenseBody;
 import com.vvmarkets.requests.ProductBody;
 import javafx.collections.ObservableSet;
@@ -54,7 +55,7 @@ public class ThermalPrinter {
                 replace("{discount}", "Скидка").
                 replace("{lineTotal}","Итого");
 
-        addTextLine(headerText, "-fx-font-weight: bold; -fx-font-size: 10");
+        addTextLine(headerText, "-fx-font-weight: bold; -fx-font-size: 9");
     }
 
     private void addTextLine(String text) {
@@ -101,16 +102,17 @@ public class ThermalPrinter {
     private void getLineString(ProductBody product, int counter) {
         addTextLine(getProductLineTemplate()
                 .replace("{counter}", String.valueOf(counter))
-                .replace("{product}", product.getName())
-                .replace("{quantity}", String.valueOf(product.getQuantity()))
-                .replace("{price}", String.valueOf(product.getSellPrice()))
-                .replace("{discount}", String.valueOf(product.getDiscountPercent()))
-                .replace("{lineTotal}", String.valueOf(product.getTotal()) + " c."),
-                "-fx-font-size: 10");
+                .replace("{product}", product.getShortName())
+                .replace("{quantity}", Utils.getFormatted(product.getQuantity()))
+                .replace("{price}", Utils.getFormatted(product.getSellPrice()))
+                .replace("{discount}", Utils.getFormatted(product.getDiscountPercent()))
+                .replace("{lineTotal}", Utils.getFormatted(product.getTotal())),
+                "-fx-font-size: 7");
     }
 
     private void getHeader() {
-        addTextLine("Кассир:      " + MainController.seller.getFullName());
+        addTextLine("Кассир: " + MainController.seller.getFullName(),
+                "-fx-font-size: 10");
 
         addTextLine(
                 RemoteConfig.getConfig(
@@ -123,18 +125,20 @@ public class ThermalPrinter {
 
     private void getFooter() {
         String style = "-fx-font-size: 10px; -fx-font-weight: bold";
-        addTextLine("Наличные:     " + expenseBody.getPayment().getCashPaid() + " c.", style);
-        addTextLine("Итого:        " + expenseBody.getPayment().getToPay() + " c.", style);
+        addTextLine("Итого:       " + Utils.getFormatted(expenseBody.getPayment().getToPay()) + " c.", style);
+        addTextLine("Получено:    " + Utils.getFormatted(expenseBody.getPayment().getTotalPayed()) + " c.", style);
+        addTextLine("Сдача:       " + Utils.getFormatted(expenseBody.getPayment().getReturn()) + " c.", style);
+        addNewLine();
         LocalDateTime time = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
         addTextLine("Дата: " + formatter.format(time), style);
-        addTextLine("Номер в очереди","-fx-font-size: 15; -fx-alignment: center");
-
-        addTextLine("  " + MainController.getCheckCounter(),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");
-        addNewLine();
-        addTextLine("Служба доставки:","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
-        addTextLine(" (92) 100 0200","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
+//        addTextLine("Номер в очереди","-fx-font-size: 15; -fx-alignment: center");
+//
+//        addTextLine("  " + MainController.getCheckCounter(),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");
+//        addNewLine();
+//        addTextLine("Служба доставки:","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
+//        addTextLine(" (92) 100 0200","-fx-font-size: 14; -fx-font-weight: bold; -fx-alignment: center");
     }
 
     private void formCheck() {

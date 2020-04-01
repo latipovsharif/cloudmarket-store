@@ -40,6 +40,10 @@ public class  PaymentBody {
         return Remained;
     }
 
+    public Double getReturn() {
+        return getTotalPayed() - getToPay();
+    }
+
     public void setRemained(Double remained) {
         Remained = remained;
     }
@@ -63,12 +67,23 @@ public class  PaymentBody {
     @SerializedName("remained")
     @Expose
     private Double Remained;
+    private Double TotalPayed;
+
+    public Double getTotalPayed() {
+        return this.TotalPayed;
+    }
 
     public PaymentBody(double toPay, double cardPaid, double cashPaid) {
         this.DiscountType = "percent";
         this.CardPaid = cardPaid;
         this.CashPaid = cashPaid;
-        this.Remained = toPay - (cashPaid + cardPaid);
+        this.TotalPayed = cashPaid + cardPaid;
+        if (toPay < getTotalPayed()) {
+            setRemained(0.0);
+        } else {
+            setRemained(toPay - getTotalPayed());
+        }
+
         this.ToPay = toPay;
     }
 

@@ -39,7 +39,7 @@ public class Synchronizer {
             ExpenseBody body = new ExpenseBody().getUnfinished();
             if (body != null) {
                 ExpenseResponse response = body.SaveToNetwork();
-                if (response != null && !response.getReceiptId().isEmpty()) {
+                if (response != null) {
                     body.deleteFromDB();
                 }
             }

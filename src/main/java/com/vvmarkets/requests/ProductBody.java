@@ -59,6 +59,14 @@ public class ProductBody {
         return Name;
     }
 
+    public String getShortName() {
+        if (Name.length() > 10) {
+            return Name.substring(0, 9);
+        }
+
+        return Name;
+    }
+
     public void setName(String name) {
         Name = name;
     }
