@@ -92,7 +92,6 @@ public class MainController implements Initializable, IController {
             Alert a = DialogUtil.newWarning("Ошибка при получении продавца", "Невозможно получить продавца\r\n либо он не установлен либо сеть недоступна");
             a.show();
             return;
-
         }
 
         TableUtil.changed.subscribe(aDouble -> {
