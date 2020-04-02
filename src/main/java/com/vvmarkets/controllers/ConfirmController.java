@@ -51,13 +51,15 @@ public class ConfirmController implements Initializable {
     }
 
     private void calculateToPay() {
-        double d = Utils.getDoubleOrZero(discount.getText());
-        double t = Utils.getDoubleOrZero(total.getText());
+//        double d = Utils.getDoubleOrZero(discount.getText());
+//        double t = Utils.getDoubleOrZero(total.getText());
 
-        if (d > 0) {
-            t = t - (t * d / 100);
-        }
-        toPay.setText(Utils.getFormatted(t));
+//        if (d > 0) {
+//            t = t - (t * d / 100);
+//        }
+//        toPay.setText(Utils.getFormatted(t));
+
+        toPay.setText(total.getText());
     }
 
     public void discountChanged() {

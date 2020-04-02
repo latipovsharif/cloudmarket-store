@@ -189,7 +189,9 @@ public class Product {
             throw new InvalidFormat("quantity cannot be less than 0");
         }
 
-        return new Pair<>(q / 100, c);
+        c = String.valueOf(Integer.parseInt(c));
+
+        return new Pair<>(q / 1000, c);
     }
 
     private static Product getProductFromNetByBarcode(String barcode) throws Exception {
