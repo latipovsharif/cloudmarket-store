@@ -204,6 +204,8 @@ public class MainController implements Initializable, IController {
             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
             TableUtil.addProduct(tableView, clickedRow);
         } catch (NotFound nf) {
+            // FIXME should check settings from server to do this
+            // if I've got permission than I can do the following
             NewProductDialog dialog = new NewProductDialog(barcode);
             dialog.showAndWait();
             boolean res = dialog.getResult();
@@ -216,6 +218,7 @@ public class MainController implements Initializable, IController {
                     DialogUtil.newWarning("Не найден", String.format( "Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
                 }
             }
+            // else I should show warning that product is not found
         } catch (InvalidFormat ifmt) {
             DialogUtil.newError("Неправильный формат",
                     String.format("Неправильно настроена функция работы с весовыми товарами или задан неправильный код для товара %s.\r\n %s", tmpBarcode, ifmt.getMessage())).show();
