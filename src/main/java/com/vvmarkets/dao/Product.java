@@ -166,14 +166,14 @@ public class Product {
         return product;
     }
 
-    private static Pair<Double, String> getProductCodeFromBarcode(String barcode) throws InvalidFormat {
+    public static Pair<Double, String> getProductCodeFromBarcode(String barcode) throws InvalidFormat {
         var format = RemoteConfig.getConfig(RemoteConfig.ConfigType.PIECEMEAL, RemoteConfig.ConfigSubType.FORMAT);
         if (!format.matches("\\d{2}-\\d[C|W]-\\d[C|W]")) {
             throw new InvalidFormat("invalid server format from the server");
         }
 
         String[] fmt = format.split("-");
-        if (!barcode.startsWith(fmt[0])) {
+        if (!barcode.startsWith(fmt[0]) || barcode.length() != 13) {
             return new Pair<>(1.0, barcode);
         }
 

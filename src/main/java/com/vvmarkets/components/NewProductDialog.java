@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
 
 import com.vvmarkets.dao.Product;
+import javafx.util.Pair;
 
 public class NewProductDialog extends Dialog<Boolean> {
     public NewProductDialog(String barcode) {
@@ -18,9 +19,15 @@ public class NewProductDialog extends Dialog<Boolean> {
 
             controller.btnConfirm.setOnAction(
                     actionEvent -> {
-                        boolean b = Product.createProduct(barcode,
-                                Utils.getDoubleOrZero(controller.txtPrice.getText()));
-                        setResult(b);
+                        try {
+                            Pair<Double, String> p = Product.getProductCodeFromBarcode(barcode);
+                            boolean b = Product.createProduct(p.getValue(),
+                                    Utils.getDoubleOrZero(controller.txtPrice.getText()));
+                            setResult(b);
+                        } catch (Exception e) {
+                            setResult(false);
+                        }
+
                         this.close();
                     }
             );

@@ -93,6 +93,10 @@ public class MainController implements Initializable, IController {
             Alert a = DialogUtil.newWarning("Ошибка при получении продавца", "Невозможно получить продавца\r\n либо он не установлен либо сеть недоступна");
             a.show();
             return;
+        } catch (Exception ex) {
+            Utils.logException(ex, "cannot get seller");
+            DialogUtil.showErrorNotification("Невозможно получить продавца\r\nданный кассир не имеет полномочий продавать с данной кассы");
+            return;
         }
 
         TableUtil.changed.subscribe(aDouble -> {
