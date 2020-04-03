@@ -1,6 +1,7 @@
 package com.vvmarkets.controllers;
 
 import com.jfoenix.controls.JFXMasonryPane;
+import com.vvmarkets.components.NewProductDialog;
 import com.vvmarkets.components.ProductComponent;
 import com.vvmarkets.core.*;
 import com.vvmarkets.dao.Product;
@@ -203,7 +204,18 @@ public class MainController implements Initializable, IController {
             TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
             TableUtil.addProduct(tableView, clickedRow);
         } catch (NotFound nf) {
-            DialogUtil.newWarning("Не найден", String.format( "Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
+            NewProductDialog dialog = new NewProductDialog(barcode);
+            dialog.showAndWait();
+            boolean res = dialog.getResult();
+            if (res) {
+                try {
+                    Product clickedRow = Product.getProduct(barcode);
+                    TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+                    TableUtil.addProduct(tableView, clickedRow);
+                } catch (Exception e) {
+                    DialogUtil.newWarning("Не найден", String.format( "Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
+                }
+            }
         } catch (InvalidFormat ifmt) {
             DialogUtil.newError("Неправильный формат",
                     String.format("Неправильно настроена функция работы с весовыми товарами или задан неправильный код для товара %s.\r\n %s", tmpBarcode, ifmt.getMessage())).show();

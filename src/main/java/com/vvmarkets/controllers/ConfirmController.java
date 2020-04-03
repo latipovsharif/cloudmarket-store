@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 
 public class ConfirmController implements Initializable {
-
     @FXML
     private TextField total;
     @FXML
@@ -35,8 +34,6 @@ public class ConfirmController implements Initializable {
     @FXML
     private Button btnCloseCheck;
 
-
-
     private Node previousScene;
     private TableView<Product> products;
 
@@ -51,15 +48,13 @@ public class ConfirmController implements Initializable {
     }
 
     private void calculateToPay() {
-//        double d = Utils.getDoubleOrZero(discount.getText());
-//        double t = Utils.getDoubleOrZero(total.getText());
+        double d = Utils.getDoubleOrZero(discount.getText());
+        double t = Utils.getDoubleOrZero(total.getText());
 
-//        if (d > 0) {
-//            t = t - (t * d / 100);
-//        }
-//        toPay.setText(Utils.getFormatted(t));
-
-        toPay.setText(total.getText());
+        if (d > 0) {
+            t = t - (t * d / 100);
+        }
+        toPay.setText(Utils.getFormatted(t));
     }
 
     public void discountChanged() {

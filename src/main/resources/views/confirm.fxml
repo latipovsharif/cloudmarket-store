@@ -114,7 +114,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="card" disable="true" onKeyTyped="#cardChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="card" onKeyTyped="#cardChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </HBox.margin>

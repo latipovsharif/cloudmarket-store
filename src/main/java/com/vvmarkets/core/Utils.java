@@ -28,9 +28,10 @@ public class Utils {
 
         double res = 0;
         try {
-            NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
-            Number n = nf.parse(value);
-            res = n.doubleValue();
+            res = Double.parseDouble(value);
+//            NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
+//            Number n = nf.parse(value);
+//            res = n.doubleValue();
         } catch (Exception e) {
             log.error("cannot parse string to double " + e.getMessage());
         }

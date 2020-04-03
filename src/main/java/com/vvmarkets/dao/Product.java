@@ -20,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.sql.*;
-import java.text.DecimalFormat;
+import java.util.UUID;
 
 public class Product {
     private static final Logger log = LogManager.getLogger(Main.class);
@@ -36,6 +36,23 @@ public class Product {
     @Expose
     @SerializedName("quantity")
     private double quantity;
+
+    public static boolean createProduct(String text, double price) {
+        try (Connection c = db.getConnection()){
+            PreparedStatement stmt = null;
+            stmt = c.prepareStatement("insert into products(id, name, barcode, article, price) values (?, ?, ?, ?, ?)");
+            stmt.setString(1, UUID.randomUUID().toString());
+            stmt.setString(2, text);
+            stmt.setString(3, text);
+            stmt.setString(4, text);
+            stmt.setDouble(5, price);
+            stmt.execute();
+            return true;
+        } catch (Exception e) {
+            log.error(e);
+            return false;
+        }
+    }
 
     public int getDiscount() {
         return discount;
