@@ -11,7 +11,7 @@
    <TextField fx:id="searchTxtField" layoutX="156.0" prefHeight="43.0" prefWidth="289.0" AnchorPane.leftAnchor="156.0" AnchorPane.topAnchor="10.0" />
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
       <ScrollPane fitToHeight="true" fitToWidth="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-          <JFXMasonryPane fx:id="mainMasonryPane" limitRow="1000" minHeight="2000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          <JFXMasonryPane fx:id="mainMasonryPane" limitRow="1000" minHeight="20000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       </ScrollPane>
     </AnchorPane>
     <TabPane fx:id="mainTabPane" maxWidth="450.0" prefWidth="450.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />

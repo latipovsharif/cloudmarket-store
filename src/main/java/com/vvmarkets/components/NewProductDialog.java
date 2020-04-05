@@ -22,7 +22,7 @@ public class NewProductDialog extends Dialog<Boolean> {
                         try {
                             Pair<Double, String> p = Product.getProductCodeFromBarcode(barcode);
                             boolean b = Product.createProduct(p.getValue(),
-                                    Utils.getDoubleOrZero(controller.txtPrice.getText()));
+                                    Utils.getDoubleOrZero(controller.txtPrice.getText().replace(",", ".")));
                             setResult(b);
                         } catch (Exception e) {
                             setResult(false);

@@ -95,7 +95,7 @@ public class ProductComponent extends VBox {
 
     private static ProductComponent getComponent(IListContent content) {
         ProductComponent pc = new ProductComponent(content);
-        pc.setStyle("-fx-pref-width: 200px; -fx-pref-height: 200px; -fx-alignment: center; -fx-background-color: #fff");
+        pc.setStyle("-fx-pref-width: 170px; -fx-pref-height: 200px; -fx-alignment: center; -fx-background-color: #d8f3ff");
         ImageView iv = new ImageView();
         iv.setImage(content.getThumb());
         iv.prefHeight(150);
@@ -104,7 +104,7 @@ public class ProductComponent extends VBox {
         iv.setFitHeight(150);
         Label lbl = new Label(content.getName());
         lbl.setStyle(
-                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-pref-width: 200px; -fx-pref-height: 40px");
+                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-pref-width: 170px; -fx-pref-height: 40px");
         pc.getChildren().add(iv);
         pc.getChildren().add(lbl);
         return pc;

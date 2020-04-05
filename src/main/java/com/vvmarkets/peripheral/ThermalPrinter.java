@@ -74,7 +74,7 @@ public class ThermalPrinter {
     }
 
     private void addDashes(String paperSize) {
-        String style = "-fx-font-weight: bold;";
+        String style = "-fx-font-weight: bold; -fx-padding: 0; -fx-border-insets: 0;";
         if (paperSize.equals("58")) {
             addTextLine("--------------------------", style);
         } else {
@@ -107,7 +107,7 @@ public class ThermalPrinter {
                 .replace("{price}", Utils.getFormatted(product.getSellPrice()))
                 .replace("{discount}", Utils.getFormatted(product.getDiscountPercent()))
                 .replace("{lineTotal}", Utils.getFormatted(product.getTotal())),
-                "-fx-font-size: 7");
+                "-fx-font-size: 7; -fx-padding: 0; -fx-border-insets: 0;");
     }
 
     private void getHeader() {

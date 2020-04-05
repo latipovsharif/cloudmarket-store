@@ -12,6 +12,10 @@ public class ProductBody {
     @Expose
     private String ProductId;
 
+    @SerializedName("barcode")
+    @Expose
+    private String Barcode;
+
     @SerializedName("quantity")
     @Expose
     private Double Quantity;
@@ -19,7 +23,6 @@ public class ProductBody {
     @SerializedName("discount_percent")
     @Expose
     private int DiscountPercent;
-
 
     transient private String Name;
 
@@ -74,4 +77,14 @@ public class ProductBody {
     public double getTotal() {
         return getQuantity() * getSellPrice() - (getQuantity() * getSellPrice() * getDiscountPercent() / 100);
     }
+
+
+    public String getBarcode() {
+        return Barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        Barcode = barcode;
+    }
+
 }
