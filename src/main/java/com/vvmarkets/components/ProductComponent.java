@@ -43,7 +43,6 @@ public class ProductComponent extends VBox {
             ProductComponentController controller = loader.getController();
             controller.setProduct(product);
             this.getChildren().add(root);
-            
         } catch (Exception e) {
             Utils.logException(e, "cannot load fxml for quantity dialog");
         }
