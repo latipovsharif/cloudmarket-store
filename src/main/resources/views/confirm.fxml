@@ -25,7 +25,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="total" disable="true" onKeyTyped="#totalChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="total" disable="true" onKeyTyped="#totalChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20; -fx-opacity: 1;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -70,7 +70,7 @@
                               <Insets left="10.0" />
                            </padding>
                         </Label>
-                        <TextField fx:id="toPay" disable="true" onKeyTyped="#toPayChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="toPay" disable="true" onKeyTyped="#toPayChanged" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20; -fx-opacity: 1;">
                            <HBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </HBox.margin>
@@ -136,7 +136,7 @@
                            <padding>
                               <Insets left="10.0" />
                            </padding></Label>
-                        <TextField fx:id="change" disable="true" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20;">
+                        <TextField fx:id="change" disable="true" prefHeight="100.0" prefWidth="300.0" style="-fx-font-size: 20; -fx-opacity: 1;">
                            <HBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </HBox.margin>

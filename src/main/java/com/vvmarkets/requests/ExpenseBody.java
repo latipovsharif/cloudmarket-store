@@ -20,7 +20,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -103,10 +105,24 @@ public class ExpenseBody {
         return Id;
     }
 
+    @SerializedName("created_at")
+    @Expose
+    private String createdAt;
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
     public void setId(String id) {
         Id = id;
     }
 
+    @SerializedName("id")
+    @Expose
     private String Id;
 
     public ExpenseBody() { }
@@ -117,8 +133,8 @@ public class ExpenseBody {
 
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
-                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change " +
-                    "from sold");
+                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp" +
+                    " from sold");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 expense = new ExpenseBody();
@@ -128,7 +144,7 @@ public class ExpenseBody {
                 expense.setSellerId(rs.getString(3));
                 expense.setPayment(new PaymentBody(rs.getDouble(7),rs.getDouble(5),rs.getDouble(6)));
                 expense.setProducts(getProductsFromDB(rs.getString(1)));
-
+                expense.setCreatedAt(rs.getString(10));
             }
         } catch (Exception e) {
             Utils.logException(e, "cannot get product from DB");
@@ -141,7 +157,7 @@ public class ExpenseBody {
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
 
-            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change) values (?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, getSellerId());
             stmt.setString(2, getDocumentHash());
@@ -151,6 +167,7 @@ public class ExpenseBody {
             stmt.setDouble(6, getPayment().getToPay());
             stmt.setDouble(7, getPayment().getRemained());
             stmt.setDouble(8, 0);
+            stmt.setString(9, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -241,6 +258,7 @@ public class ExpenseBody {
             pb.setQuantity(p.getQuantity());
             pb.setSellPrice(p.getPrice());
             pb.setName(p.getProductProperties().getName());
+            pb.setBarcode(p.getProductProperties().getBarcode());
             res.add(pb);
         }
 
