@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="192.0" prefWidth="150.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.components.ProductComponentController">
+   <children>
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="150.0" pickOnBounds="true" smooth="false">
+         <image>
+            <Image fx:id="image" url="@../images/no_image.png" />
+         </image></ImageView>
+      <Label fx:id="lblProductName" alignment="CENTER" graphicTextGap="0.0" prefHeight="40.0" prefWidth="150.0" textAlignment="CENTER" wrapText="true" />
+   </children>
+</VBox>

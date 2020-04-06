@@ -7,6 +7,8 @@ import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -34,6 +36,17 @@ public class ProductComponent extends VBox {
 
     public ProductComponent(IListContent product) {
         this.product = product;
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/productComponent.fxml"));
+            Parent root = loader.load();
+            ProductComponentController controller = loader.getController();
+            controller.setProduct(product);
+            this.getChildren().add(root);
+            
+        } catch (Exception e) {
+            Utils.logException(e, "cannot load fxml for quantity dialog");
+        }
     }
 
     public static List<ProductComponent> getList() {
@@ -70,7 +83,9 @@ public class ProductComponent extends VBox {
             var p = new ProductProperties();
             p.setName("");
             p.setThumb("images/back.png");
-            res.add(0, getComponent(p));
+
+            ProductComponent pc = new ProductComponent(p);
+            res.add(0, pc);
         }
 
         if (contents == null) {
@@ -85,7 +100,8 @@ public class ProductComponent extends VBox {
                     continue;
                 }
 
-                res.add(getComponent(content));
+                ProductComponent pc = new ProductComponent(content);
+                res.add(pc);
             }
         }catch(Exception e) {
             Utils.logException(e, "cannot get list of content");
@@ -93,20 +109,20 @@ public class ProductComponent extends VBox {
         return res;
     }
 
-    private static ProductComponent getComponent(IListContent content) {
-        ProductComponent pc = new ProductComponent(content);
-        pc.setStyle("-fx-pref-width: 170px; -fx-pref-height: 200px; -fx-alignment: center; -fx-background-color: #d8f3ff");
-        ImageView iv = new ImageView();
-        iv.setImage(content.getThumb());
-        iv.prefHeight(150);
-        iv.prefWidth(150);
-        iv.setFitWidth(150);
-        iv.setFitHeight(150);
-        Label lbl = new Label(content.getName());
-        lbl.setStyle(
-                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-pref-width: 170px; -fx-pref-height: 40px");
-        pc.getChildren().add(iv);
-        pc.getChildren().add(lbl);
-        return pc;
-    }
+//    private static ProductComponent getComponent(IListContent content) {
+//        ProductComponent pc = new ProductComponent(content);
+//        pc.setStyle("-fx-pref-width: 170px; -fx-pref-height: 200px; -fx-alignment: center; -fx-background-color: #d8f3ff");
+//        ImageView iv = new ImageView();
+//        iv.setImage(content.getThumb());
+//        iv.prefHeight(150);
+//        iv.prefWidth(150);
+//        iv.setFitWidth(150);
+//        iv.setFitHeight(150);
+//        Label lbl = new Label(content.getName());
+//        lbl.setStyle(
+//                "-fx-font-size: 14px; -fx-font-weight: bold; -fx-wrap-text: true; -fx-pref-width: 170px; -fx-pref-height: 40px");
+//        pc.getChildren().add(iv);
+//        pc.getChildren().add(lbl);
+//        return pc;
+//    }
 }
