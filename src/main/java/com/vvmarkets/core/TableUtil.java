@@ -197,6 +197,7 @@ public class TableUtil {
         if (tv.getItems().size() > 0) {
             tv.getSelectionModel().clearSelection();
             tv.getSelectionModel().select(idx);
+            tv.scrollTo(idx);
         }
     }
 
