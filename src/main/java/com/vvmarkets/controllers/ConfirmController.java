@@ -152,7 +152,7 @@ public class ConfirmController implements Initializable {
         boolean hasErr = true;
 
         if (expenseResponse == null) {
-            if (TableUtil.saveToDb(expense)) {
+            if ((expense.saveToDb())) {
                 hasErr = false;
             }
         } else {

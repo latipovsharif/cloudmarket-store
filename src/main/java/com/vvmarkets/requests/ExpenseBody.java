@@ -11,17 +11,22 @@ import com.vvmarkets.services.RestClient;
 import com.vvmarkets.utils.ResponseBody;
 import com.vvmarkets.utils.db;
 import javafx.scene.control.TableView;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Response;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class ExpenseBody {
+    private static final Logger log = LogManager.getLogger(ExpenseBody.class);
+
     public PaymentBody getPayment() {
         return payment;
     }
@@ -134,6 +139,64 @@ public class ExpenseBody {
         return expense;
     }
 
+    public boolean saveToDb() {
+        try (Connection connection = db.getConnection()) {
+            connection.setAutoCommit(false);
+
+            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change) values (?, ?, ?, ?, ?, ?, ?, ?);";
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setString(1, getSellerId());
+            stmt.setString(2, getDocumentHash());
+            stmt.setString(3, "percent");
+            stmt.setDouble(4, getPayment().getCardPaid());
+            stmt.setDouble(5, getPayment().getCashPaid());
+            stmt.setDouble(6, getPayment().getToPay());
+            stmt.setDouble(7, getPayment().getRemained());
+            stmt.setDouble(8, 0);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows == 0) {
+                log.error("cannot save sold affected rows equals zero");
+                connection.rollback();
+                return false;
+            }
+
+            long savedKey;
+
+            try (ResultSet generatedKey = stmt.getGeneratedKeys()){
+                if (generatedKey.next()) {
+                    savedKey = generatedKey.getLong(1);
+                } else {
+                    log.error("cannot save sold cannot get generated key");
+                    connection.rollback();
+                    return false;
+                }
+            }
+
+            setId(String.valueOf(savedKey));
+
+            sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent) values (?, ?, ?, ?, ?)";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            for (ProductBody p : getProducts()) {
+                ps.setLong(1, savedKey);
+                ps.setString(2, p.getProductId());
+                ps.setDouble(3, p.getSellPrice());
+                ps.setDouble(4, p.getQuantity());
+                ps.setDouble(5, p.getDiscountPercent());
+                ps.addBatch();
+            }
+
+            ps.executeBatch();
+
+            connection.commit();
+        } catch (Exception e) {
+            Utils.logException(e, "cannot execute sold insert");
+            return false;
+        }
+
+        return true;
+    }
     private List<ProductBody> getProductsFromDB(String soldId) {
         List<ProductBody> products = new ArrayList<>();
         PreparedStatement stmt;
