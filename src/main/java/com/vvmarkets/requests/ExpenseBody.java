@@ -109,9 +109,7 @@ public class ExpenseBody {
 
     private String Id;
 
-    public ExpenseBody() {
-
-    }
+    public ExpenseBody() { }
 
     public ExpenseBody getUnfinished() {
         ExpenseBody expense = null;
@@ -175,7 +173,7 @@ public class ExpenseBody {
 
             setId(String.valueOf(savedKey));
 
-            sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent) values (?, ?, ?, ?, ?)";
+            sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent, barcode) values (?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = connection.prepareStatement(sql);
 
             for (ProductBody p : getProducts()) {
@@ -184,6 +182,7 @@ public class ExpenseBody {
                 ps.setDouble(3, p.getSellPrice());
                 ps.setDouble(4, p.getQuantity());
                 ps.setDouble(5, p.getDiscountPercent());
+                ps.setString(6, p.getBarcode());
                 ps.addBatch();
             }
 
@@ -203,16 +202,17 @@ public class ExpenseBody {
 
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
-                    " id, sold_id, product_id, sell_price, quantity, discount_percent " +
+                    " id, sold_id, product_id, sell_price, quantity, discount_percent, barcode " +
                     "from sold_details where sold_id = ?");
             stmt.setString(1, soldId);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 ProductBody product = new ProductBody();
                 product.setProductId(rs.getString(3));
-                product.setDiscountPercent(rs.getInt(6));
-                product.setQuantity(rs.getDouble(5));
                 product.setSellPrice(rs.getDouble(4));
+                product.setQuantity(rs.getDouble(5));
+                product.setDiscountPercent(rs.getInt(6));
+                product.setBarcode(rs.getString(7));
                 products.add(product);
             }
         } catch (Exception e) {

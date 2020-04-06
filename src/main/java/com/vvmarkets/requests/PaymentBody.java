@@ -67,6 +67,9 @@ public class  PaymentBody {
     @SerializedName("remained")
     @Expose
     private Double Remained;
+
+    @SerializedName("total_payed")
+    @Expose
     private Double TotalPayed;
 
     public Double getTotalPayed() {
@@ -101,10 +104,6 @@ public class  PaymentBody {
             CashPaid = ToPay - CardPaid;
         }
 
-        if (payed < ToPay) {
-            return false;
-        }
-
-        return true;
+        return payed > ToPay;
     }
 }

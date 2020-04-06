@@ -1,0 +1,1 @@
+alter table sold add column timestamp text;
