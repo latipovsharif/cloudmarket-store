@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.vvmarkets'
-version '0.0.1'
+version '0.0.2'
 compileJava.options.encoding = 'UTF-8'
 
 repositories {

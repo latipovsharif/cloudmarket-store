@@ -134,7 +134,7 @@ public class ExpenseBody {
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
                     "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp" +
-                    " from sold");
+                    " from sold limit 1");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 expense = new ExpenseBody();

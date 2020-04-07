@@ -24,10 +24,10 @@ public class Synchronizer {
     ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(0);
 
     public void startSync() {
-        scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 100, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(Synchronizer::syncSold, 0, 10, TimeUnit.SECONDS);
 
         if (Config.getOfflineMode()) {
-            scheduler.scheduleAtFixedRate(Synchronizer::syncProducts, 0, 100, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Synchronizer::syncProducts, 0, 10, TimeUnit.SECONDS);
         }
 
         SettingResponse.sync();
