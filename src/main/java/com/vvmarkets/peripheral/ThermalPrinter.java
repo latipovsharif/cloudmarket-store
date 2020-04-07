@@ -35,11 +35,11 @@ public class ThermalPrinter {
         int i = 1;
         for (ProductBody p : expense) {
             getLineString(p, i);
-            addDashes(
-                    RemoteConfig.getConfig(
-                            RemoteConfig.ConfigType.PRINTER,
-                            RemoteConfig.ConfigSubType.LABEL_WIDTH)
-            );
+//            addDashes(
+//                    RemoteConfig.getConfig(
+//                            RemoteConfig.ConfigType.PRINTER,
+//                            RemoteConfig.ConfigSubType.LABEL_WIDTH)
+//            );
 
             i++;
         }
