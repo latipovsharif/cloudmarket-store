@@ -210,17 +210,21 @@ public class MainController implements Initializable, IController {
         } catch (NotFound nf) {
             // FIXME should check settings from server to do this
             // if I've got permission than I can do the following
-            NewProductDialog dialog = new NewProductDialog(barcode);
-            dialog.showAndWait();
-            boolean res = dialog.getResult();
-            if (res) {
-                try {
-                    Product clickedRow = Product.getProduct(barcode);
-                    TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-                    TableUtil.addProduct(tableView, clickedRow);
-                } catch (Exception e) {
-                    DialogUtil.newWarning("Не найден", String.format( "Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
+            if (barcode.length() > 2) {
+                NewProductDialog dialog = new NewProductDialog(barcode);
+                dialog.showAndWait();
+                boolean res = dialog.getResult();
+                if (res) {
+                    try {
+                        Product clickedRow = Product.getProduct(barcode);
+                        TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
+                        TableUtil.addProduct(tableView, clickedRow);
+                    } catch (Exception e) {
+                        DialogUtil.newWarning("Не найден", String.format("Товар с кодом %s не найден %s", tmpBarcode, nf.getMessage())).show();
+                    }
                 }
+            } else {
+                DialogUtil.newWarning("Неправильный формат", String.format("Длина штрихкода должна быть больше 2 символов %s", tmpBarcode)).show();
             }
             // else I should show warning that product is not found
         } catch (InvalidFormat ifmt) {
