@@ -1,5 +1,6 @@
 package com.vvmarkets.components;
 
+import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,13 +20,21 @@ public class NewProductDialog extends Dialog<Boolean> {
 
             controller.btnConfirm.setOnAction(
                     actionEvent -> {
+                        if (controller.txtPrice.getText().length() < 1) {
+                            return;
+                        }
+
                         try {
+                            double price = Double.parseDouble(controller.txtPrice.getText().replace(",", "."));
+                            if (price <= 0) {
+                                return;
+                            }
+
                             Pair<Double, String> p = Product.getProductCodeFromBarcode(barcode);
-                            boolean b = Product.createProduct(p.getValue(),
-                                    Utils.getDoubleOrZero(controller.txtPrice.getText().replace(",", ".")));
+                            boolean b = Product.createProduct(p.getValue(), price);
                             setResult(b);
                         } catch (Exception e) {
-                            setResult(false);
+                            return;
                         }
 
                         this.close();

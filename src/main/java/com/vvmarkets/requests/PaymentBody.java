@@ -100,7 +100,7 @@ public class  PaymentBody {
 
         // TODO сделать возможность оплатить авансом в далеком будущем
         double payed = CardPaid + CashPaid;
-        if (payed > ToPay) {
+        if (payed >= ToPay) {
             CashPaid = ToPay - CardPaid;
         }
 
