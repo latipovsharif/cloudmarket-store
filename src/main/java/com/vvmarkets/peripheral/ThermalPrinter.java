@@ -191,7 +191,7 @@ public class ThermalPrinter {
     private void doPrint(Printer printer) {
         PrinterJob job = PrinterJob.createPrinterJob(printer);
         PageLayout layout = job.getPrinter().createPageLayout(
-                Paper.NA_LETTER,
+                Paper.A0,
                 PageOrientation.PORTRAIT,
                 Printer.MarginType.HARDWARE_MINIMUM
         );

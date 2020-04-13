@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <VBox style="-fx-background-color: #d8f3ff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.components.ProductComponentController">
    <children>
@@ -11,6 +12,9 @@
             <Image fx:id="image" url="@../images/no_image.png" />
          </image>
       </ImageView>
-      <Label fx:id="lblProductName" alignment="CENTER" graphicTextGap="0.0" prefHeight="40.0" prefWidth="150.0" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="lblProductName" alignment="CENTER" graphicTextGap="0.0" prefHeight="40.0" prefWidth="150.0" style="-fx-font-weight: bold;" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
    </children>
 </VBox>
