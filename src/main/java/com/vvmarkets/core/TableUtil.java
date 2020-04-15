@@ -110,6 +110,7 @@ public class TableUtil {
                             setGraphic(null);
                         } else {
                             btn.getStyleClass().add("subtractBtn");
+                            btn.setFocusTraversable(false);
 
                             btn.setOnAction(event -> {
                                 Product p = getTableView().getItems().get(getIndex());
@@ -157,6 +158,7 @@ public class TableUtil {
                             setGraphic(null);
                         } else {
                             btn.getStyleClass().add("addBtn");
+                            btn.setFocusTraversable(false);
 
                             btn.setOnAction(event -> {
                                 Product p = getTableView().getItems().get(getIndex());
