@@ -1,5 +1,6 @@
 package com.vvmarkets.sync;
 
+import com.vvmarkets.Main;
 import com.vvmarkets.configs.Config;
 //import com.vvmarkets.core.IListContent;
 //import com.vvmarkets.core.ListUtil;
@@ -54,7 +55,7 @@ public class Synchronizer {
             ProductService productService = RestClient.getClient().create(ProductService.class);
 
             long version = ProductUpdate.getCurrentVersion();
-            Call<ResponseBody<List<Long>>> productVersions = productService.productVersion(version);
+            Call<ResponseBody<List<Long>>> productVersions = productService.productVersion(version, Main.ApplicationVersion);
             Response<ResponseBody<List<Long>>> responseBodyCall = productVersions.execute();
             if (responseBodyCall.isSuccessful()) {
                 if (responseBodyCall.body() != null && responseBodyCall.body().getBody() != null) {

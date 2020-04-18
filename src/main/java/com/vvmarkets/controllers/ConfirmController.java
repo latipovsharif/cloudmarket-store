@@ -169,6 +169,9 @@ public class ConfirmController implements Initializable {
             }
 
             Utils.showScreen(previousScene);
+            Label lbl = (Label) previousScene.lookup("#lblTotal");
+            lbl.setText("0");
+
             products.getItems().clear();
         } else {
             DialogUtil.showErrorNotification("Возникла критическая ошибка при сохранении документ, пожалуйста обратитесь к администратору.");

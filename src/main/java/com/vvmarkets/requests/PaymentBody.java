@@ -104,6 +104,6 @@ public class  PaymentBody {
             CashPaid = ToPay - CardPaid;
         }
 
-        return payed > ToPay;
+        return payed >= ToPay;
     }
 }

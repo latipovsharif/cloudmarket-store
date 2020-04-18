@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -29,14 +31,17 @@ public class Utils {
         double res = 0;
         try {
             res = Double.parseDouble(value);
-//            NumberFormat nf = NumberFormat.getInstance(Locale.getDefault());
-//            Number n = nf.parse(value);
-//            res = n.doubleValue();
         } catch (Exception e) {
             log.error("cannot parse string to double " + e.getMessage());
         }
 
-        return res;
+        return round(res, 2);
+    }
+
+    public static double round(double value, int scale) {
+        BigDecimal bd = BigDecimal.valueOf(value);
+        bd = bd.setScale(scale, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     public static String getFormatted(double value) {

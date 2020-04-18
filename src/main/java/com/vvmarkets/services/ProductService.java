@@ -16,7 +16,7 @@ public interface ProductService {
     Call<ResponseBody<List<ProductResponse>>> productList(@Path("version") Long version);
 
     @GET("/api/v1/cashes/product/versions/")
-    Call<ResponseBody<List<Long>>> productVersion(@Query("version") Long version);
+    Call<ResponseBody<List<Long>>> productVersion(@Query("version") Long version, @Query("app_version") String appVersion);
 
     @GET("/api/v1/cashes/product/get/")
     Call<ResponseBody<Product>> productFromBarcode(@Query("barcode") String barcode);
