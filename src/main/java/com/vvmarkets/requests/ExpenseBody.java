@@ -245,6 +245,7 @@ public class ExpenseBody {
         this.payment = payment;
         this.sellerId = sellerId;
         this.shiftId = shiftId;
+        this.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         setProducts(tableView);
     }

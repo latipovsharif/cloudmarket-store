@@ -130,6 +130,11 @@ public class ConfirmController implements Initializable {
     }
 
     public void closeCheck(ActionEvent actionEvent) {
+        if (this.products.getItems().size() == 0) {
+            DialogUtil.showErrorNotification("Возникла критическая ошибка при сохранении документ," +
+                    " пожалуйста обратитесь к администратору.");
+        }
+
         btnCloseCheck.setDisable(true);
         PaymentBody payment = new PaymentBody(
                 Utils.getDoubleOrZero(toPay.getText()),
