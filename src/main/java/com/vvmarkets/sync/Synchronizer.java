@@ -36,12 +36,13 @@ public class Synchronizer {
 
     private static void syncSold() {
         try {
-            System.out.println("processing sold");
-            ExpenseBody body = new ExpenseBody().getUnfinished();
-            if (body != null) {
-                ExpenseResponse response = body.SaveToNetwork();
-                if (response != null) {
-                    body.deleteFromDB();
+            List<ExpenseBody> body = new ExpenseBody().getUnfinished();
+            for (ExpenseBody b : body) {
+                if (b != null) {
+                    ExpenseResponse response = b.SaveToNetwork();
+                    if (response != null) {
+                        b.deleteFromDB();
+                    }
                 }
             }
         } catch (Exception e) {
@@ -51,7 +52,6 @@ public class Synchronizer {
 
     private static void syncProducts() {
         try {
-            System.out.println("syncing products");
             ProductService productService = RestClient.getClient().create(ProductService.class);
 
             long version = ProductUpdate.getCurrentVersion();

@@ -2,6 +2,7 @@ package com.vvmarkets.requests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vvmarkets.configs.Config;
 import com.vvmarkets.core.HttpConnectionHolder;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Product;
@@ -125,16 +126,29 @@ public class ExpenseBody {
     @Expose
     private String Id;
 
+    public String getSoldBy() {
+        return SoldBy;
+    }
+
+    public void setSoldBy(String soldBy) {
+        SoldBy = soldBy;
+    }
+
+    @SerializedName("sold_by")
+    @Expose
+    private String SoldBy;
+
     public ExpenseBody() { }
 
-    public ExpenseBody getUnfinished() {
+    public List<ExpenseBody> getUnfinished() {
+        List<ExpenseBody> lst = new ArrayList<>();
         ExpenseBody expense = null;
         PreparedStatement stmt;
 
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
-                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp" +
-                    " from sold limit 1");
+                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by" +
+                    " from sold");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 expense = new ExpenseBody();
@@ -145,19 +159,22 @@ public class ExpenseBody {
                 expense.setPayment(new PaymentBody(rs.getDouble(7),rs.getDouble(5),rs.getDouble(6)));
                 expense.setProducts(getProductsFromDB(rs.getString(1)));
                 expense.setCreatedAt(rs.getString(10));
+                expense.setSoldBy(rs.getString(11));
+
+                lst.add(expense);
             }
         } catch (Exception e) {
             Utils.logException(e, "cannot get product from DB");
         }
 
-        return expense;
+        return lst;
     }
 
     public boolean saveToDb() {
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
 
-            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp) values (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, getSellerId());
             stmt.setString(2, getDocumentHash());
@@ -168,6 +185,7 @@ public class ExpenseBody {
             stmt.setDouble(7, getPayment().getRemained());
             stmt.setDouble(8, 0);
             stmt.setString(9, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            stmt.setString(10, Config.getAuthorizationKey());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -246,6 +264,7 @@ public class ExpenseBody {
         this.sellerId = sellerId;
         this.shiftId = shiftId;
         this.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        this.setSoldBy(Config.getAuthorizationKey());
 
         setProducts(tableView);
     }

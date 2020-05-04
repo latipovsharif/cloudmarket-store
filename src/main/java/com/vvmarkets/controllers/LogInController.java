@@ -79,16 +79,22 @@ public class LogInController implements Initializable {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         if (response.body().getStatus() == 0) {
-                            Config.setAuthorizationKey(response.body().getToken());
-                            try {
-                                Utils.showScreen(new MainPresenter(loginContainer).getView());
-                                txtLogin.setText("");
-                                txtPassword.setText("");
+                            if (Config.setAuthorizationKey(response.body().getToken())) {
+                                try {
+                                    Utils.showScreen(new MainPresenter(loginContainer).getView());
+                                    txtLogin.setText("");
+                                    txtPassword.setText("");
 
-                                s.startSync();
-                            } catch (Exception ex) {
+                                    s.startSync();
+                                } catch (Exception ex) {
+                                    Platform.runLater(() -> {
+                                        Alert a = DialogUtil.newWarning("Error", ex.getMessage());
+                                        a.show();
+                                    });
+                                }
+                            } else {
                                 Platform.runLater(() -> {
-                                    Alert a = DialogUtil.newWarning("Error", ex.getMessage());
+                                    Alert a = DialogUtil.newWarning("Error", "cannot save authorization key");
                                     a.show();
                                 });
                             }
