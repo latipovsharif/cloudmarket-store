@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
+import com.vvmarkets.utils.HttpDownloadUtility;
 import com.vvmarkets.utils.db;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class ProductResponse {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
+    public final static String ProductImagePath = "media/products/";
 
     public String getId() {
         return Id;
@@ -111,9 +113,21 @@ public class ProductResponse {
     @Expose
     private double Discount;
 
+    public String getThumb() {
+        return Thumb;
+    }
+
+    public void setThumb(String thumb) {
+        Thumb = thumb;
+    }
+
+    @SerializedName("thumb")
+    @Expose
+    private String Thumb;
+
 
     public static void Update(List<ProductResponse> products) {
-        String sql = "replace into products(id, name, barcode, article, origin, description, price, discount) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "replace into products(id, name, barcode, article, origin, description, price, discount, thumb) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection c = db.getConnection()) {
             PreparedStatement ps = c.prepareStatement(sql);
 
@@ -126,7 +140,10 @@ public class ProductResponse {
                 ps.setString(6, p.getDescription());
                 ps.setDouble(7, p.getSellPrice());
                 ps.setDouble(8, p.getDiscount());
+                ps.setString(9, p.getThumb());
                 ps.addBatch();
+
+                HttpDownloadUtility.downloadFile(p.getThumb(), ProductImagePath);
             }
 
             ps.executeBatch();
