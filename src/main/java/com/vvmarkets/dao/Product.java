@@ -120,7 +120,7 @@ public class Product {
         PreparedStatement stmt = null;
 
         try (Connection connection = db.getConnection()) {
-            stmt = connection.prepareStatement("select id, name, barcode, article, origin, description, price, discount from products where barcode = ?");
+            stmt = connection.prepareStatement("select id, name, barcode, article, origin, description, price, discount, thumb from products where barcode = ?");
             stmt.setString(1, barcode);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -134,6 +134,7 @@ public class Product {
                 product.productProperties.setDescription(rs.getString("description"));
                 product.price = rs.getDouble("price");
                 product.discount = rs.getInt("discount");
+                product.productProperties.setThumb(rs.getString("thumb"));
             }
         } catch (Exception e) {
             throw new NotFound(String.format("cannot get product from db: %s, exc: %s", barcode, e.getMessage()));
