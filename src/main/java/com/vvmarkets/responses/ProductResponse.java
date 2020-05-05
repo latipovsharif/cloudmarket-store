@@ -2,6 +2,7 @@ package com.vvmarkets.responses;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.vvmarkets.configs.Config;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.utils.HttpDownloadUtility;
@@ -9,13 +10,16 @@ import com.vvmarkets.utils.db;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 
 public class ProductResponse {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
-    public final static String ProductImagePath = "media/products/";
+    public static String getProductSavePath() {
+        return "media" + File.separator + "products";
+    }
 
     public String getId() {
         return Id;
@@ -140,10 +144,17 @@ public class ProductResponse {
                 ps.setString(6, p.getDescription());
                 ps.setDouble(7, p.getSellPrice());
                 ps.setDouble(8, p.getDiscount());
+
+                if (p.getThumb().length() > 0) {
+                    try {
+                        p.setThumb(HttpDownloadUtility.downloadFile(Config.getServerIP() + "/" + p.getThumb(), getProductSavePath(), p.getId()));
+                    } catch (Exception ex) {
+                        Utils.logException(ex, "cannot download file");
+                    }
+                }
+
                 ps.setString(9, p.getThumb());
                 ps.addBatch();
-
-                HttpDownloadUtility.downloadFile(p.getThumb(), ProductImagePath);
             }
 
             ps.executeBatch();

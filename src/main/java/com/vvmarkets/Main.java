@@ -28,7 +28,6 @@ public class Main extends Application {
         return mainController;
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception{
         System.setProperty("java.net.useSystemProxies", "true");

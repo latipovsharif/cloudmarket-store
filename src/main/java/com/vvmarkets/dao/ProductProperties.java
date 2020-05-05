@@ -6,6 +6,8 @@ import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListContentType;
 import javafx.scene.image.Image;
 
+import java.util.List;
+
 public class ProductProperties implements IListContent{
     @Expose
     @SerializedName("id")
@@ -41,7 +43,7 @@ public class ProductProperties implements IListContent{
 
     @Expose
     @SerializedName("images")
-    private Images images;
+    private List<Images> images;
 
     public String getId() {
         return id;
@@ -107,11 +109,11 @@ public class ProductProperties implements IListContent{
         this.productGroup = productGroup;
     }
 
-    public Images getImages() {
+    public List<Images> getImages() {
         return images;
     }
 
-    public void setImages(Images images) {
+    public void setImages(List<Images> images) {
         this.images = images;
     }
 
