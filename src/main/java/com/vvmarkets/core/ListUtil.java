@@ -1,14 +1,18 @@
 package com.vvmarkets.core;
 
+import com.vvmarkets.configs.Config;
 import com.vvmarkets.dao.ProductCategory;
 import com.vvmarkets.dao.ProductProperties;
 import com.vvmarkets.services.CategoryService;
 import com.vvmarkets.services.ProductService;
 import com.vvmarkets.services.RestClient;
+import com.vvmarkets.utils.ImageDownloader;
 import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -18,6 +22,7 @@ import java.util.*;
 
 public class ListUtil {
     public static ListUtil INSTANCE = new ListUtil();
+    private static final Logger log = LogManager.getLogger(ListUtil.class);
 
     private Map categorized = Collections.synchronizedMap(new HashMap<String, ArrayList<IListContent>>());
 
@@ -41,6 +46,16 @@ public class ListUtil {
                                 Platform.runLater(() -> {
                                     main.clear();
                                     main.addAll(response.body().getBody());
+
+                                    for (ProductCategory c : response.body().getBody()) {
+                                        try {
+                                            ImageDownloader.downloadFile(
+                                                    Config.getServerIP() + "/" + c.getCategoryImage().getPath(),
+                                                    c.getId());
+                                        } catch (Exception e) {
+                                            log.error("cannot save category image: " + e.getMessage());
+                                        }
+                                    }
                                 });
                             }
                         }

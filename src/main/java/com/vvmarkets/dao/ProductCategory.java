@@ -19,9 +19,17 @@ public class ProductCategory implements IListContent{
     @SerializedName("name")
     private String name;
 
+    public ImageContainer getCategoryImage() {
+        return categoryImage;
+    }
+
+    public void setCategoryImage(ImageContainer categoryImage) {
+        this.categoryImage = categoryImage;
+    }
+
     @Expose
     @SerializedName("image")
-    private ImageContainer thumb;
+    private ImageContainer categoryImage;
 
     public String getId() {
         return id;
@@ -67,9 +75,4 @@ public class ProductCategory implements IListContent{
     public Image getThumb() {
         return ImageDownloader.getImagePathForProduct(getId());
     }
-
-    public void setThumb(ImageContainer thumb) {
-        this.thumb = thumb;
-    }
-
 }
