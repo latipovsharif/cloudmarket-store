@@ -136,6 +136,10 @@ public class ProductProperties implements IListContent{
     }
 
     public Image getThumb() {
+        if (thumb != null && thumb.length() > 0) {
+            return new Image(thumb);
+        }
+
         return ImageDownloader.getImagePathForProduct(getId());
     }
 
