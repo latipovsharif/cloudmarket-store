@@ -138,16 +138,7 @@ public class ProductProperties implements IListContent{
     }
 
     public Image getThumb() {
-        Image image = null;
-        String path = HttpDownloadUtility.getImagePathForProduct(getId());
-        try {
-            File file = new File(path);
-            image = new Image(file.toURI().toString());
-        } catch (Exception e) {
-            log.error("cannot get image for: " + path);
-        }
-
-        return image;
+        return HttpDownloadUtility.getImagePathForProduct(getId());
     }
 
     public void setThumb(String thumb) {

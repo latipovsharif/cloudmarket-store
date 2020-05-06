@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+
 public class ProductCategory implements IListContent{
     private static final Logger log = LogManager.getLogger(ProductCategory.class);
     @Expose
@@ -65,15 +67,7 @@ public class ProductCategory implements IListContent{
     }
 
     public Image getThumb() {
-        Image image = null;
-        String path = HttpDownloadUtility.getImagePathForProduct(getId());
-        try {
-            image = new Image(path);
-        } catch (Exception e) {
-            log.error("cannot get image for: " + path);
-        }
-
-        return image;
+        return HttpDownloadUtility.getImagePathForProduct(getId());
     }
 
     public void setThumb(ImageContainer thumb) {
