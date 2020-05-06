@@ -4,9 +4,13 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListContentType;
+import com.vvmarkets.utils.HttpDownloadUtility;
 import javafx.scene.image.Image;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ProductCategory implements IListContent{
+    private static final Logger log = LogManager.getLogger(ProductCategory.class);
     @Expose
     @SerializedName("id")
     private String id;
@@ -61,11 +65,15 @@ public class ProductCategory implements IListContent{
     }
 
     public Image getThumb() {
-        if (thumb == null || thumb.getPath() == null || thumb.getPath().isEmpty()) {
-            return new Image("images/no_image.png");
+        Image image = null;
+        String path = HttpDownloadUtility.getImagePathForProduct(getId());
+        try {
+            image = new Image(path);
+        } catch (Exception e) {
+            log.error("cannot get image for: " + path);
         }
 
-        return new Image(thumb.getPath());
+        return image;
     }
 
     public void setThumb(ImageContainer thumb) {

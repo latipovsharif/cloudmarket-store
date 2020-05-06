@@ -17,10 +17,6 @@ import java.util.List;
 
 public class ProductResponse {
     private static final Logger log = LogManager.getLogger(ListUtil.class);
-    public static String getProductSavePath() {
-        return "media" + File.separator + "products";
-    }
-
     public String getId() {
         return Id;
     }
@@ -147,7 +143,7 @@ public class ProductResponse {
 
                 if (p.getThumb().length() > 0) {
                     try {
-                        p.setThumb(HttpDownloadUtility.downloadFile(Config.getServerIP() + "/" + p.getThumb(), getProductSavePath(), p.getId()));
+                        p.setThumb(HttpDownloadUtility.downloadFile(Config.getServerIP() + "/" + p.getThumb(), p.getId()));
                     } catch (Exception ex) {
                         Utils.logException(ex, "cannot download file");
                     }

@@ -21,12 +21,8 @@ public class ProductComponentController {
 
 
     public void setProduct(IListContent product) {
-        imageView.setImage(product.getThumb());
-//        if (product.getName().equals("")) {
-//            lblProductName.setVisible(false);
-//            return;
-//        }
-//
+        image = product.getThumb();
+        imageView.setImage(image);
         lblProductName.setText(product.getName());
     }
 }
