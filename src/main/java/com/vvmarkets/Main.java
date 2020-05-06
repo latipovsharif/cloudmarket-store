@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
 
 
 public class Main extends Application {
-    public static final String ApplicationVersion = "1.0.5";
+    public static final String ApplicationVersion = "1.0.6";
 
     private static final Logger log = LogManager.getLogger(Main.class);
     private static AnchorPane mainContainer;
