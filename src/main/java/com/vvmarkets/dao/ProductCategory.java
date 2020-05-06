@@ -4,12 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.core.IListContent;
 import com.vvmarkets.core.ListContentType;
-import com.vvmarkets.utils.HttpDownloadUtility;
+import com.vvmarkets.utils.ImageDownloader;
 import javafx.scene.image.Image;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.io.File;
 
 public class ProductCategory implements IListContent{
     private static final Logger log = LogManager.getLogger(ProductCategory.class);
@@ -67,7 +65,7 @@ public class ProductCategory implements IListContent{
     }
 
     public Image getThumb() {
-        return HttpDownloadUtility.getImagePathForProduct(getId());
+        return ImageDownloader.getImagePathForProduct(getId());
     }
 
     public void setThumb(ImageContainer thumb) {

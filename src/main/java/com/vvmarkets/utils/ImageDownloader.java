@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class HttpDownloadUtility {
+public class ImageDownloader {
     private static final int BUFFER_SIZE = 4096;
     public static String getProductSavePath() {
         return "media" + File.separator + "products";
@@ -21,18 +21,21 @@ public class HttpDownloadUtility {
         int responseCode = httpConn.getResponseCode();
 
         String savePath = getSavePath(fileURL, fileName);
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            String contentType = httpConn.getContentType();
-            if (!contentType.contains("image")) {
-                return "";
-            }
+        File file = new File(savePath);
+        if (!file.exists()) {
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                String contentType = httpConn.getContentType();
+                if (!contentType.contains("image")) {
+                    return "";
+                }
 
-            try (InputStream inputStream = httpConn.getInputStream()) {
-                try (FileOutputStream outputStream = new FileOutputStream(savePath)) {
-                    int bytesRead = -1;
-                    byte[] buffer = new byte[BUFFER_SIZE];
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
+                try (InputStream inputStream = httpConn.getInputStream()) {
+                    try (FileOutputStream outputStream = new FileOutputStream(savePath)) {
+                        int bytesRead = -1;
+                        byte[] buffer = new byte[BUFFER_SIZE];
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
                     }
                 }
             }

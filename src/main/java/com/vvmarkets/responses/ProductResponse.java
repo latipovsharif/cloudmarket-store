@@ -5,12 +5,11 @@ import com.google.gson.annotations.SerializedName;
 import com.vvmarkets.configs.Config;
 import com.vvmarkets.core.ListUtil;
 import com.vvmarkets.core.Utils;
-import com.vvmarkets.utils.HttpDownloadUtility;
+import com.vvmarkets.utils.ImageDownloader;
 import com.vvmarkets.utils.db;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -143,7 +142,7 @@ public class ProductResponse {
 
                 if (p.getThumb().length() > 0) {
                     try {
-                        p.setThumb(HttpDownloadUtility.downloadFile(Config.getServerIP() + "/" + p.getThumb(), p.getId()));
+                        p.setThumb(ImageDownloader.downloadFile(Config.getServerIP() + "/" + p.getThumb(), p.getId()));
                     } catch (Exception ex) {
                         Utils.logException(ex, "cannot download file");
                     }
