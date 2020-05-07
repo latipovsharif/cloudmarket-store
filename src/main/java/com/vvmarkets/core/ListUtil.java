@@ -46,17 +46,17 @@ public class ListUtil {
                                 Platform.runLater(() -> {
                                     main.clear();
                                     main.addAll(response.body().getBody());
-
-                                    for (ProductCategory c : response.body().getBody()) {
-                                        try {
-                                            ImageDownloader.downloadFile(
-                                                    Config.getServerIP() + "/" + c.getCategoryImage().getPath(),
-                                                    c.getId());
-                                        } catch (Exception e) {
-                                            log.error("cannot save category image: " + e.getMessage());
-                                        }
-                                    }
                                 });
+
+                                for (ProductCategory c : response.body().getBody()) {
+                                    try {
+                                        ImageDownloader.downloadFile(
+                                                Config.getServerIP() + "/" + c.getCategoryImage().getPath(),
+                                                c.getId());
+                                    } catch (Exception e) {
+                                        log.error("cannot save category image: " + e.getMessage());
+                                    }
+                                }
                             }
                         }
                     }

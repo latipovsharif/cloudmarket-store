@@ -107,7 +107,7 @@ public class ThermalPrinter {
                 .replace("{price}", Utils.getFormatted(product.getSellPrice()))
                 .replace("{discount}", Utils.getFormatted(product.getDiscountPercent()))
                 .replace("{lineTotal}", Utils.getFormatted(product.getTotal())),
-                "-fx-font-size: 7; -fx-padding: 0; -fx-border-insets: 0;");
+                "-fx-font-size: 8; -fx-padding: 0; -fx-border-insets: 0;");
     }
 
     private void getHeader() {
