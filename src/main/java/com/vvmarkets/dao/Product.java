@@ -203,8 +203,8 @@ public class Product {
             throw new InvalidFormat("invalid format no C's or no W's");
         }
 
-        if (q < 0) {
-            throw new InvalidFormat("quantity cannot be less than 0");
+        if (q <= 0) {
+            throw new InvalidFormat("quantity cannot be less or equal to 0");
         }
 
         c = String.valueOf(Integer.parseInt(c));
