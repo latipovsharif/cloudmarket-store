@@ -62,9 +62,9 @@ public class ProductBody {
         return Name;
     }
 
-    public String getShortName() {
-        if (Name.length() > 10) {
-            return Name.substring(0, 9);
+    public String getShortName(int chars) {
+        if (Name.length() > chars) {
+            return Name.substring(0, chars);
         }
 
         return Name;

@@ -15,32 +15,23 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class ThermalPrinter {
-
     ExpenseBody expenseBody;
     TextFlow textFlow = new TextFlow();
+    int paperSize, productNameCharCount;
 
     public ThermalPrinter(ExpenseBody body) {
         this.expenseBody = body;
+        this.paperSize = RemoteConfig.getPaperSize();
+        this.productNameCharCount = RemoteConfig.getProductNameCharCount();
     }
 
     private void getBody(List<ProductBody> expense) {
         getProductLineHeader();
-
-        addDashes(
-                RemoteConfig.getConfig(
-                        RemoteConfig.ConfigType.PRINTER,
-                        RemoteConfig.ConfigSubType.LABEL_WIDTH)
-        );
+        addDashes();
 
         int i = 1;
         for (ProductBody p : expense) {
             getLineString(p, i);
-//            addDashes(
-//                    RemoteConfig.getConfig(
-//                            RemoteConfig.ConfigType.PRINTER,
-//                            RemoteConfig.ConfigSubType.LABEL_WIDTH)
-//            );
-
             i++;
         }
     }
@@ -58,12 +49,6 @@ public class ThermalPrinter {
         addTextLine(headerText, "-fx-font-weight: bold; -fx-font-size: 9");
     }
 
-    private void addTextLine(String text) {
-        addTextLine(text, "");
-    }
-
-
-
     private void addTextLine(String text, String style) {
         style = "-fx-font-family: 'Courier New'; " + style;
         Text t = new Text(text);
@@ -73,9 +58,9 @@ public class ThermalPrinter {
         addNewLine();
     }
 
-    private void addDashes(String paperSize) {
+    private void addDashes() {
         String style = "-fx-font-weight: bold; -fx-padding: 0; -fx-border-insets: 0;";
-        if (paperSize.equals("58")) {
+        if (paperSize == 58) {
             addTextLine("--------------------------", style);
         } else {
             addTextLine("------------------------------------------", style);
@@ -83,12 +68,7 @@ public class ThermalPrinter {
     }
 
     private void addNewLine(int lines) {
-        StringBuilder b = new StringBuilder();
-        for(int i = 0; i < lines; i++) {
-            b.append("\n");
-        }
-
-        textFlow.getChildren().add(new Text(b.toString()));
+        textFlow.getChildren().add(new Text("\n".repeat(Math.max(0, lines))));
     }
 
     private void addNewLine() {
@@ -102,12 +82,12 @@ public class ThermalPrinter {
     private void getLineString(ProductBody product, int counter) {
         addTextLine(getProductLineTemplate()
                 .replace("{counter}", String.valueOf(counter))
-                .replace("{product}", product.getShortName())
+                .replace("{product}", product.getShortName(productNameCharCount))
                 .replace("{quantity}", Utils.getFormatted(product.getQuantity()))
                 .replace("{price}", Utils.getFormatted(product.getSellPrice()))
                 .replace("{discount}", Utils.getFormatted(product.getDiscountPercent()))
                 .replace("{lineTotal}", Utils.getFormatted(product.getTotal())),
-                "-fx-font-size: 8; -fx-padding: 0; -fx-border-insets: 0;");
+                "-fx-font-size: 9; -fx-padding: 0; -fx-border-insets: 0;");
     }
 
     private void getHeader() {

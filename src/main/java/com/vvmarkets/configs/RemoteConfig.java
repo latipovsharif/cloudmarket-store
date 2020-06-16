@@ -32,7 +32,9 @@ public class RemoteConfig {
         LABEL_FOOTER("labelFooter"),
         LABEL_HEADER("labelHeader"),
         LABEL_WIDTH("labelWidth"),
+        PRODUCT_NAME_CHAR_CNT("productNameCharCount"),
         FORMAT("format");
+
 
         private String type;
 
@@ -68,5 +70,31 @@ public class RemoteConfig {
         }
 
         return res;
+    }
+
+    public static int getPaperSize() {
+        int ps = 58;
+        try {
+            ps = Integer.parseInt(getConfig(
+                    RemoteConfig.ConfigType.PRINTER,
+                    RemoteConfig.ConfigSubType.LABEL_WIDTH
+            ));
+        } catch (Exception e) {
+            Utils.logException(e, "cannot get paper size");
+        }
+        return ps;
+    }
+
+    public static int getProductNameCharCount() {
+        int pncc = 10;
+        try {
+            pncc = Integer.parseInt(getConfig(
+                    RemoteConfig.ConfigType.PRINTER,
+                    RemoteConfig.ConfigSubType.PRODUCT_NAME_CHAR_CNT
+            ));
+        } catch (Exception e) {
+            Utils.logException(e, "cannot get paper size");
+        }
+        return pncc;
     }
 }
