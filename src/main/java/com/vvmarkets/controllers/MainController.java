@@ -53,6 +53,26 @@ public class MainController implements Initializable, IController {
         this.previousView = previousView;
     }
 
+    public void setSeller(String username) {
+        try {
+            for (Seller s: Seller.fillSeller()) {
+                if (s.getEmail().equals(username)) {
+                    seller = s;
+                    return;
+                }
+            }
+
+            DialogUtil.newError("Доступ запрещен", "Вы не имеете права продовать на этой кассе.\r\nПожалуйста обратитесь к администратору.").show();
+        } catch (IOException e) {
+            Utils.logException(e, "cannot get seller");
+            Alert a = DialogUtil.newWarning("Ошибка при получении продавца", "Невозможно получить продавца\r\n либо он не установлен либо сеть недоступна");
+            a.show();
+        } catch (Exception ex) {
+            Utils.logException(ex, "cannot get seller");
+            DialogUtil.showErrorNotification("Невозможно получить продавца\r\nданный кассир не имеет полномочий продавать с данной кассы");
+        }
+    }
+
     private Node previousView;
 
     @FXML
@@ -86,18 +106,6 @@ public class MainController implements Initializable, IController {
         Tab newTab = TabUtil.NewTab();
         newTab.setOnSelectionChanged(this::selectedTabChanged);
         mainTabPane.getTabs().add(0, newTab);
-        try {
-            seller = Seller.fillSeller();
-        } catch (IOException e) {
-            Utils.logException(e, "cannot get seller");
-            Alert a = DialogUtil.newWarning("Ошибка при получении продавца", "Невозможно получить продавца\r\n либо он не установлен либо сеть недоступна");
-            a.show();
-            return;
-        } catch (Exception ex) {
-            Utils.logException(ex, "cannot get seller");
-            DialogUtil.showErrorNotification("Невозможно получить продавца\r\nданный кассир не имеет полномочий продавать с данной кассы");
-            return;
-        }
 
         TableUtil.changed.subscribe(aDouble -> {
             lblTotal.setText(Utils.getFormatted(aDouble));

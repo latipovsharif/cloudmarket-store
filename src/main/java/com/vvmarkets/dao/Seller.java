@@ -74,11 +74,11 @@ public class Seller {
         return this.FullName;
     }
 
-    public static Seller fillSeller() throws IOException {
+    public static List<Seller> fillSeller() throws IOException {
         SellerService sellerService = RestClient.getClient().create(SellerService.class);
         Call<ResponseBody<List<Seller>>> sellerList = sellerService.sellerList();
 
         Response<ResponseBody<List<Seller>>> response = sellerList.execute();
-        return response.body().getBody().get(0);
+        return response.body().getBody();
     }
 }

@@ -9,6 +9,7 @@ public class Authorization extends Response {
     @Expose
     private String token;
 
+    // FIXME it's not username it's actually email
     @SerializedName("username")
     @Expose
     private String username;

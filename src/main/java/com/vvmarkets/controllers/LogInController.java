@@ -81,7 +81,7 @@ public class LogInController implements Initializable {
                         if (response.body().getStatus() == 0) {
                             if (Config.setAuthorizationKey(response.body().getToken())) {
                                 try {
-                                    Utils.showScreen(new MainPresenter(loginContainer).getView());
+                                    Utils.showScreen(new MainPresenter(loginContainer, response.body().getUsername()).getView());
                                     txtLogin.setText("");
                                     txtPassword.setText("");
 
