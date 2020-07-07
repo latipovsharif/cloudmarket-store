@@ -12,6 +12,8 @@ import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Locale;
+
 
 public class Main extends Application {
     public static final String ApplicationVersion = "1.0.10";
@@ -31,6 +33,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         System.setProperty("java.net.useSystemProxies", "true");
+        Locale.setDefault(Locale.US);
+
         log.debug("Starting application");
 
         LogInPresenter logIn = new LogInPresenter();
