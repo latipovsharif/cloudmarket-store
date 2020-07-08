@@ -184,7 +184,7 @@ public class ExpenseBody {
             stmt.setDouble(6, getPayment().getToPay());
             stmt.setDouble(7, getPayment().getRemained());
             stmt.setDouble(8, 0);
-            stmt.setString(9, new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            stmt.setString(9, new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date()));
             stmt.setString(10, Config.getAuthorizationKey());
 
             int affectedRows = stmt.executeUpdate();
