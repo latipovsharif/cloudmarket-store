@@ -22,10 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ExpenseBody {
     private static final Logger log = LogManager.getLogger(ExpenseBody.class);
@@ -184,7 +181,9 @@ public class ExpenseBody {
             stmt.setDouble(6, getPayment().getToPay());
             stmt.setDouble(7, getPayment().getRemained());
             stmt.setDouble(8, 0);
-            stmt.setString(9, new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(new Date()));
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            stmt.setString(9, sdf.format(new Date()));
             stmt.setString(10, Config.getAuthorizationKey());
 
             int affectedRows = stmt.executeUpdate();
@@ -263,7 +262,9 @@ public class ExpenseBody {
         this.payment = payment;
         this.sellerId = sellerId;
         this.shiftId = shiftId;
-        this.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        this.setCreatedAt(sdf.format(new Date()));
         this.setSoldBy(Config.getAuthorizationKey());
 
         setProducts(tableView);
