@@ -16,7 +16,7 @@ import java.util.Locale;
 
 
 public class Main extends Application {
-    public static final String ApplicationVersion = "1.0.10";
+    public static final String ApplicationVersion = "1.0.11";
 
     private static final Logger log = LogManager.getLogger(Main.class);
     private static AnchorPane mainContainer;
