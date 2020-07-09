@@ -91,8 +91,11 @@ public class ThermalPrinter {
     }
 
     private void getHeader() {
-        addTextLine("Кассир: " + MainController.seller.getFullName(),
-                "-fx-font-size: 10");
+        String style = "-fx-font-size: 10px";
+        LocalDateTime time = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        addTextLine("Дата: " + formatter.format(time), style);
+        addTextLine("Кассир: " + MainController.seller.getFullName(), style);
 
         addTextLine(
                 RemoteConfig.getConfig(
@@ -100,7 +103,7 @@ public class ThermalPrinter {
                         RemoteConfig.ConfigSubType.STORE_NAME
                 ),"-fx-font-size: 22; -fx-font-weight: bold");
 
-        addNewLine();
+//        addNewLine();
     }
 
     private void getFooter() {
@@ -108,11 +111,9 @@ public class ThermalPrinter {
         addTextLine("Итого:       " + Utils.getFormatted(expenseBody.getPayment().getToPay()) + " c.", style);
         addTextLine("Получено:    " + Utils.getFormatted(expenseBody.getPayment().getTotalPayed()) + " c.", style);
         addTextLine("Сдача:       " + Utils.getFormatted(expenseBody.getPayment().getReturn()) + " c.", style);
-        addNewLine();
-        LocalDateTime time = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        addNewLine(2);
+        addDashes();
 
-        addTextLine("Дата: " + formatter.format(time), style);
 //        addTextLine("Номер в очереди","-fx-font-size: 15; -fx-alignment: center");
 //
 //        addTextLine("  " + MainController.getCheckCounter(),"-fx-font-size: 32; -fx-font-weight: bold; -fx-alignment: center");

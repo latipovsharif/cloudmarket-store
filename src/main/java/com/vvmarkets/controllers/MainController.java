@@ -244,7 +244,17 @@ public class MainController implements Initializable, IController {
     }
 
     public void logout(ActionEvent actionEvent) {
-        Utils.showScreen(previousView);
+        Alert alert = new Alert(Alert.AlertType.NONE);
+        alert.setTitle("Выход");
+        alert.setContentText("Вы действительно хотите выйти?");
+        ButtonType okButton = new ButtonType("Да", ButtonBar.ButtonData.YES);
+        ButtonType noButton = new ButtonType("Нет", ButtonBar.ButtonData.NO);
+        alert.getButtonTypes().setAll(okButton, noButton);
+        alert.showAndWait().ifPresent(type -> {
+            if (type.getButtonData() == ButtonBar.ButtonData.YES){
+                Utils.showScreen(previousView);
+            }
+        });
     }
 
     public void showMainMenu() {
