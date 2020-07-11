@@ -72,11 +72,11 @@ public class RemoteConfig {
         return res;
     }
 
-    public static int getPaperSize() {
+    public static int getPaperSize(ConfigType printer) {
         int ps = 58;
         try {
             ps = Integer.parseInt(getConfig(
-                    RemoteConfig.ConfigType.PRINTER,
+                    printer,
                     RemoteConfig.ConfigSubType.LABEL_WIDTH
             ));
         } catch (Exception e) {

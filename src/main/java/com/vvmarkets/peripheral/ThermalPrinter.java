@@ -18,10 +18,12 @@ public class ThermalPrinter {
     ExpenseBody expenseBody;
     TextFlow textFlow = new TextFlow();
     int paperSize, productNameCharCount;
+    RemoteConfig.ConfigType _printer;
 
-    public ThermalPrinter(ExpenseBody body) {
+    public ThermalPrinter(ExpenseBody body, RemoteConfig.ConfigType printer) {
         this.expenseBody = body;
-        this.paperSize = RemoteConfig.getPaperSize();
+        this._printer = printer;
+        this.paperSize = RemoteConfig.getPaperSize(printer);
         this.productNameCharCount = RemoteConfig.getProductNameCharCount();
     }
 
@@ -37,7 +39,7 @@ public class ThermalPrinter {
     }
 
     private void getProductLineHeader() {
-        String headerText = RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_HEADER);
+        String headerText = RemoteConfig.getConfig(_printer, RemoteConfig.ConfigSubType.LABEL_HEADER);
         headerText = headerText.
                 replace("{counter}", "#").
                 replace("{product}", "Товар").
@@ -76,7 +78,7 @@ public class ThermalPrinter {
     }
 
     private String getProductLineTemplate() {
-        return RemoteConfig.getConfig(RemoteConfig.ConfigType.PRINTER,RemoteConfig.ConfigSubType.LABEL_ROW);
+        return RemoteConfig.getConfig(_printer, RemoteConfig.ConfigSubType.LABEL_ROW);
     }
 
     private void getLineString(ProductBody product, int counter) {
@@ -129,31 +131,23 @@ public class ThermalPrinter {
     }
 
     public void print() {
-        formCheck();
-
         String printer = RemoteConfig.getConfig(
-                RemoteConfig.ConfigType.PRINTER,
+                _printer,
                 RemoteConfig.ConfigSubType.NAME
         );
 
-        Printer p;
-        if (printer!=null) {
+        formCheck();
+
+        Printer p = null;
+        if (printer != null) {
             p = getPrinter(printer);
         } else {
-            p = Printer.getDefaultPrinter();
+            if (_printer == RemoteConfig.ConfigType.PRINTER) {
+                p = Printer.getDefaultPrinter();
+            }
         }
 
         if (p != null) {
-            doPrint(p);
-        }
-
-        String secondPrinter = RemoteConfig.getConfig(
-                RemoteConfig.ConfigType.PRINTER_SECOND,
-                RemoteConfig.ConfigSubType.NAME
-        );
-
-        if (secondPrinter != null) {
-            p = getPrinter(secondPrinter);
             doPrint(p);
         }
     }

@@ -1,5 +1,6 @@
 package com.vvmarkets.controllers;
 
+import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
@@ -167,7 +168,10 @@ public class ConfirmController implements Initializable {
 
         if (!hasErr) {
             try {
-                ThermalPrinter p = new ThermalPrinter(expense);
+                ThermalPrinter p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER);
+                p.print();
+
+                p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER_SECOND);
                 p.print();
             } catch (Exception e) {
                 Utils.logException(e, "cannot print check");
