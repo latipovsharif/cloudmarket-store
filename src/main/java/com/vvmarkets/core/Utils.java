@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Locale;
 
 public class Utils {
 
@@ -38,7 +37,7 @@ public class Utils {
         return round(res, 2);
     }
 
-    public static double round(double value, int scale) {
+    private static double round(double value, int scale) {
         BigDecimal bd = BigDecimal.valueOf(value);
         bd = bd.setScale(scale, RoundingMode.HALF_UP);
         return bd.doubleValue();
@@ -52,11 +51,6 @@ public class Utils {
     public static Double round(double v) {
         NumberFormat nf = new DecimalFormat("#0.00");
         return Double.valueOf(nf.format(v));
-    }
-
-    public String formattedValue(String value) {
-        double res = getDoubleOrZero(value);
-        return getFormatted(res);
     }
 
     private static String stackToString(StackTraceElement[] traces) {
