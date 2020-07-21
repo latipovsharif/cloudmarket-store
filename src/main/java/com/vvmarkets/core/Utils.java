@@ -39,7 +39,7 @@ public class Utils {
 
     private static double round(double value, int scale) {
         BigDecimal bd = BigDecimal.valueOf(value);
-        bd = bd.setScale(scale, RoundingMode.HALF_UP);
+        bd = bd.setScale(scale, RoundingMode.CEILING);
         return bd.doubleValue();
     }
 
