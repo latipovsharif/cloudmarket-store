@@ -34,7 +34,7 @@ public class Utils {
             log.error("cannot parse string to double " + e.getMessage());
         }
 
-        return round(res, 2);
+        return round(res, 3);
     }
 
     private static double round(double value, int scale) {
@@ -44,12 +44,12 @@ public class Utils {
     }
 
     public static String getFormatted(double value) {
-        NumberFormat nf = new DecimalFormat("#0.00");
+        NumberFormat nf = new DecimalFormat("#0.000");
         return nf.format(value);
     }
 
     public static Double round(double v) {
-        NumberFormat nf = new DecimalFormat("#0.00");
+        NumberFormat nf = new DecimalFormat("#0.000");
         return Double.valueOf(nf.format(v));
     }
 
