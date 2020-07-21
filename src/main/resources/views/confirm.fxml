@@ -290,7 +290,7 @@
                   <String fx:value="btn-green" />
               </styleClass>
           </Button>
-          <Button mnemonicParsing="false" onAction="#chooseClient" prefHeight="68.0" prefWidth="284.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+          <Button mnemonicParsing="false" onAction="#chooseClient" prefHeight="22.0" prefWidth="218.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
               <font>
                   <Font size="23.0" />
               </font>
