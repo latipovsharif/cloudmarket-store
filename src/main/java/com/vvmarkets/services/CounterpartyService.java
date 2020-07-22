@@ -8,8 +8,8 @@ import retrofit2.http.*;
 import java.util.List;
 
 public interface CounterpartyService {
-    @GET("/api/v1/cashes/product/update/{version}")
-    Call<ResponseBody<List<Counterparty>>> counterpartyList(@Path("version") Long version);
+    @GET("/api/v1/cashes/counterparty/")
+    Call<ResponseBody<List<Counterparty>>> counterpartyList(@Query("q") String query);
 
     @GET("/api/v1/cashes/product/get/")
     Call<ResponseBody<Counterparty>> getCounterparty(@Query("barcode") String barcode);
