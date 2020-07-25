@@ -5,13 +5,11 @@ import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Client;
 import com.vvmarkets.services.CounterpartyService;
 import com.vvmarkets.services.RestClient;
-import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import java.util.List;
@@ -27,22 +25,18 @@ public class ClientDialog extends Dialog<Client> {
     public void txtSearchChange() {
         if (!controller.txtSearch.getText().isEmpty() && !controller.txtSearch.getText().isBlank()) {
             CounterpartyService clientService = RestClient.getClient().create(CounterpartyService.class);
-            Call<ResponseBody<List<Client>>> clientResponse = clientService.counterpartyList(controller.txtSearch.getText());
-            clientResponse.enqueue(new Callback<>() {
-                @Override
-                public void onResponse(Call<ResponseBody<List<Client>>> call, Response<ResponseBody<List<Client>>> response) {
-                    if (response.isSuccessful()) {
-                        for (Client c : response.body().getBody()) {
-                            controller.tableView.getItems().add(c);
-                        }
+            Call<List<Client>> clientResponse = clientService.counterpartyList(controller.txtSearch.getText());
+            try {
+                Response<List<Client>> response = clientResponse.execute();
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        controller.tableView.getItems().clear();
+                        controller.tableView.getItems().addAll(response.body());
                     }
                 }
-
-                @Override
-                public void onFailure(Call<ResponseBody<List<Client>>> call, Throwable t) {
-
-                }
-            });
+            } catch (Exception e) {
+                Utils.logException(e, "cannot get client list");
+            }
         }
     }
 

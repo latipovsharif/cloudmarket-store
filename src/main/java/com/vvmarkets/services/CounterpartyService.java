@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CounterpartyService {
     @GET("/api/v1/cashes/counterparty/")
-    Call<ResponseBody<List<Client>>> counterpartyList(@Query("q") String query);
+    Call<List<Client>> counterpartyList(@Query("q") String query);
 
     @GET("/api/v1/cashes/product/get/")
     Call<ResponseBody<Client>> getCounterparty(@Query("barcode") String barcode);
