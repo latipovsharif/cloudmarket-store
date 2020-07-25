@@ -1,9 +1,11 @@
 package com.vvmarkets.controllers;
 
+import com.vvmarkets.components.ClientDialog;
 import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.core.DialogUtil;
 import com.vvmarkets.core.TableUtil;
 import com.vvmarkets.core.Utils;
+import com.vvmarkets.dao.Client;
 import com.vvmarkets.dao.Product;
 import com.vvmarkets.peripheral.ThermalPrinter;
 import com.vvmarkets.requests.ExpenseBody;
@@ -16,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -190,6 +193,11 @@ public class ConfirmController implements Initializable {
     }
 
     public void chooseClient(ActionEvent actionEvent) {
+        ClientDialog dialog = new ClientDialog();
+        Optional<Client> result = dialog.showAndWait();
+        if (result.isPresent()) {
+            Client selectedClient = result.get();
+        }
 
     }
 
