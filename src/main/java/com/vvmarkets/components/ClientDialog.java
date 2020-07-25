@@ -3,11 +3,18 @@ package com.vvmarkets.components;
 import com.vvmarkets.controllers.ClientController;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Client;
+import com.vvmarkets.services.CounterpartyService;
+import com.vvmarkets.services.RestClient;
+import com.vvmarkets.utils.ResponseBody;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,10 +26,23 @@ public class ClientDialog extends Dialog<Client> {
 
     public void txtSearchChange() {
         if (!controller.txtSearch.getText().isEmpty() && !controller.txtSearch.getText().isBlank()) {
-            Client c = new Client();
-            c.setBalance("100");
-            c.setFullName("Hello world");
-            controller.tableView.getItems().add(c);
+            CounterpartyService clientService = RestClient.getClient().create(CounterpartyService.class);
+            Call<ResponseBody<List<Client>>> clientResponse = clientService.counterpartyList(controller.txtSearch.getText());
+            clientResponse.enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<ResponseBody<List<Client>>> call, Response<ResponseBody<List<Client>>> response) {
+                    if (response.isSuccessful()) {
+                        for (Client c : response.body().getBody()) {
+                            controller.tableView.getItems().add(c);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody<List<Client>>> call, Throwable t) {
+
+                }
+            });
         }
     }
 
