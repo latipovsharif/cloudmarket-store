@@ -19,7 +19,10 @@ public class ClientDialog extends Dialog<Client> {
 
     public void txtSearchChange() {
         if (!controller.txtSearch.getText().isEmpty() && !controller.txtSearch.getText().isBlank()) {
-            controller.tableView.getItems().add(new Client());
+            Client c = new Client();
+            c.setBalance("100");
+            c.setFullName("Hello world");
+            controller.tableView.getItems().add(c);
         }
     }
 
@@ -45,9 +48,7 @@ public class ClientDialog extends Dialog<Client> {
                 textTimer.schedule(textTimerTask, 1000);
             });
 
-            getDialogPane().setContent(root);
-
-            controller.btnSearch.setOnAction(
+            controller.btnSelect.setOnAction(
                     actionEvent -> {
                         setResult(new Client());
                         this.close();

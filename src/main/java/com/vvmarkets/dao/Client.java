@@ -72,7 +72,7 @@ public class Client {
       DiscountCardNumber = discountCardNumber;
    }
 
-   public int getDiscountPercent() {
+   public Integer getDiscountPercent() {
       return DiscountPercent;
    }
 

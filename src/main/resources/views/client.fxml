@@ -9,20 +9,13 @@
       <HBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="819.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <TextField fx:id="txtSearch" prefHeight="50.0" prefWidth="349.0" />
-            <Button fx:id="btnSearch" mnemonicParsing="false" prefHeight="50.0" prefWidth="147.0" text="Поиск" />
+            <Button fx:id="btnSelect" mnemonicParsing="false" prefHeight="50.0" prefWidth="147.0" text="Выбрать" />
          </children>
          <padding>
             <Insets top="20.0" />
          </padding>
       </HBox>
       <TableView fx:id="tableView" layoutY="92.0" prefHeight="497.0" prefWidth="819.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
-        <columns>
-          <TableColumn prefWidth="220.0" text="ФИО" />
-          <TableColumn minWidth="0.0" prefWidth="150.0" text="Номер карты" />
-            <TableColumn minWidth="0.0" prefWidth="150.0" text="\% скидки" />
-            <TableColumn minWidth="0.0" prefWidth="150.0" text="Телефон" />
-            <TableColumn minWidth="0.0" prefWidth="150.0" text="Баланс" />
-        </columns>
       </TableView>
    </children>
 </AnchorPane>
