@@ -290,15 +290,29 @@
                   <String fx:value="btn-green" />
               </styleClass>
           </Button>
-          <Button mnemonicParsing="false" onAction="#chooseClient" prefHeight="22.0" prefWidth="218.0" text="Выбрать клиента" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
-              <font>
+      <HBox layoutX="15.0" layoutY="565.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0">
+         <children>
+            <Label prefHeight="50.0" prefWidth="79.0" text="Клиент:">
+               <font>
                   <Font size="23.0" />
-              </font>
-              <styleClass>
-                  <String fx:value="action-buttons" />
-                  <String fx:value="btn-choose-client" />
-              </styleClass>
-          </Button>
+               </font>
+            </Label>
+            <Label fx:id="lblClient" prefHeight="50.0" prefWidth="514.0">
+               <font>
+                  <Font size="23.0" />
+               </font>
+            </Label>
+                <Button mnemonicParsing="false" onAction="#chooseClient" prefHeight="28.0" prefWidth="47.0" text="...">
+                    <font>
+                        <Font size="23.0" />
+                    </font>
+                    <styleClass>
+                        <String fx:value="action-buttons" />
+                        <String fx:value="btn-choose-client" />
+                    </styleClass>
+                </Button>
+         </children>
+      </HBox>
       <Button layoutX="483.0" layoutY="547.0" mnemonicParsing="false" onAction="#cancel" prefHeight="68.0" prefWidth="198.0" text="Отмена" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="229.0">
          <font>
             <Font size="23.0" />

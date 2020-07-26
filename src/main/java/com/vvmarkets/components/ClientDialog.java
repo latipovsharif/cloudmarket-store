@@ -64,14 +64,14 @@ public class ClientDialog extends Dialog<Client> {
 
             controller.btnSelect.setOnAction(
                     actionEvent -> {
-                        setResult(new Client());
+                        setResult(controller.tableView.getSelectionModel().getSelectedItem());
                         this.close();
                     }
             );
 
             controller.btnCancel.setOnAction(
                     actionEvent -> {
-                        setResult(null);
+                        setResult(new Client());
                         this.close();
                     }
             );

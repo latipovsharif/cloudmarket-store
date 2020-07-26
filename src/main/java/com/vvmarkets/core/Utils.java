@@ -44,7 +44,7 @@ public class Utils {
     }
 
     public static String getFormatted(double value) {
-        NumberFormat nf = new DecimalFormat("#0.000");
+        NumberFormat nf = new DecimalFormat("#0.00");
         return nf.format(value);
     }
 

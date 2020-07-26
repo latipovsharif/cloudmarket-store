@@ -37,6 +37,8 @@ public class ConfirmController implements Initializable {
     private TextField change;
     @FXML
     private Button btnCloseCheck;
+    @FXML
+    private Label lblClient;
 
     private Node previousScene;
     private TableView<Product> products;
@@ -75,13 +77,13 @@ public class ConfirmController implements Initializable {
     }
 
     private void recalculateChange() {
-        double ch, top, csh, crd;
+        double ch, top, csh, crd, dsc;
         top = Utils.getDoubleOrZero(toPay.getText());
         csh = Utils.getDoubleOrZero(txtCash.getText());
         crd = Utils.getDoubleOrZero(card.getText());
+        dsc = Utils.getDoubleOrZero(discount.getText());
 
-        ch = (csh + crd) - top;
-
+        ch = (csh + crd) - (top - (top * dsc / 100));
         btnCloseCheck.setDisable(ch < 0);
         change.setText(Utils.getFormatted(ch));
     }
@@ -205,19 +207,26 @@ public class ConfirmController implements Initializable {
         ClientDialog dialog = new ClientDialog();
         Optional<Client> result = dialog.showAndWait();
         if (result.isPresent()) {
-            selectedClient = result.get();
-            setClient();
+            setClient(result.get());
         } else {
             clearClient();
         }
+
+        recalculateChange();
     }
 
-    private void setClient() {
-
+    private void setClient(Client client) {
+        this.selectedClient = client;
+        if (client != null) {
+            lblClient.setText(client.getFullName());
+            discount.setText(client.getDiscountPercent().toString());
+        }
     }
 
     private void clearClient() {
-
+        this.selectedClient = null;
+        this.lblClient.setText("");
+        discount.setText("0");
     }
 
     public void cancel(ActionEvent actionEvent) {
