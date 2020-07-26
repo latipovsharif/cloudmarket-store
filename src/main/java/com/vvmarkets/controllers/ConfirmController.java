@@ -56,8 +56,8 @@ public class ConfirmController implements Initializable {
     }
 
     private void calculateToPay() {
-        double d = Utils.getDoubleOrZero(discount.getText());
-        double t = Utils.getDoubleOrZero(total.getText());
+        double d = Utils.getDoubleOrZero(discount.getText(), 2);
+        double t = Utils.getDoubleOrZero(total.getText(), 2);
 
         if (d > 0) {
             t = t - (t * d / 100);
@@ -68,8 +68,8 @@ public class ConfirmController implements Initializable {
     public void discountChanged() {
         double dis, toP;
 
-        dis = Utils.getDoubleOrZero(discount.getText());
-        toP = Utils.getDoubleOrZero(total.getText());
+        dis = Utils.getDoubleOrZero(discount.getText(), 2);
+        toP = Utils.getDoubleOrZero(total.getText(), 2);
 
         toP = toP - (toP * dis / 100);
 
@@ -77,15 +77,17 @@ public class ConfirmController implements Initializable {
     }
 
     private void recalculateChange() {
-        double ch, top, csh, crd, dsc;
-        top = Utils.getDoubleOrZero(toPay.getText());
-        csh = Utils.getDoubleOrZero(txtCash.getText());
-        crd = Utils.getDoubleOrZero(card.getText());
-        dsc = Utils.getDoubleOrZero(discount.getText());
+        double ch, ttl, csh, crd, dsc;
+        ttl = Utils.getDoubleOrZero(total.getText(), 2);
+        csh = Utils.getDoubleOrZero(txtCash.getText(), 2);
+        crd = Utils.getDoubleOrZero(card.getText(), 2);
+        dsc = Utils.getDoubleOrZero(discount.getText(), 2);
+        double afterDiscount = ttl - (ttl * dsc / 100);
 
-        ch = (csh + crd) - (top - (top * dsc / 100));
+        ch = (csh + crd) - afterDiscount;
         btnCloseCheck.setDisable(ch < 0);
         change.setText(Utils.getFormatted(ch));
+        toPay.setText(Utils.getFormatted(afterDiscount));
     }
 
     public void toPayChanged() {
@@ -93,7 +95,7 @@ public class ConfirmController implements Initializable {
     }
 
     public void cardChanged() {
-        if (Utils.getDoubleOrZero(toPay.getText()) < Utils.getDoubleOrZero(card.getText())) {
+        if (Utils.getDoubleOrZero(toPay.getText(),2) < Utils.getDoubleOrZero(card.getText(), 2)) {
             Alert a = DialogUtil.newWarning("Неправильное значение",
                     "Сумма оплаты по карте не может превышать сумму покупки");
             a.show();
@@ -143,11 +145,19 @@ public class ConfirmController implements Initializable {
                     " пожалуйста обратитесь к администратору.");
         }
 
+        int dsc = 0;
+        try {
+            dsc = Integer.parseInt(discount.getText());
+        } catch (Exception e) {
+            dsc = 0;
+        }
+
         btnCloseCheck.setDisable(true);
         PaymentBody payment = new PaymentBody(
-                Utils.getDoubleOrZero(toPay.getText()),
-                Utils.getDoubleOrZero(card.getText()),
-                Utils.getDoubleOrZero(txtCash.getText()));
+                Utils.getDoubleOrZero(total.getText(), 2),
+                Utils.getDoubleOrZero(card.getText(), 2),
+                Utils.getDoubleOrZero(txtCash.getText(), 2),
+                dsc);
         if (!payment.isValid()) {
             Alert a = DialogUtil.newError("Неправильная сумма",
                     "Сумма оплаты безналичными не может превышать сумму чека");

@@ -48,9 +48,21 @@ public class  PaymentBody {
         Remained = remained;
     }
 
+    public int getDiscountPercent() {
+        return DiscountPercent;
+    }
+
+    public void setDiscountPercent(int discountPercent) {
+        DiscountPercent = discountPercent;
+    }
+
     @SerializedName("discount_type")
     @Expose
     private String DiscountType;
+
+    @SerializedName("discount")
+    @Expose
+    private int DiscountPercent;
 
     @SerializedName("paid_by_credit_card")
     @Expose
@@ -76,29 +88,24 @@ public class  PaymentBody {
         return this.TotalPayed;
     }
 
-    public PaymentBody(double toPay, double cardPaid, double cashPaid) {
+    public PaymentBody(double totalCost, double cardPaid, double cashPaid, int discount) {
         this.DiscountType = "percent";
-        this.CardPaid = cardPaid;
-        this.CashPaid = cashPaid;
-        this.TotalPayed = cashPaid + cardPaid;
-        if (toPay < getTotalPayed()) {
-            setRemained(0.0);
-        } else {
-            setRemained(toPay - getTotalPayed());
-        }
 
+        double toPay = totalCost - (totalCost * discount / 100);
+        this.CardPaid = cardPaid;
+        // make sure that cash paid + card paid not more than
+        // total payed
+        this.CashPaid = toPay - cardPaid;
+        this.TotalPayed = CardPaid + CashPaid;
+        this.DiscountPercent = discount;
         this.ToPay = toPay;
     }
 
-    // FIXME возможно следует возвращать ошибку валидации если
-    // сумма оплаты наличными + безналичными больше чем сумма чека
-    // если сумма оплаты безналичными больше 0
     public boolean isValid() {
-        if (CardPaid > ToPay) {
+        if (CardPaid > ToPay || CardPaid + CashPaid < ToPay) {
             return false;
         }
 
-        // TODO сделать возможность оплатить авансом в далеком будущем
         double payed = CardPaid + CashPaid;
         if (payed >= ToPay) {
             CashPaid = ToPay - CardPaid;

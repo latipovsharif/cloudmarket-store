@@ -156,7 +156,7 @@ public class ExpenseBody {
 
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
-                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty" +
+                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty, discount" +
                     " from sold");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -165,7 +165,7 @@ public class ExpenseBody {
                 expense.setId(rs.getString(1));
                 expense.setDocumentHash(rs.getString(2));
                 expense.setSellerId(rs.getString(3));
-                expense.setPayment(new PaymentBody(rs.getDouble(7),rs.getDouble(5),rs.getDouble(6)));
+                expense.setPayment(new PaymentBody(rs.getDouble(7),rs.getDouble(5),rs.getDouble(6), rs.getInt(13)));
                 expense.setProducts(getProductsFromDB(rs.getString(1)));
                 expense.setCreatedAt(rs.getString(10));
                 expense.setSoldBy(rs.getString(11));
@@ -185,8 +185,8 @@ public class ExpenseBody {
             connection.setAutoCommit(false);
 
             String sql = "insert into sold(" +
-                    "seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty" +
-                    ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+                    "seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty, discount" +
+                    ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, getSellerId());
             stmt.setString(2, getDocumentHash());
@@ -201,6 +201,7 @@ public class ExpenseBody {
             stmt.setString(9, sdf.format(new Date()));
             stmt.setString(10, Config.getAuthorizationKey());
             stmt.setString(11, getCounterparty());
+            stmt.setInt(12, getPayment().getDiscountPercent());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {

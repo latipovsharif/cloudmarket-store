@@ -22,7 +22,7 @@ public class QuantityDialog extends Dialog<Double> {
                         if (controller.txtValue.getText().isEmpty()) {
                             setResult(1.0);
                         } else {
-                            setResult(Utils.getDoubleOrZero(controller.txtValue.getText()));
+                            setResult(Utils.getDoubleOrZero(controller.txtValue.getText(), 3));
                         }
                         this.close();
                     }

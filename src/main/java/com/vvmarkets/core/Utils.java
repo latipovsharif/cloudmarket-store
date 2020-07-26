@@ -22,7 +22,7 @@ public class Utils {
         });
     }
 
-    public static double getDoubleOrZero(String value) {
+    public static double getDoubleOrZero(String value, int scale) {
         if (value.isEmpty()) {
             return 0;
         }
@@ -34,7 +34,7 @@ public class Utils {
             log.error("cannot parse string to double " + e.getMessage());
         }
 
-        return round(res, 3);
+        return round(res, scale);
     }
 
     private static double round(double value, int scale) {
