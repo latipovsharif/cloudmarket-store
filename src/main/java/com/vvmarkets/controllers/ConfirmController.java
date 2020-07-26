@@ -41,6 +41,8 @@ public class ConfirmController implements Initializable {
     private Node previousScene;
     private TableView<Product> products;
 
+    private Client selectedClient = null;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -152,10 +154,17 @@ public class ConfirmController implements Initializable {
             return;
         }
 
+
+        String counterpartyID = "";
+        if (selectedClient != null) {
+            counterpartyID = selectedClient.getID();
+        }
+
         ExpenseBody expense = new ExpenseBody(this.products,
                 payment,
                 MainController.seller.getId(),
-                "");
+                "",
+                counterpartyID);
 
         ExpenseResponse expenseResponse = expense.SaveToNetwork();
         boolean hasErr = true;
@@ -196,8 +205,18 @@ public class ConfirmController implements Initializable {
         ClientDialog dialog = new ClientDialog();
         Optional<Client> result = dialog.showAndWait();
         if (result.isPresent()) {
-            Client selectedClient = result.get();
+            selectedClient = result.get();
+            setClient();
+        } else {
+            clearClient();
         }
+    }
+
+    private void setClient() {
+
+    }
+
+    private void clearClient() {
 
     }
 

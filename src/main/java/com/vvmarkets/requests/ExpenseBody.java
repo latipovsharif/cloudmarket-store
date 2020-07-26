@@ -123,6 +123,18 @@ public class ExpenseBody {
     @Expose
     private String Id;
 
+    public String getCounterparty() {
+        return Counterparty;
+    }
+
+    public void setCounterparty(String counterparty) {
+        Counterparty = counterparty;
+    }
+
+    @SerializedName("counterparty")
+    @Expose
+    private String Counterparty;
+
     public String getSoldBy() {
         return SoldBy;
     }
@@ -144,7 +156,7 @@ public class ExpenseBody {
 
         try (Connection connection = db.getConnection()) {
             stmt = connection.prepareStatement("select " +
-                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by" +
+                    "id, document_hash, seller_id, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty" +
                     " from sold");
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
@@ -157,6 +169,7 @@ public class ExpenseBody {
                 expense.setProducts(getProductsFromDB(rs.getString(1)));
                 expense.setCreatedAt(rs.getString(10));
                 expense.setSoldBy(rs.getString(11));
+                expense.setCounterparty(rs.getString(12));
 
                 lst.add(expense);
             }
@@ -171,7 +184,9 @@ public class ExpenseBody {
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
 
-            String sql = "insert into sold(seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            String sql = "insert into sold(" +
+                    "seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty" +
+                    ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, getSellerId());
             stmt.setString(2, getDocumentHash());
@@ -185,6 +200,7 @@ public class ExpenseBody {
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             stmt.setString(9, sdf.format(new Date()));
             stmt.setString(10, Config.getAuthorizationKey());
+            stmt.setString(11, getCounterparty());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows == 0) {
@@ -256,7 +272,8 @@ public class ExpenseBody {
         return products;
     }
 
-    public ExpenseBody(TableView<Product> tableView, PaymentBody payment, String sellerId, String shiftId) {
+    public ExpenseBody(TableView<Product> tableView, PaymentBody payment, String sellerId, String shiftId, String counterpartyId) {
+        this.Counterparty = counterpartyId;
         this.soldSource = 1;
         this.documentHash = UUID.randomUUID().toString();
         this.payment = payment;
@@ -270,7 +287,7 @@ public class ExpenseBody {
         setProducts(tableView);
     }
 
-    public void setProducts(TableView<Product> products) {
+    private void setProducts(TableView<Product> products) {
         List<ProductBody> res = new ArrayList<>();
         for (Product p: products.getItems()) {
             ProductBody pb = new ProductBody();
