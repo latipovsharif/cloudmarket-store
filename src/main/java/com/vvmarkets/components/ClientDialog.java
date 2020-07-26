@@ -68,6 +68,13 @@ public class ClientDialog extends Dialog<Client> {
                         this.close();
                     }
             );
+
+            controller.btnCancel.setOnAction(
+                    actionEvent -> {
+                        setResult(null);
+                        this.close();
+                    }
+            );
         } catch (Exception e) {
             Utils.logException(e, "cannot load fxml for quantity dialog");
         }
