@@ -29,21 +29,24 @@ public class ClientController implements Initializable {
         id.setVisible(false);
 
         TableColumn<Client, String> fullName = new TableColumn<>("ФИО");
+        fullName.setPrefWidth(250);
         fullName.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getFullName()));
 
         TableColumn<Client, String> discountCardNumber = new TableColumn<>("Номер карты");
+        discountCardNumber.setPrefWidth(150);
         discountCardNumber.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDiscountCardNumber()));
 
         TableColumn<Client, String> discountPercent = new TableColumn<>("% скидки");
+        discountPercent.setPrefWidth(150);
         discountPercent.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDiscountPercent().toString()));
 
         TableColumn<Client, String> phone = new TableColumn<>("Телефон");
+        phone.setPrefWidth(150);
         phone.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPhone()));
 
         TableColumn<Client, String> balance = new TableColumn<>("Баланс");
+        balance.setPrefWidth(150);
         balance.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getBalance()));
-
-
 
         tableView.getColumns().addAll(id, fullName, discountPercent, phone, balance);
     }
