@@ -34,9 +34,11 @@ public class TableUtil {
 
         TableColumn<Product, String> name = new TableColumn<>("Наименование");
         name.setPrefWidth(140);
-        Callback<TableColumn<Product, String>, TableCell<Product, String>> addNameFactory =  new Callback<>() {
+        name.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getProductProperties().getName()));
+
+        Callback<TableColumn<Product, Double>, TableCell<Product, Double>> quantityCallback =  new Callback<>() {
             @Override
-            public TableCell call(final TableColumn<Product, String> param) {
+            public TableCell call(final TableColumn<Product, Double> param) {
                 final TableCell<Product, String> cell = new TableCell<>() {
 
                     final Label lbl = new Label();
@@ -48,13 +50,13 @@ public class TableUtil {
                             setGraphic(null);
                         } else {
                             Product p = getTableView().getItems().get(getIndex());
-                            lbl.setText(p.getProductProperties().getName());
+                            lbl.setText(String.valueOf(p.getQuantity()));
                             lbl.setPrefSize(130, 30);
-                            lbl.setStyle("-fx-wrap-text: true; -fx-font-size: 12");
+                            lbl.setStyle("-fx-wrap-text: true; -fx-font-size: 14");
 
 
                             lbl.setOnMouseClicked(event -> {
-                                Dialog<Double> dialog = new QuantityDialog(p.getProductProperties());
+                                Dialog<Double> dialog = new QuantityDialog(p.getProductProperties(), false, false);
                                 Optional<Double> result = dialog.showAndWait();
                                 if (result.isPresent()) {
                                     double entered = result.get();
@@ -79,17 +81,69 @@ public class TableUtil {
             }
         };
 
-        name.setCellFactory(addNameFactory);
-
         TableColumn<Product, Double> total = new TableColumn<>("Итог");
         total.setPrefWidth(90);
         total.setCellValueFactory(new PropertyValueFactory<>("total"));
+
+        Callback<TableColumn<Product, Double>, TableCell<Product, Double>> discountCallback =  new Callback<>() {
+            @Override
+            public TableCell call(final TableColumn<Product, Double> param) {
+                final TableCell<Product, String> cell = new TableCell<>() {
+
+                    final Label lbl = new Label();
+
+                    @Override
+                    public void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            Product p = getTableView().getItems().get(getIndex());
+                            lbl.setText(String.valueOf(p.getDiscount()));
+                            lbl.setPrefSize(130, 30);
+                            lbl.setStyle("-fx-wrap-text: true; -fx-font-size: 14");
+
+
+                            lbl.setOnMouseClicked(event -> {
+                                Dialog<Double> dialog = new QuantityDialog(p.getProductProperties(), true, true);
+                                Optional<Double> result = dialog.showAndWait();
+                                if (result.isPresent()) {
+                                    double entered = result.get();
+                                    if (entered > 100 || entered < 0) {
+                                        return;
+                                    }
+
+                                    if (entered >= 0) {
+                                        try {
+                                            p.setDiscount((int)entered);
+                                        } catch (Exception e) {
+                                            p.setDiscount(0);
+                                        }
+                                        getTableView().getItems().set(getIndex(), p);
+                                        changed.onNext(calculateTotal(getTableView()));
+                                    } else {
+                                        DialogUtil.newError("Неправильное число", "Пожалуйста введите правильное число").show();
+                                    }
+                                }
+                            });
+                            setGraphic(lbl);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        TableColumn<Product, Double> discount = new TableColumn<>("Скидка");
+        discount.setPrefWidth(50);
+        discount.setCellFactory(discountCallback);
+
 
         TableColumn<Product, Double> price = new TableColumn<>("Цена");
         price.setPrefWidth(55);
         price.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        table.getColumns().addAll(Arrays.asList(id, article, name, price));
+        table.getColumns().addAll(Arrays.asList(id, article, name, price, discount));
 
         TableColumn subtract = new TableColumn("");
         subtract.setPrefWidth(50);
@@ -135,7 +189,8 @@ public class TableUtil {
 
         TableColumn<Product, Double> quantity = new TableColumn<>("Количество");
         quantity.setPrefWidth(55);
-        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        quantity.setCellFactory(quantityCallback);
+//        quantity.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         table.getColumns().add(quantity);
 

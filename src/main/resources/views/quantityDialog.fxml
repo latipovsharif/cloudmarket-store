@@ -21,7 +21,7 @@
                   <Button mnemonicParsing="false" onAction="#btnNumClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="1" />
                   <Button mnemonicParsing="false" onAction="#btnNumClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="4" />
                   <Button mnemonicParsing="false" onAction="#btnNumClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="7" />
-                  <Button mnemonicParsing="false" onAction="#btnDotClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="." />
+                  <Button fx:id="btnDot" mnemonicParsing="false" onAction="#btnDotClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="." />
             </VBox>
             <VBox alignment="TOP_CENTER" spacing="10.0">
                   <Button mnemonicParsing="false" onAction="#btnNumClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" stylesheets="@../css/main.css" text="2" />

@@ -10,11 +10,11 @@
 <AnchorPane fx:id="mainContainer" onKeyPressed="#keyPressed" prefHeight="525.0" prefWidth="797.0" styleClass="container" stylesheets="@../css/main.css, @../css/base.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.MainController">
    <TextField fx:id="searchTxtField" focusTraversable="false" layoutX="156.0" prefHeight="43.0" prefWidth="289.0" promptText="Название, штрихкод, артикул" AnchorPane.leftAnchor="156.0" AnchorPane.topAnchor="10.0" />
     <AnchorPane fx:id="hotAccessPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="60.0">
-      <ScrollPane fitToHeight="true" fitToWidth="true" focusTraversable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="450.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ScrollPane fitToHeight="true" fitToWidth="true" focusTraversable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="500.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <JFXMasonryPane fx:id="mainMasonryPane" HSpacing="10.0" VSpacing="2.0" cellHeight="200.0" cellWidth="150.0" minHeight="20000" onMouseClicked="#containerClicked" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       </ScrollPane>
     </AnchorPane>
-    <TabPane fx:id="mainTabPane" maxWidth="450.0" prefWidth="450.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
+    <TabPane fx:id="mainTabPane" maxWidth="500.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
     <Button fx:id="mainBtnNewTab" alignment="CENTER" focusTraversable="false" layoutX="14.0" layoutY="4.0" mnemonicParsing="false" onMouseClicked="#newTabClicked" prefHeight="50.0" prefWidth="50.0" styleClass="roundedButton" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="7.0" AnchorPane.topAnchor="5.0">
       <graphic>
          <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
@@ -50,10 +50,10 @@
          </ImageView>
       </graphic>
     </Button>
-   <VBox alignment="CENTER" maxWidth="450.0" minWidth="450.0" prefHeight="122.0" prefWidth="450.0" spacing="10.0" AnchorPane.bottomAnchor="0.0">
+   <VBox alignment="CENTER" maxWidth="500.0" minWidth="500.0" prefHeight="113.0" prefWidth="500.0" spacing="3.0" AnchorPane.bottomAnchor="5.0">
       <HBox>
          <children>
-            <Label prefHeight="40" prefWidth="100" style="-fx-background-color: #ffffff;" text="Итого:">
+            <Label prefHeight="40" prefWidth="150.0" style="-fx-background-color: #ffffff;" text="Итого:">
                <font>
                   <Font name="System Bold" size="26.0" />
                </font>
@@ -61,14 +61,18 @@
              <Label fx:id="lblTotal" prefHeight="40" prefWidth="350" textAlignment="RIGHT" />
          </children>
       </HBox>
-        <Button fx:id="btnConfirm" alignment="CENTER" focusTraversable="false" onAction="#confirm" prefHeight="66.0" prefWidth="303.0" text="ОФОРМИТЬ">
-            <styleClass>
-                <String fx:value="action-buttons" />
-                <String fx:value="btn-blue" />
-            </styleClass>
-            <font>
-                <Font size="23.0" />
-            </font>
-        </Button>
+      <HBox alignment="CENTER" prefHeight="80.0" prefWidth="500.0">
+         <children>
+              <Button fx:id="btnConfirm" alignment="CENTER" focusTraversable="false" onAction="#confirm" prefHeight="55.0" prefWidth="300.0" text="ОФОРМИТЬ">
+                  <styleClass>
+                      <String fx:value="action-buttons" />
+                      <String fx:value="btn-blue" />
+                  </styleClass>
+                  <font>
+                      <Font size="23.0" />
+                  </font>
+              </Button>
+         </children>
+      </HBox>
    </VBox>
 </AnchorPane>

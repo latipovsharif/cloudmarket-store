@@ -8,7 +8,7 @@ import javafx.scene.control.Dialog;
 
 public class QuantityDialog extends Dialog<Double> {
 
-    public QuantityDialog(IListContent data) {
+    public QuantityDialog(IListContent data, boolean disableDot, boolean allowZero) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/quantityDialog.fxml"));
             Parent root = loader.load();
@@ -20,13 +20,21 @@ public class QuantityDialog extends Dialog<Double> {
             controller.btnConfirm.setOnAction(
                     actionEvent -> {
                         if (controller.txtValue.getText().isEmpty()) {
-                            setResult(1.0);
+                            if (allowZero) {
+                                setResult(0.0);
+                            } else {
+                                setResult(1.0);
+                            }
                         } else {
                             setResult(Utils.getDoubleOrZero(controller.txtValue.getText(), 3));
                         }
                         this.close();
                     }
             );
+
+            if (disableDot) {
+                controller.btnDot.setVisible(false);
+            }
 
             controller.btnCancel.setOnAction(actionEvent -> {
                 setResult(-1.0);

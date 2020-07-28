@@ -15,6 +15,9 @@ public class QuantityDialogController {
     @FXML
     public Button btnCancel;
 
+    @FXML
+    public Button btnDot;
+
     public IListContent getProduct() {
         return content;
     }
