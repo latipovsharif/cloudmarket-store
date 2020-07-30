@@ -1,5 +1,6 @@
 package com.vvmarkets.controllers;
 
+import com.jfoenix.controls.JFXDrawer;
 import com.vvmarkets.core.Utils;
 import com.vvmarkets.dao.Client;
 import javafx.beans.property.SimpleStringProperty;
@@ -18,9 +19,14 @@ public class ClientController implements Initializable {
     public Button btnSelect;
     @FXML
     public Button btnCancel;
+    @FXML
+    public Button btnNew;
 
     @FXML
     public TableView<Client> tableView;
+
+//    @FXML
+//    public JFXDrawer jfxDrawer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
