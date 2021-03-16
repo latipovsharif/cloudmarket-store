@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<?import com.jfoenix.controls.JFXDrawer?>-->
-<!--<?import com.jfoenix.controls.JFXTextField?>-->
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
@@ -13,66 +13,16 @@
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="589.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ClientController">
-   <children>
       <HBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="819.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
             <TextField fx:id="txtSearch" prefHeight="50.0" prefWidth="349.0" />
             <Button fx:id="btnSelect" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-blue" text="Выбрать" />
             <Button fx:id="btnCancel" layoutX="531.0" layoutY="30.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-red" text="Отмена" />
             <Button fx:id="btnNew" layoutX="447.0" layoutY="30.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-green" text="Создать" />
-         </children>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
       </HBox>
       <HBox layoutY="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
          <TableView fx:id="tableView" prefHeight="499.0" prefWidth="865.0" />
-<!--         <JFXDrawer fx:id="jfxDrawer" direction="RIGHT" prefHeight="499.0" prefWidth="858.0">-->
-<!--            <children>-->
-<!--               <VBox prefHeight="200.0" prefWidth="100.0">-->
-<!--                  <children>-->
-<!--                     <HBox alignment="CENTER" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Label alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="128.0" text="Label" />-->
-<!--                           <JFXTextField prefHeight="25.0" prefWidth="258.0" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Label alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="128.0" text="Label" />-->
-<!--                           <JFXTextField prefHeight="25.0" prefWidth="258.0" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                     <HBox alignment="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Label alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="128.0" text="Label" />-->
-<!--                           <JFXTextField prefHeight="25.0" prefWidth="258.0" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                     <HBox alignment="CENTER" layoutX="10.0" layoutY="90.0" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Label alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="128.0" text="Label" />-->
-<!--                           <JFXTextField prefHeight="25.0" prefWidth="258.0" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                     <HBox alignment="CENTER" layoutX="10.0" layoutY="130.0" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Label alignment="BOTTOM_CENTER" prefHeight="28.0" prefWidth="128.0" text="Label" />-->
-<!--                           <JFXTextField prefHeight="25.0" prefWidth="258.0" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                     <HBox alignment="CENTER" layoutX="10.0" layoutY="170.0" prefHeight="40.0" prefWidth="406.0">-->
-<!--                        <children>-->
-<!--                           <Button fx:id="btnCreateCancel" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-red" text="Отмена" />-->
-<!--                           <Button fx:id="btnCreateSubmit" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-green" text="Создать" />-->
-<!--                        </children>-->
-<!--                     </HBox>-->
-<!--                  </children>-->
-<!--               </VBox>-->
-<!--            </children>-->
-<!--         </JFXDrawer>-->
+         <JFXDrawer fx:id="jfxDrawer" direction="RIGHT" prefHeight="499.0" prefWidth="858.0"></JFXDrawer>
       </HBox>
-   </children>
    <stylesheets>
       <URL value="@../css/client.css" />
       <URL value="@../css/base.css" />

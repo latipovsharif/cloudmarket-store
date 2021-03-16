@@ -143,7 +143,7 @@ public class MainController implements Initializable, IController {
 
     public void confirm(ActionEvent actionEvent) throws Exception {
         TableView tableView = (TableView) mainTabPane.getSelectionModel().getSelectedItem().getContent();
-        if (tableView.getItems().size() == 0) {
+        if (tableView.getItems().isEmpty()) {
             Alert a = DialogUtil.newWarning("Корзина пуста", "Для продолжения нужно добавить товар в корзину");
             a.show();
             return;
@@ -234,7 +234,6 @@ public class MainController implements Initializable, IController {
             } else {
                 DialogUtil.newWarning("Неправильный формат", String.format("Длина штрихкода должна быть больше 2 символов %s", tmpBarcode)).show();
             }
-            // else I should show warning that product is not found
         } catch (InvalidFormat ifmt) {
             DialogUtil.newError("Неправильный формат",
                     String.format("Неправильно настроена функция работы с весовыми товарами или задан неправильный код для товара %s.\r\n %s", tmpBarcode, ifmt.getMessage())).show();

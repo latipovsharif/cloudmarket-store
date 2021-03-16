@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.vvmarkets'
-version '0.0.3'
+version '0.0.4'
 compileJava.options.encoding = 'UTF-8'
 
 repositories {
@@ -21,14 +21,14 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation("com.squareup.okhttp3:logging-interceptor:4.8.0")
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
-    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.2'
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.1.0'
     compile group: 'com.google.zxing', name: 'zxing-parent', version: '3.4.0', ext: 'pom'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
     compile group: 'com.jfoenix', name: 'jfoenix', version: '9.0.10'
 }
 
 javafx {
-    version = "14.0.2.1"
+    version = "15.0.1"
     modules = ['javafx.controls', 'javafx.fxml']
 }
 

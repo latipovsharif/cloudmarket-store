@@ -25,8 +25,8 @@ public class ClientController implements Initializable {
     @FXML
     public TableView<Client> tableView;
 
-//    @FXML
-//    public JFXDrawer jfxDrawer;
+    @FXML
+    public JFXDrawer jfxDrawer;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -34,23 +34,23 @@ public class ClientController implements Initializable {
         id.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getID()));
         id.setVisible(false);
 
-        TableColumn<Client, String> fullName = new TableColumn<>("ФИО");
+        TableColumn<Client, String> fullName = new TableColumn<>("???");
         fullName.setPrefWidth(250);
         fullName.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getFullName()));
 
-        TableColumn<Client, String> discountCardNumber = new TableColumn<>("Номер карты");
+        TableColumn<Client, String> discountCardNumber = new TableColumn<>("????? ?????");
         discountCardNumber.setPrefWidth(150);
         discountCardNumber.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDiscountCardNumber()));
 
-        TableColumn<Client, String> discountPercent = new TableColumn<>("% скидки");
+        TableColumn<Client, String> discountPercent = new TableColumn<>("% ??????");
         discountPercent.setPrefWidth(150);
         discountPercent.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getDiscountPercent().toString()));
 
-        TableColumn<Client, String> phone = new TableColumn<>("Телефон");
+        TableColumn<Client, String> phone = new TableColumn<>("???????");
         phone.setPrefWidth(150);
         phone.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getPhone()));
 
-        TableColumn<Client, String> balance = new TableColumn<>("Баланс");
+        TableColumn<Client, String> balance = new TableColumn<>("??????");
         balance.setPrefWidth(150);
         Callback<TableColumn<Client, String>, TableCell<Client, String>> balanceFactory =  new Callback<>() {
             @Override

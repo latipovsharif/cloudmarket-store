@@ -140,7 +140,7 @@ public class ConfirmController implements Initializable {
     }
 
     public void closeCheck(ActionEvent actionEvent) {
-        if (this.products.getItems().size() == 0) {
+        if (this.products.getItems().isEmpty()) {
             DialogUtil.showErrorNotification("Возникла критическая ошибка при сохранении документ," +
                     " пожалуйста обратитесь к администратору.");
         }
@@ -148,8 +148,7 @@ public class ConfirmController implements Initializable {
         int dsc = 0;
         try {
             dsc = Integer.parseInt(discount.getText());
-        } catch (Exception e) {
-            dsc = 0;
+        } catch (Exception ignored) {
         }
 
         btnCloseCheck.setDisable(true);
@@ -166,7 +165,6 @@ public class ConfirmController implements Initializable {
             return;
         }
 
-
         String counterpartyID = "";
         if (selectedClient != null) {
             counterpartyID = selectedClient.getID();
@@ -178,38 +176,26 @@ public class ConfirmController implements Initializable {
                 "",
                 counterpartyID);
 
-        ExpenseResponse expenseResponse = expense.SaveToNetwork();
-        boolean hasErr = true;
-
-        if (expenseResponse == null) {
-            if ((expense.saveToDb())) {
-                hasErr = false;
-            }
-        } else {
-            expense.setId(expenseResponse.getDocumentNumber());
-            hasErr = false;
-        }
-
-        if (!hasErr) {
-            try {
-                ThermalPrinter p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER);
-                p.print();
-
-                p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER_SECOND);
-                p.print();
-            } catch (Exception e) {
-                Utils.logException(e, "cannot print check");
-            }
-
-            Utils.showScreen(previousScene);
-            Label lbl = (Label) previousScene.lookup("#lblTotal");
-            lbl.setText("0");
-
-            products.getItems().clear();
-        } else {
+        if (!expense.saveToDb()) {
             DialogUtil.showErrorNotification("Возникла критическая ошибка при сохранении документ, пожалуйста обратитесь к администратору.");
+            return;
         }
 
+        try {
+            ThermalPrinter p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER);
+            p.print();
+
+            p = new ThermalPrinter(expense, RemoteConfig.ConfigType.PRINTER_SECOND);
+            p.print();
+        } catch (Exception e) {
+            Utils.logException(e, "cannot print check");
+        }
+
+        Utils.showScreen(previousScene);
+        Label lbl = (Label) previousScene.lookup("#lblTotal");
+        lbl.setText("0");
+
+        products.getItems().clear();
         btnCloseCheck.setDisable(false);
     }
 

@@ -76,11 +76,11 @@ public class ClientDialog extends Dialog<Client> {
             );
 
             controller.btnNew.setOnAction(actionEvent -> {
-//                if (controller.jfxDrawer.isClosed()) {
-//                    controller.jfxDrawer.open();
-//                } else {
-//                    controller.jfxDrawer.close();
-//                }
+                if (controller.jfxDrawer.isClosed()) {
+                    controller.jfxDrawer.open();
+                } else {
+                    controller.jfxDrawer.close();
+                }
             });
         } catch (Exception e) {
             Utils.logException(e, "cannot load fxml for quantity dialog");

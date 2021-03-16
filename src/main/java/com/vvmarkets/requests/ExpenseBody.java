@@ -187,57 +187,58 @@ public class ExpenseBody {
             String sql = "insert into sold(" +
                     "seller_id, document_hash, discount_type, card_paid, cash_paid, to_pay, remained, change, timestamp, sold_by, counterparty, discount" +
                     ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            stmt.setString(1, getSellerId());
-            stmt.setString(2, getDocumentHash());
-            stmt.setString(3, "percent");
-            stmt.setDouble(4, getPayment().getCardPaid());
-            stmt.setDouble(5, getPayment().getCashPaid());
-            stmt.setDouble(6, getPayment().getToPay());
-            stmt.setDouble(7, getPayment().getRemained());
-            stmt.setDouble(8, 0);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-            stmt.setString(9, sdf.format(new Date()));
-            stmt.setString(10, Config.getAuthorizationKey());
-            stmt.setString(11, getCounterparty());
-            stmt.setInt(12, getPayment().getDiscountPercent());
-
-            int affectedRows = stmt.executeUpdate();
-            if (affectedRows == 0) {
-                log.error("cannot save sold affected rows equals zero");
-                connection.rollback();
-                return false;
-            }
-
             long savedKey;
+            try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, getSellerId());
+                stmt.setString(2, getDocumentHash());
+                stmt.setString(3, "percent");
+                stmt.setDouble(4, getPayment().getCardPaid());
+                stmt.setDouble(5, getPayment().getCashPaid());
+                stmt.setDouble(6, getPayment().getToPay());
+                stmt.setDouble(7, getPayment().getRemained());
+                stmt.setDouble(8, 0);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                stmt.setString(9, sdf.format(new Date()));
+                stmt.setString(10, Config.getAuthorizationKey());
+                stmt.setString(11, getCounterparty());
+                stmt.setInt(12, getPayment().getDiscountPercent());
 
-            try (ResultSet generatedKey = stmt.getGeneratedKeys()){
-                if (generatedKey.next()) {
-                    savedKey = generatedKey.getLong(1);
-                } else {
-                    log.error("cannot save sold cannot get generated key");
+                int affectedRows = stmt.executeUpdate();
+                if (affectedRows == 0) {
+                    log.error("cannot save sold affected rows equals zero");
                     connection.rollback();
                     return false;
+                }
+
+                try (ResultSet generatedKey = stmt.getGeneratedKeys()) {
+                    if (generatedKey.next()) {
+                        savedKey = generatedKey.getLong(1);
+                    } else {
+                        log.error("cannot save sold cannot get generated key");
+                        connection.rollback();
+                        return false;
+                    }
                 }
             }
 
             setId(String.valueOf(savedKey));
 
             sql = "insert into sold_details(sold_id, product_id, sell_price, quantity, discount_percent, barcode) values (?, ?, ?, ?, ?, ?)";
-            PreparedStatement ps = connection.prepareStatement(sql);
+            try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
-            for (ProductBody p : getProducts()) {
-                ps.setLong(1, savedKey);
-                ps.setString(2, p.getProductId());
-                ps.setDouble(3, p.getSellPrice());
-                ps.setDouble(4, p.getQuantity());
-                ps.setDouble(5, p.getDiscountPercent());
-                ps.setString(6, p.getBarcode());
-                ps.addBatch();
+                for (ProductBody p : getProducts()) {
+                    ps.setLong(1, savedKey);
+                    ps.setString(2, p.getProductId());
+                    ps.setDouble(3, p.getSellPrice());
+                    ps.setDouble(4, p.getQuantity());
+                    ps.setDouble(5, p.getDiscountPercent());
+                    ps.setString(6, p.getBarcode());
+                    ps.addBatch();
+                }
+
+                ps.executeBatch();
             }
-
-            ps.executeBatch();
 
             connection.commit();
         } catch (Exception e) {
@@ -248,7 +249,7 @@ public class ExpenseBody {
         return true;
     }
     private List<ProductBody> getProductsFromDB(String soldId) {
-        List<ProductBody> products = new ArrayList<>();
+        List<ProductBody> p = new ArrayList<>();
         PreparedStatement stmt;
 
         try (Connection connection = db.getConnection()) {
@@ -264,13 +265,13 @@ public class ExpenseBody {
                 product.setQuantity(rs.getDouble(5));
                 product.setDiscountPercent(rs.getInt(6));
                 product.setBarcode(rs.getString(7));
-                products.add(product);
+                p.add(product);
             }
         } catch (Exception e) {
             Utils.logException(e, "cannot get product from DB");
         }
 
-        return products;
+        return p;
     }
 
     public ExpenseBody(TableView<Product> tableView, PaymentBody payment, String sellerId, String shiftId, String counterpartyId) {
@@ -327,19 +328,28 @@ public class ExpenseBody {
     }
 
     public void deleteFromDB() {
-        PreparedStatement stmt;
-
         try (Connection connection = db.getConnection()) {
             connection.setAutoCommit(false);
-            stmt = connection.prepareStatement("delete from sold_details where sold_id = ?");
-            stmt.setString(1, this.getId());
-            stmt.execute();
+            
+            try (PreparedStatement stmt = connection.prepareStatement("delete from sold_details where sold_id = ?")) {
+                stmt.setString(1, this.getId());
+                stmt.execute();
 
-            stmt = connection.prepareStatement("delete from sold where id = ?");
-            stmt.setString(1, this.getId());
-            stmt.execute();
+                try (PreparedStatement stmtSold = connection.prepareStatement("delete from sold where id = ?")){
+                    stmtSold.setString(1, this.getId());
+                    stmtSold.execute();
+                }catch(Exception ex) {
+                    connection.rollback();
+                    return;
+                }
 
+            } catch (Exception exc) {
+                connection.rollback();
+                return;
+            }
+            
             connection.commit();
+            
         } catch (Exception e) {
             Utils.logException(e, "cannot get product from DB");
         }

@@ -37,15 +37,11 @@ public class  PaymentBody {
     }
 
     public Double getRemained() {
-        return Remained;
+        return 0.0;
     }
 
     public Double getReturn() {
         return getTotalPayed() - getToPay();
-    }
-
-    public void setRemained(Double remained) {
-        Remained = remained;
     }
 
     public int getDiscountPercent() {

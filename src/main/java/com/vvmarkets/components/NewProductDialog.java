@@ -1,6 +1,6 @@
 package com.vvmarkets.components;
 
-import com.vvmarkets.core.DialogUtil;
+import com.vvmarkets.configs.RemoteConfig;
 import com.vvmarkets.core.Utils;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -30,7 +30,9 @@ public class NewProductDialog extends Dialog<Boolean> {
                                 return;
                             }
 
-                            Pair<Double, String> p = Product.getProductCodeFromBarcode(barcode);
+                            Pair<Double, String> p = Product.getProductCodeFromBarcode(
+                                    barcode,
+                                    RemoteConfig.getConfig(RemoteConfig.ConfigType.PIECEMEAL, RemoteConfig.ConfigSubType.FORMAT));
                             boolean b = Product.createProduct(p.getValue(), price);
                             setResult(b);
                         } catch (Exception e) {
