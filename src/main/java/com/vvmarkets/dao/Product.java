@@ -148,7 +148,9 @@ public class Product {
     }
 
     public static Product getProduct(String barcode) throws Exception {
-        var cleanedCode = getProductCodeFromBarcode(barcode);
+        var cleanedCode = getProductCodeFromBarcode(
+                barcode,
+                RemoteConfig.getConfig(RemoteConfig.ConfigType.PIECEMEAL, RemoteConfig.ConfigSubType.FORMAT));
         Product product = null;
 
         if (Config.getOfflineMode()) {
@@ -167,8 +169,7 @@ public class Product {
         return product;
     }
 
-    public static Pair<Double, String> getProductCodeFromBarcode(String barcode) throws InvalidFormat {
-        var format = RemoteConfig.getConfig(RemoteConfig.ConfigType.PIECEMEAL, RemoteConfig.ConfigSubType.FORMAT);
+    public static Pair<Double, String> getProductCodeFromBarcode(String barcode, String format) throws InvalidFormat {
         if (!format.matches("\\d{2}-\\d[C|W]-\\d[C|W]")) {
             throw new InvalidFormat("invalid server format from the server");
         }

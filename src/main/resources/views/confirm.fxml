@@ -281,7 +281,7 @@
             <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
          </padding>
         </HBox>
-          <Button fx:id="btnCloseCheck" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0" prefWidth="198.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
+          <Button disable="true" fx:id="btnCloseCheck" mnemonicParsing="false" onAction="#closeCheck" prefHeight="68.0" prefWidth="198.0" text="Закрыть чек" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0">
               <font>
                   <Font size="23.0" />
               </font>

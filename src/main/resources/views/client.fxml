@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="589.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ClientController">
-   <children>
+<AnchorPane prefHeight="589.0" prefWidth="819.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.vvmarkets.controllers.ClientController">
       <HBox alignment="TOP_CENTER" prefHeight="90.0" prefWidth="819.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
             <TextField fx:id="txtSearch" prefHeight="50.0" prefWidth="349.0" />
-            <Button fx:id="btnSelect" mnemonicParsing="false" prefHeight="50.0" prefWidth="147.0" styleClass="btn-blue" text="Выбрать" />
-            <Button fx:id="btnCancel" layoutX="531.0" layoutY="30.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="147.0" styleClass="btn-red" text="Отмена" />
-         </children>
-         <padding>
-            <Insets top="20.0" />
-         </padding>
+            <Button fx:id="btnSelect" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-blue" text="Выбрать" />
+            <Button fx:id="btnCancel" layoutX="531.0" layoutY="30.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-red" text="Отмена" />
+            <Button fx:id="btnNew" layoutX="447.0" layoutY="30.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" styleClass="btn-green" text="Создать" />
       </HBox>
-      <TableView fx:id="tableView" layoutY="92.0" prefHeight="497.0" prefWidth="819.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
-      </TableView>
-   </children>
+      <HBox layoutY="90.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+         <TableView fx:id="tableView" prefHeight="499.0" prefWidth="865.0" />
+         <JFXDrawer fx:id="jfxDrawer" direction="RIGHT" prefHeight="499.0" prefWidth="858.0"></JFXDrawer>
+      </HBox>
    <stylesheets>
       <URL value="@../css/client.css" />
       <URL value="@../css/base.css" />

@@ -47,7 +47,6 @@ public class ClientDialog extends Dialog<Client> {
             getDialogPane().setContent(root);
             controller = loader.getController();
 
-
             controller.txtSearch.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (textTimer != null) {
                     textTimer.cancel();
@@ -75,6 +74,14 @@ public class ClientDialog extends Dialog<Client> {
                         this.close();
                     }
             );
+
+            controller.btnNew.setOnAction(actionEvent -> {
+                if (controller.jfxDrawer.isClosed()) {
+                    controller.jfxDrawer.open();
+                } else {
+                    controller.jfxDrawer.close();
+                }
+            });
         } catch (Exception e) {
             Utils.logException(e, "cannot load fxml for quantity dialog");
         }
