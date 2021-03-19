@@ -91,7 +91,7 @@ public class  PaymentBody {
         this.CardPaid = cardPaid;
         // make sure that cash paid + card paid not more than
         // total payed
-        this.CashPaid = toPay - cardPaid;
+        this.CashPaid = cashPaid;
         this.TotalPayed = CardPaid + CashPaid;
         this.DiscountPercent = discount;
         this.ToPay = toPay;
